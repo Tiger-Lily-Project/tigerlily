@@ -21,7 +21,7 @@ class Database:
 
     # Connects to the registrar database
     def connect(self):
-        self._connection = connect(database="plants", user="postgres", password="RahTiger867", host="127.0.0.1", port="5432")
+        self._connection = connect(database="plants", user="postgres", password="RahTiger2021", host="127.0.0.1", port="5432")
     
     # Disconnects from the database.
     def disconnect(self):
