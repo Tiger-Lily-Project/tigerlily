@@ -1,0 +1,24 @@
+Database name: plants
+
+Table name: plant_indiv
+    This table stores information about the individual instance of a plant on campus.
+    
+    common_name: string holding the common name of the plant.
+    lat: double precision holding the latitude coordinate of the plant.
+    long: double precision holding the longitutde coordinate of the plant.
+    status: string holding the plant's status (alive, dead, stump, removed, etc.)
+
+    Note: I also have a lot of environmental info about each tree (lbs of pollutants removed, gallons of runoff prevented, etc.),
+    but it's a lot so we can upload it into the table later if we decide we want to use it.
+
+Table name: species_info
+    This table stores information about one of the species on campus. Though there might be multiple instances
+    of the species on campus (for example, lots of elm trees), each species has one row in this table.
+
+    common_name: string holding the common name of the plant.
+    latin_name: string holding the latin name of the plant.
+    img: string holding the file name of the photo associated with the plant.
+    dec_or_evg: string holding the seasonality of a plant (deciduous, evergreen, unknown)
+    blurb: string holding additional information about the species.
+
+    I have the common name, latin name, and dec_or_evg for every species. I am still working on blurbs and images.
