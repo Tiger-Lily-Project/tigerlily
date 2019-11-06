@@ -31,6 +31,8 @@ def index():
         database.disconnect()
     except Exception as e:
         plants = []
+    except Error as e:
+        plants = []
 
     # Render the home page, passing in the list of plants.
     html = render_template('index.html', plants = plants)
