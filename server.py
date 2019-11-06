@@ -24,10 +24,13 @@ app = Flask(__name__, template_folder='.')
 def index():
 
     # Gets a list of all plants available in the database.
-    database = Database()
-    database.connect()
-    plants = database.get_all_plants()
-    database.disconnect()
+    try:
+        database = Database()
+        database.connect()
+        plants = database.get_all_plants()
+        database.disconnect()
+    except Exception as e:
+        plants = []
 
     # Render the home page, passing in the list of plants.
     html = render_template('index.html', plants = plants)
