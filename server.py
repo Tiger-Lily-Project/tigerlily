@@ -18,11 +18,19 @@ app = Flask(__name__, template_folder='.')
 
 #-----------------------------------------------------------------------
 
+# Renders the home page.
 @app.route('/')
 @app.route('/index')
 def index():
 
-    html = render_template('index.html')
+    # Gets a list of all plants available in the database.
+    database = Database()
+    database.connect()
+    plants = database.get_all_plants()
+    database.disconnect()
+
+    # Render the home page, passing in the list of plants.
+    html = render_template('index.html', plants = plants)
     response = make_response(html)
 
     return response
