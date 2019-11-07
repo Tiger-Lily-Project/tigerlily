@@ -45,36 +45,36 @@ def index():
 
 #-----------------------------------------------------------------------
 
-# Renders the plant details page.
-@app.route('/')
-@app.route('/plantdetails')
-def plantdetails():
+# # Renders the plant details page.
+# @app.route('/')
+# @app.route('/plantdetails')
+# def plantdetails():
 
-    # get common name of plant
-    common_name = request.args.get("common_name")
+#     # get common name of plant
+#     # common_name = request.args.get("common_name")
     
-    # Gets a list of all plants available in the database.
-    try:
-        database = Database()
-        database.connect()
-        # plant_info = database.get_species_info(common_name)
-        database.disconnect()
-        message = "Connected to database!"
-    except Exception as e:
-        plant_info = ""
-        message = "Exception while connecting: " + str(e)
-    except Error as e:
-        plant_info = ""
-        message = "Error while connecting: " + str(e)
+#     # Gets a list of all plants available in the database.
+#     try:
+#         database = Database()
+#         database.connect()
+#         # plant_info = database.get_species_info(common_name)
+#         database.disconnect()
+#         message = "Connected to database!"
+#     except Exception as e:
+#         plant_info = ""
+#         message = "Exception while connecting: " + str(e)
+#     except Error as e:
+#         plant_info = ""
+#         message = "Error while connecting: " + str(e)
 
-    # Render the plant details page, passing in the details of the plant.
-    html = render_template('plantdetails.html',
-        # plant_info = plant_info,
-        message = message,
-        # common_name = common_name
-        )
-    response = make_response(html)
-    return response    
+#     # Render the plant details page, passing in the details of the plant.
+#     html = render_template('plantdetails.html',
+#         # plant_info = plant_info,
+#         message = message,
+#         # common_name = common_name
+#         )
+#     response = make_response(html)
+#     return response    
 
 #-----------------------------------------------------------------------
 
