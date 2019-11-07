@@ -27,7 +27,7 @@ def index():
     try:
         database = Database()
         database.connect()
-        plants = database.get_all_plants()
+        plants = database.get_n_plants(30)
         database.disconnect()
         message = "Connected to database!"
     except Exception as e:

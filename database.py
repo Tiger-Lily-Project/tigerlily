@@ -62,8 +62,22 @@ class Database:
     # Returns all individual plants in the database
     def get_all_plants(self):
         cursor = self._connection.cursor()
-        stmt = 'SELECT * FROM plant_indiv WHERE plant_indiv.status != "Stump" AND plant_indiv.status != "Removed";'
+        stmt = 'SELECT * FROM plant_indiv WHERE status != 'Stump' AND status != 'Removed';'
         cursor.execute(stmt)
+
+        plants = []
+        row = cursor.fetchone()
+        while row is not None:
+            plant = Plant(str(row[0]), str(row[1]), str(row[2]), str(row[3]))
+            plants.append(plant)
+            row = cursor.fetchone()
+        cursor.close()
+        return plants
+
+    def get_n_plants(self, n):
+        cursor = self._connection.cursor()
+        stmt = 'SELECT TOP %s FROM plant_indiv WHERE status != 'Stump' AND status != 'Removed';'
+        cursor.execute(stmt, [n])
 
         plants = []
         row = cursor.fetchone()
