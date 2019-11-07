@@ -57,7 +57,7 @@ def plantdetails():
     try:
         database = Database()
         database.connect()
-        plant_info = database.get_species_info(common_name)
+        # plant_info = database.get_species_info(common_name)
         database.disconnect()
         message = "Connected to database!"
     except Exception as e:
@@ -69,9 +69,9 @@ def plantdetails():
 
     # Render the plant details page, passing in the details of the plant.
     html = render_template('plantdetails.html',
-        plant_info = plant_info,
+        # plant_info = plant_info,
         message = message,
-        common_name = common_name
+        # common_name = common_name
         )
     response = make_response(html)
     return response    
