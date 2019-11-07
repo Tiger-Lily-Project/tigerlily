@@ -22,7 +22,7 @@ class Database:
     # Connects to the registrar database
     def connect(self):
         DATABASE_URL = os.environ['DATABASE_URL']
-        self._connection = connect(DATABASE_URL, sslmode='require')
+        self._connection = psycopg2.connect(DATABASE_URL, sslmode='require')
 
     # Disconnects from the database.
     def disconnect(self):
