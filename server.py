@@ -32,10 +32,10 @@ def index():
         message = "Connected to database!"
     except Exception as e:
         plants = []
-        message = "Didn't connect: " + str(e)
+        message = "Exception while connecting: " + str(e)
     except Error as e:
         plants = []
-        message = "Didn't connect: " + str(e)
+        message = "Error while connecting: " + str(e)
 
     # Render the home page, passing in the list of plants.
     html = render_template('index.html', plants = plants, message = message)
