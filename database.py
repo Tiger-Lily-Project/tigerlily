@@ -5,7 +5,7 @@
 # Performs database operations on the plants database
 #----------------------------------------------------------------------
 
-from psycopg2 import connect
+import psycopg2
 from sys import stderr, exit
 from os import path
 from species_info import SpeciesInfo
@@ -21,7 +21,7 @@ class Database:
 
     # Connects to the registrar database
     def connect(self):
-        self._connection = connect(database="plants", user="postgres", password="RahTiger2021", host="127.0.0.1", port="5432")
+        self._connection = psycopg2.connect(database="plants", user="postgres", password="RahTiger2021", host="127.0.0.1", port="5432")
     
     # Disconnects from the database.
     def disconnect(self):
