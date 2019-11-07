@@ -109,7 +109,7 @@ class Database:
         stmtStr = 'SELECT * FROM plant_indiv WHERE lat >= %s AND lat <= %s AND long >= %s AND long <= %s'
 
         # Only selects those which are not removed or stumps.
-        stmtStr += ' AND status != "Stump" AND status != "Removed";'
+        stmtStr += ' AND status != 'Stump' AND status != 'Removed';'
 
         # Append the boundaries for the latitude and longitude ranges.
         search_values.append(lati - radius)
