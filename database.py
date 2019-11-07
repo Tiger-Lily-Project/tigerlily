@@ -62,7 +62,7 @@ class Database:
     # Returns all individual plants in the database
     def get_all_plants(self):
         cursor = self._connection.cursor()
-        stmt = 'SELECT * FROM plant_indiv WHERE status != 'Stump' AND status != 'Removed';'
+        stmt = "SELECT * FROM plant_indiv WHERE status != 'Stump' AND status != 'Removed';"
         cursor.execute(stmt)
 
         plants = []
@@ -76,7 +76,7 @@ class Database:
 
     def get_n_plants(self, n):
         cursor = self._connection.cursor()
-        stmt = 'SELECT TOP %s FROM plant_indiv WHERE status != 'Stump' AND status != 'Removed';'
+        stmt = "SELECT TOP %s FROM plant_indiv WHERE status != 'Stump' AND status != 'Removed';"
         cursor.execute(stmt, [n])
 
         plants = []
@@ -91,7 +91,7 @@ class Database:
     # Gets information on a plant species by its common name
     def get_species_info(self, common_name):
         cursor = self._connection.cursor()
-        stmt = 'SELECT * FROM species_info WHERE species_info.common_name = %s;'
+        stmt = "SELECT * FROM species_info WHERE species_info.common_name = %s;"
         cursor.execute(stmt, [common_name])
 
         row = cursor.fetchone()
@@ -106,10 +106,10 @@ class Database:
         search_values = []
 
         # Creates the baseline statement.
-        stmtStr = 'SELECT * FROM plant_indiv WHERE lat >= %s AND lat <= %s AND long >= %s AND long <= %s'
+        stmtStr = "SELECT * FROM plant_indiv WHERE lat >= %s AND lat <= %s AND long >= %s AND long <= %s"
 
         # Only selects those which are not removed or stumps.
-        stmtStr += ' AND status != 'Stump' AND status != 'Removed';'
+        stmtStr += " AND status != 'Stump' AND status != 'Removed';"
 
         # Append the boundaries for the latitude and longitude ranges.
         search_values.append(lati - radius)
