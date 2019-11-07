@@ -29,13 +29,16 @@ def index():
         database.connect()
         plants = database.get_all_plants()
         database.disconnect()
+        message = "Connected to database!"
     except Exception as e:
         plants = []
+        message = "Didn't connect: " + str(e)
     except Error as e:
         plants = []
+        message = "Didn't connect: " + str(e)
 
     # Render the home page, passing in the list of plants.
-    html = render_template('index.html', plants = plants)
+    html = render_template('index.html', plants = plants, message = message)
     response = make_response(html)
 
     return response

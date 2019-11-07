@@ -7,7 +7,7 @@
 
 import psycopg2
 from sys import stderr, exit
-from os import path
+import os
 from species_info import SpeciesInfo
 from plant import Plant
 
@@ -21,8 +21,9 @@ class Database:
 
     # Connects to the registrar database
     def connect(self):
-        self._connection = psycopg2.connect(database="plants", user="postgres", password="RahTiger2021", host="127.0.0.1", port="5432")
-    
+        DATABASE_URL = os.environ['DATABASE_URL']
+        self._connection = connect(DATABASE_URL, sslmode='require')
+
     # Disconnects from the database.
     def disconnect(self):
         if self._connection is not None:
