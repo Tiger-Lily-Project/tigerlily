@@ -76,7 +76,7 @@ class Database:
 
     def get_n_plants(self, n):
         cursor = self._connection.cursor()
-        stmt = "SELECT TOP %s FROM plant_indiv WHERE status != 'Stump' AND status != 'Removed';"
+        stmt = "SELECT * FROM plant_indiv WHERE status != 'Stump' AND status != 'Removed' LIMIT %s;"
         cursor.execute(stmt, [n])
 
         plants = []
