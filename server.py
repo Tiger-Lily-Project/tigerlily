@@ -44,5 +44,32 @@ def index():
     return response
 #-----------------------------------------------------------------------
 
+# Renders the home page.
+@app.route('/')
+@app.route('/plantdetails')
+def plantdetails():
+
+    common_name = request.args.get("common_name")
+    # Gets a list of all plants available in the database.
+    try:
+        database = Database()
+        database.connect()
+        species_info = database.get_species_info(common_name)
+        database.disconnect()
+        message = "Connected to database!"
+    except Exception as e:
+        message = "Exception while connecting: " + str(e)
+    except Error as e:
+        message = "Error while connecting: " + str(e)
+
+    # Render the home page, passing in the list of plants.
+    html = render_template('plantdetails.html', 
+    common_name = common_name, 
+    species_info = species_info)
+    response = make_response(html)
+
+    return response
+#-----------------------------------------------------------------------
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=10101, debug=True)
