@@ -24,9 +24,11 @@
   <body>
     <!--Temporarily print message to help database debugging-->
     {{message}}
+    <br>
+    <br>
     {% for plant in plants: %}
     <a href="plantdetails?common_name={{plant.getName()}}">{{plant.getName()}}</a>
-    <hr>
+    <br>
     {% endfor %}
     <div id="map"></div>
     <script src="map.js"></script>

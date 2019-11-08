@@ -7,7 +7,12 @@
   </head>
   <body>
    {% include 'header.html' %}
-   hello {{common_name}}
+    <h1>{{common_name}}</h1>
+    <br>
+    <br>
+    <b>Latin Name:</b> {{species_info.getLatinName()}}
+    <br>
+    <br>
    {% include 'footer.html' %}
   </body>
 </html>

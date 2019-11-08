@@ -54,18 +54,18 @@ def plantdetails():
     try:
         database = Database()
         database.connect()
-        # species_info = database.get_species_info(common_name)
+        species_info = database.get_species_info(common_name)
         database.disconnect()
         message = "Connected to database!"
     except Exception as e:
-        # plants = []
         message = "Exception while connecting: " + str(e)
     except Error as e:
-        # plants = []
         message = "Error while connecting: " + str(e)
 
     # Render the home page, passing in the list of plants.
-    html = render_template('plantdetails.html', common_name = common_name, message = message)
+    html = render_template('plantdetails.html', 
+    common_name = common_name, 
+    species_info = species_info)
     response = make_response(html)
 
     return response
