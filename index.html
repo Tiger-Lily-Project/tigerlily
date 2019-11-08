@@ -24,7 +24,10 @@
   <body>
     <!--Temporarily print message to help database debugging-->
     {{message}}
-    <a href="plantdetails">Plant Details</a>
+    {% for plant in plants: %}
+    <a href="plantdetails?common_name={{plant.getName()}}">{{plant.getName()}}</a>
+    <hr>
+    {% endfor %}
     <div id="map"></div>
     <script src="map.js"></script>
     <script async defer
