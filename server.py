@@ -58,10 +58,10 @@ def plantdetails():
         database.disconnect()
         message = "Connected to database!"
     except Exception as e:
-        plants = []
+        # plants = []
         message = "Exception while connecting: " + str(e)
     except Error as e:
-        plants = []
+        # plants = []
         message = "Error while connecting: " + str(e)
 
     # Render the home page, passing in the list of plants.
