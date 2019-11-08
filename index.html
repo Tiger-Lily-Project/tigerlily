@@ -22,6 +22,7 @@
     </style>
   </head>
   <body>
+      {% include 'header.html' %}
     <!--Temporarily print message to help database debugging-->
     {{message}}
     <br>
@@ -35,5 +36,6 @@
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDgPsCmJi55tXonvondJH9BCh7AOvDg3-8&callback=initMap">
     </script>
-  </body>
+  {% include 'footer.html' %}  
+</body>
 </html>
