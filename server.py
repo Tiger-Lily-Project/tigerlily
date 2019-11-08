@@ -49,11 +49,12 @@ def index():
 @app.route('/plantdetails')
 def plantdetails():
 
+    common_name = request.args.get("common_name")
     # Gets a list of all plants available in the database.
     try:
         database = Database()
         database.connect()
-        plants = database.get_n_plants(30)
+        # species_info = database.get_species_info(common_name)
         database.disconnect()
         message = "Connected to database!"
     except Exception as e:
@@ -64,7 +65,7 @@ def plantdetails():
         message = "Error while connecting: " + str(e)
 
     # Render the home page, passing in the list of plants.
-    html = render_template('plantdetails.html', plants = plants, message = message)
+    html = render_template('plantdetails.html', common_name = common_name, message = message)
     response = make_response(html)
 
     return response
