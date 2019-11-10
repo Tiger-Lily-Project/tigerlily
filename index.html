@@ -28,13 +28,15 @@
     <br>
     <br>
     {% for plant in plants: %}
-    <a href="plantdetails?common_name={{plant.getName()}}">{{plant.getName()}}</a>
+    <!-- <a href="plantdetails?common_name={{plant.getName()}}">{{plant.getName()}}</a> -->
+    {{plants | tojson}}
     <br>
     {% endfor %}
     <div id="map"></div>
     <script src="map.js"></script>
     <script type="text/javascript"
-         src="{{ url_for('static', filename='map.js') }}"></script>
+         src="{{ url_for('static', filename='map.js') }}">
+    </script>
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDgPsCmJi55tXonvondJH9BCh7AOvDg3-8&callback=initMap">
     </script>
