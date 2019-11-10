@@ -27,10 +27,11 @@
     {{message}}
     <br>
     <br>
-    {% for plant in plants: %}
+    <!-- {% for plant in plants: %}
     <a href="plantdetails?common_name={{plant.getName()}}">{{plant.getName()}}</a>
     <br>
-    {% endfor %}
+    {% endfor %} -->
+    {{plants | tojson}}
     <div id="map"></div>
     <script src="map.js"></script>
     <script type="text/javascript"
