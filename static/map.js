@@ -40,8 +40,6 @@ function initMap() {
         title: 'Frist!'
     });
 
-    console.log(jsonPlants)
-
     // Call trackLocation
     // From https://medium.com/risan/track-users-location-and-display-it-on-google-maps-41d1f850786e
     trackLocation({
