@@ -11,6 +11,8 @@ from time import localtime, asctime, strftime
 from flask import Flask, request, make_response, redirect, url_for
 from flask import render_template
 from sqlite3 import Error
+from plant import Plant
+from flask import json
 
 #-----------------------------------------------------------------------
 
@@ -28,11 +30,28 @@ def index():
         database = Database()
         database.connect()
         plants = database.get_n_plants(30)
+
+        # print("in try")
+        # plants = []
+        # plant1 = Plant("plant1", 40.3471, -74.6566, "rip")
+        # print("made a plant")
+        # plant1 = Plant.getJson(plant1)
+        # print("got json")
+        # plants.append(plant1)
+        # print(plants)
+
         database.disconnect()
     except Exception as e:
+        print(e)
         plants = []
     except Error as e:
+        print("error?")
         plants = []
+
+    print("index in server.py: ")
+    print(plants)
+
+    plants = json.dumps(plants)
 
     # Render the home page, passing in the list of plants.
     html = render_template('index.html', plants = plants)

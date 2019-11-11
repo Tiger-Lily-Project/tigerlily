@@ -20,7 +20,9 @@ const trackLocation = ({ onSuccess, onError = () => { } }) => {
   var map;
   
   function initMap() {
-      console.log('{{plants}}')
+      console.log('{{plants | safe}}')
+      plants = '{{plants | safe}}'
+      plants = JSON.parse(plants)
 
       map = new google.maps.Map(document.getElementById('map'), {
           center: {lat: 40.3471, lng: -74.6566},
@@ -32,27 +34,30 @@ const trackLocation = ({ onSuccess, onError = () => { } }) => {
       });
   
       // Sets pins on map from static file
-      plants = [
-          {
-              "lat": "40.3471",
-              "lng": "-74.6566",
-          },
-          {
-              "lat": "40.3468",
-              "lng": "-74.6552",
-          },
-          {
-              "lat": "40.3469",
-              "lng": "-74.6566",
-          },
-          {
-              "lat": "40.3472",
-              "lng": "-74.6552",
-          }
-      ]
+    //   plants = [
+    //       {
+    //           "lat": "40.3471",
+    //           "lng": "-74.6566",
+    //       },
+    //       {
+    //           "lat": "40.3468",
+    //           "lng": "-74.6552",
+    //       },
+    //       {
+    //           "lat": "40.3469",
+    //           "lng": "-74.6566",
+    //       },
+    //       {
+    //           "lat": "40.3472",
+    //           "lng": "-74.6552",
+    //       }
+    //   ]
   
       for (var i = 0; i < plants.length; i++) {
+          console.log(plants[i])
           var lat = parseFloat(plants[i].lat);
+          console.log("lat: ", lat)
+          console.log("lng: ", lng)
           var lng = parseFloat(plants[i].lng);
   
           console.log(i, lat, lng);

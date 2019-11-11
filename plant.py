@@ -31,10 +31,12 @@ class Plant:
         return self._status
 
     def getJson(self):
+        print("getting json")
         json = {}
         # json["name"] = self._name
         json["name"] = "test"
         json["lat"] = self._lat
-        json["long"] = self._long
+        json["lng"] = self._long
         json["status"] = self._status
+        print(json)
         return json
