@@ -28,18 +28,6 @@ const trackLocation = ({ onSuccess, onError = () => { } }) => {
           icon: 'my_location.svg'
       });
   
-      // Sets dummy pins on map (referenced in map.html)
-      // var marker = new google.maps.Marker({
-      //     position: {lat: 40.3471, lng: -74.6566},
-      //     map: map,
-      //     title: 'Prospect!'
-      // });
-      // var marker2 = new google.maps.Marker({
-      //     position: {lat: 40.3468, lng: -74.6552},
-      //     map: map,
-      //     title: 'Frist!'
-      // });
-  
       // Sets pins on map from static file
       plants = [
           {
