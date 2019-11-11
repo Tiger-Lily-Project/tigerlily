@@ -32,7 +32,8 @@ class Plant:
 
     def getJson(self):
         json = {}
-        json["name"] = self._name
+        # json["name"] = self._name
+        json["name"] = "test"
         json["lat"] = self._lat
         json["long"] = self._long
         json["status"] = self._status
