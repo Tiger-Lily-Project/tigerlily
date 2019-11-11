@@ -21,6 +21,7 @@ const placePin = (plant) => {
         position: {lat: plant["lat"], lng: plant["lng"]},
         map: map
     })
+    console.log("pinned")
 }
 
 var map, infoWindow;
