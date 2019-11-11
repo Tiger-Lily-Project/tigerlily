@@ -30,7 +30,9 @@ const trackLocation = ({ onSuccess, onError = () => { } }) => {
       });
       locationMarker = new google.maps.Marker({
           map: map,
-          icon: require('./static/my_location.svg')
+          icon: {
+              url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
+          }
       });
   
       // Sets pins on map from static file
