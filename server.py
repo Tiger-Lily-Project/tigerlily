@@ -44,9 +44,11 @@ def index():
     except Exception as e:
         # print(e)
         # plants = []
+        print(e)
     except Error as e:
         # print("error?")
         # plants = []
+        print(e)
 
     print("index in server.py: ")
     print(plants)
