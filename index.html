@@ -29,11 +29,9 @@
     <br>
     {% endfor %} -->
     <div id="map"></div>
-    <script>
-      var jsonPlants = '??'
-    </script>
-    <script type="text/javascript"
-         src="{{ url_for('static', filename='map.js') }}"></script>
+    {% include 'map.html' %}
+    <!-- <script type="text/javascript"
+         src="{{ url_for('static', filename='map.js') }}"></script> -->
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDgPsCmJi55tXonvondJH9BCh7AOvDg3-8&callback=initMap">
     </script>
