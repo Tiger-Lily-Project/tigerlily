@@ -29,16 +29,13 @@ def index():
         database.connect()
         plants = database.get_n_plants(30)
         database.disconnect()
-        message = "Connected to database!"
     except Exception as e:
         plants = []
-        message = "Exception while connecting: " + str(e)
     except Error as e:
         plants = []
-        message = "Error while connecting: " + str(e)
 
     # Render the home page, passing in the list of plants.
-    html = render_template('index.html', plants = plants, message = message)
+    html = render_template('index.html', plants = plants)
     response = make_response(html)
 
     return response
@@ -56,11 +53,10 @@ def plantdetails():
         database.connect()
         species_info = database.get_species_info(common_name)
         database.disconnect()
-        message = "Connected to database!"
     except Exception as e:
-        message = "Exception while connecting: " + str(e)
+        species_info = SpeciesInfo('','','','','')
     except Error as e:
-        message = "Error while connecting: " + str(e)
+        species_info = SpeciesInfo('','','','','')
 
     # Render the home page, passing in the list of plants.
     html = render_template('plantdetails.html', 
