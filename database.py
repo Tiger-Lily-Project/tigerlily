@@ -9,7 +9,7 @@ import psycopg2
 from sys import stderr, exit
 import os
 from species_info import SpeciesInfo
-from plant import Plant, getJson
+from plant import Plant
 
 #-----------------------------------------------------------------------------
 
