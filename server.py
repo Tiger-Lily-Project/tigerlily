@@ -11,6 +11,7 @@ from time import localtime, asctime, strftime
 from flask import Flask, request, make_response, redirect, url_for
 from flask import render_template
 from sqlite3 import Error
+from flask import json
 
 #-----------------------------------------------------------------------
 
@@ -33,6 +34,8 @@ def index():
         plants = []
     except Error as e:
         plants = []
+
+    plants = jsonify(plants)
 
     # Render the home page, passing in the list of plants.
     html = render_template('index.html', plants = plants)
