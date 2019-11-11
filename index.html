@@ -32,54 +32,8 @@
     <br>
     {% endfor %} -->
     <div id="map"></div>
-    <!-- <script type="text/javascript"
-         src="{{ url_for('static', filename='map.js') }}"></script> -->
-    <script>
-      const trackLocation = ({ onSuccess, onError = () => { } }) => {
-  if ('geolocation' in navigator === false) {
-    return onError(new Error('Geolocation is not supported by your browser.'));
-  }
-
-  // Use watchPosition for live updates
-  return navigator.geolocation.watchPosition(onSuccess, onError);
-};
-
-const placePin = (plant) => {
-    marker = new google.maps.Marker({
-        position: {lat: plant["lat"], lng: plant["lng"]},
-        map: map
-    })
-    console.log("pinned")
-}
-
-var map;
-
-function initMap() {
-    map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: 40.3471, lng: -74.6566},
-        zoom: 17
-    });
-    locationMarker = new google.maps.Marker({
-        map: map,
-        icon: 'my_location.svg'
-    });
-
-    // Sets pins on map from static file
-    var plants = require('./static/staticTrees.json')
-    plants.forEach(placePin)
-
-    // Call trackLocation
-    // From https://medium.com/risan/track-users-location-and-display-it-on-google-maps-41d1f850786e
-    trackLocation({
-        onSuccess: ({ coords: { latitude: lat, longitude: lng } }) => {
-            locationMarker.setPosition({ lat, lng });
-        map.panTo({ lat, lng });
-        },
-        onError: err =>
-            alert(`Error: ${getPositionErrorMessage(err.code) || err.message}`)
-    });
-}
-    </script>
+    <script type="text/javascript"
+         src="{{ url_for('static', filename='map.js') }}"></script>
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDgPsCmJi55tXonvondJH9BCh7AOvDg3-8&callback=initMap">
     </script>
