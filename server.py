@@ -11,7 +11,7 @@ from time import localtime, asctime, strftime
 from flask import Flask, request, make_response, redirect, url_for
 from flask import render_template
 from sqlite3 import Error
-from flask import json
+from flask import jsonify
 
 #-----------------------------------------------------------------------
 
