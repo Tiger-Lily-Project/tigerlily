@@ -16,7 +16,7 @@ const trackLocation = ({ onSuccess, onError = () => { } }) => {
     return navigator.geolocation.watchPosition(onSuccess, onError);
   };
   
-  var map, marker;
+  var map;
   
   function initMap() {
       map = new google.maps.Map(document.getElementById('map'), {
