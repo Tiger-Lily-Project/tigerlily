@@ -19,7 +19,6 @@ const trackLocation = ({ onSuccess, onError = () => { } }) => {
   var map;
   
   function initMap() {
-    console.log(jsonPlants)
 
       map = new google.maps.Map(document.getElementById('map'), {
           center: {lat: 40.3471, lng: -74.6566},
