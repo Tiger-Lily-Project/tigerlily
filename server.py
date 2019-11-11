@@ -34,8 +34,6 @@ def index():
         plants = []
     except Error as e:
         plants = []
-    
-    plants = jsonify(plants)
 
     # Render the home page, passing in the list of plants.
     html = render_template('index.html', plants = plants)
