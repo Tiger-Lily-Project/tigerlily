@@ -24,7 +24,7 @@ const placePin = (plant) => {
     console.log("pinned")
 }
 
-var map, infoWindow;
+var map;
 
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
