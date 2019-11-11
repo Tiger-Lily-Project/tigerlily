@@ -29,3 +29,11 @@ class Plant:
     
     def getStatus(self):
         return self._status
+
+    def getJson(self):
+        json = {}
+        json["name"] = self._name
+        json["lat"] = self._lat
+        json["long"] = self._long
+        json["status"] = self._status
+        return json
