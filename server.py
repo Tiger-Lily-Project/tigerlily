@@ -42,11 +42,11 @@ def index():
 
         database.disconnect()
     except Exception as e:
-        print(e)
-        plants = []
+        # print(e)
+        # plants = []
     except Error as e:
-        print("error?")
-        plants = []
+        # print("error?")
+        # plants = []
 
     print("index in server.py: ")
     print(plants)
