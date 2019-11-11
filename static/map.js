@@ -16,6 +16,13 @@ const trackLocation = ({ onSuccess, onError = () => { } }) => {
   return navigator.geolocation.watchPosition(onSuccess, onError);
 };
 
+const placePin = (plant) => {
+    marker = new google.maps.Marker({
+        position: {lat: plant["lat"], lng: plant["lng"]},
+        map: map
+    })
+}
+
 var map, infoWindow;
 
 function initMap() {
@@ -29,16 +36,20 @@ function initMap() {
     });
 
     // Sets dummy pins on map (referenced in map.html)
-    var marker = new google.maps.Marker({
-        position: {lat: 40.3471, lng: -74.6566},
-        map: map,
-        title: 'Prospect!'
-    });
-    var marker2 = new google.maps.Marker({
-        position: {lat: 40.3468, lng: -74.6552},
-        map: map,
-        title: 'Frist!'
-    });
+    // var marker = new google.maps.Marker({
+    //     position: {lat: 40.3471, lng: -74.6566},
+    //     map: map,
+    //     title: 'Prospect!'
+    // });
+    // var marker2 = new google.maps.Marker({
+    //     position: {lat: 40.3468, lng: -74.6552},
+    //     map: map,
+    //     title: 'Frist!'
+    // });
+
+    // Sets pins on map from static file
+    var plants = require('./staticTrees.json')
+    plants.forEach(placePin)
 
     // Call trackLocation
     // From https://medium.com/risan/track-users-location-and-display-it-on-google-maps-41d1f850786e
