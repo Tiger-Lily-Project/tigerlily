@@ -26,10 +26,10 @@ app = Flask(__name__, template_folder='.')
 def index():
 
     # Gets a list of all plants available in the database.
-    try:
-        database = Database()
-        database.connect()
-        plants = database.get_n_plants(30)
+    # try:
+    database = Database()
+    database.connect()
+    plants = database.get_n_plants(30)
 
         # print("in try")
         # plants = []
@@ -40,13 +40,13 @@ def index():
         # plants.append(plant1)
         # print(plants)
 
-        database.disconnect()
-    except Exception as e:
-        plants = []
-        print(e)
-    except Error as e:
-        plants = []
-        print(e)
+    database.disconnect()
+    # except Exception as e:
+    #     plants = []
+    #     print(e)
+    # except Error as e:
+    #     plants = []
+    #     print(e)
 
     print("index in server.py: ")
     print(plants)
