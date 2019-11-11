@@ -29,6 +29,9 @@
     <br>
     {% endfor %} -->
     <div id="map"></div>
+    <script>
+      jsonPlants = '{{plants}}'
+    </script>
     <script type="text/javascript"
          src="{{ url_for('static', filename='map.js') }}"></script>
     <script async defer
