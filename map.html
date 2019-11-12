@@ -61,7 +61,6 @@ const trackLocation = ({ onSuccess, onError = () => { } }) => {
           console.log("lat: ", lat)
           console.log("lng: ", lng)
           var lng = parseFloat(plants[i].lng);
-        //   var title = parseString(plants[i].title);
   
           console.log(i, lat, lng);
           var marker = new google.maps.Marker({
@@ -70,13 +69,7 @@ const trackLocation = ({ onSuccess, onError = () => { } }) => {
                   lat: lat,
                   lng: lng
               },
-              title: title
           });
-        //   marker.addListener('click', function() {
-        //      map.setZoom(8);
-        //      map.setCenter(marker.getPosition());
-
-        //   });
       }
   
       // Call trackLocation
