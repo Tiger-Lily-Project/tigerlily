@@ -95,7 +95,7 @@ const trackLocation = ({ onSuccess, onError = () => { } }) => {
          content: contentString
         });
         google.maps.event.addListener(marker, 'click', function() {
-            marker.info.open(map);
+            this.marker.info.open(map, marker, this);
         });
       }
   
