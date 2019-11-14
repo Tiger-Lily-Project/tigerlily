@@ -76,7 +76,7 @@ const trackLocation = ({ onSuccess, onError = () => { } }) => {
             '</h1>'+
             '<div id="bodyContent">'+
             '<p><a href=plantdetails?common_name='+
-            title+
+            titleURL+
             '>'+
             'Click here for more details</a></p>'+
             '</div>'+
@@ -96,7 +96,7 @@ const trackLocation = ({ onSuccess, onError = () => { } }) => {
         });
 
         google.maps.event.addListener(marker, 'click', function() {
-            marker.info.open(map, marker);
+            this.marker.info.open(map, this);
         });
       }
   
