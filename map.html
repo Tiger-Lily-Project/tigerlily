@@ -61,9 +61,8 @@ const trackLocation = ({ onSuccess, onError = () => { } }) => {
           console.log("lat: ", lat)
           console.log("lng: ", lng)
           var lng = parseFloat(plants[i].lng);
-          var title = plants[i].title;
-          console.log("title: ", title);
-
+          var name = plants[i].name;
+          console.log("name: " + name)
           console.log(i, lat, lng);
           var marker = new google.maps.Marker({
               map: map,
