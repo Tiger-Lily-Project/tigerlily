@@ -62,6 +62,7 @@ const trackLocation = ({ onSuccess, onError = () => { } }) => {
           console.log("lng: ", lng)
           var lng = parseFloat(plants[i].lng);
           var title = plants[i].title;
+          var titleURL = encodeURIComponent(string.trim());
           console.log("title: " + title)
           console.log(i, lat, lng);
 
@@ -75,7 +76,7 @@ const trackLocation = ({ onSuccess, onError = () => { } }) => {
             '</h1>'+
             '<div id="bodyContent">'+
             '<p><a href=plantdetails?common_name='+
-            plants[i].title+
+            titleURL+
             '>'+
             'Click here for more details</a></p>'+
             '</div>'+
