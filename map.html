@@ -55,6 +55,8 @@ const trackLocation = ({ onSuccess, onError = () => { } }) => {
     //       }
     //   ]
   
+        var infowindow = new google.maps.InfoWindow();
+        var contentString;
       for (var i = 0; i < plants.length; i++) {
           console.log(plants[i])
           var lat = parseFloat(plants[i].lat);
@@ -68,7 +70,7 @@ const trackLocation = ({ onSuccess, onError = () => { } }) => {
          console.log(titleURL)
           console.log(plants[i].title)
 
-          var contentString = '<div id="content">'+
+          contentString = '<div id="content">'+
             '<div id="siteNotice">'+
             '</div>'+
             '<h1 id="firstHeading" class="firstHeading">'+
@@ -91,13 +93,12 @@ const trackLocation = ({ onSuccess, onError = () => { } }) => {
             title: title,
             clickable: true
         });
-        marker.info = new google.maps.InfoWindow({
-         content: contentString
-        });
-
-        google.maps.event.addListener(marker, 'click', function() {
-            marker.info.open(map, marker);
-        });
+        google.maps.event.addListener(marker, 'click', (function(marker, i) {
+            return function() {
+            infowindow.setContent(contentString);
+            infowindow.open(map, marker);
+        }
+        })(marker, i));
       }
   
       // Call trackLocation
