@@ -65,6 +65,8 @@ const trackLocation = ({ onSuccess, onError = () => { } }) => {
           console.log("title: " + title)
           console.log(i, lat, lng);
 
+          console.log(plants[i].title)
+
           var contentString = '<div id="content">'+
             '<div id="siteNotice">'+
             '</div>'+
@@ -73,7 +75,7 @@ const trackLocation = ({ onSuccess, onError = () => { } }) => {
             '</h1>'+
             '<div id="bodyContent">'+
             '<p><a href=plantdetails?common_name='+
-            title+
+            plants[i].title+
             '>'+
             'Click here for more details</a></p>'+
             '</div>'+
