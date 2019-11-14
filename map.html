@@ -94,9 +94,8 @@ const trackLocation = ({ onSuccess, onError = () => { } }) => {
         marker.info = new google.maps.InfoWindow({
          content: contentString
         });
-
         google.maps.event.addListener(marker, 'click', function() {
-            this.marker.info.open(map, this);
+            marker.info.open(map);
         });
       }
   
