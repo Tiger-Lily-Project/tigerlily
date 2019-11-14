@@ -70,19 +70,7 @@ const trackLocation = ({ onSuccess, onError = () => { } }) => {
          console.log(titleURL)
           console.log(plants[i].title)
 
-          contentString = '<div id="content">'+
-            '<div id="siteNotice">'+
-            '</div>'+
-            '<h1 id="firstHeading" class="firstHeading">'+
-            title+
-            '</h1>'+
-            '<div id="bodyContent">'+
-            '<p><a href=plantdetails?common_name='+
-            titleURL+
-            '>'+
-            'Click here for more details</a></p>'+
-            '</div>'+
-            '</div>';
+        
 
         var marker = new google.maps.Marker({
             map: map,
@@ -95,6 +83,21 @@ const trackLocation = ({ onSuccess, onError = () => { } }) => {
         });
         google.maps.event.addListener(marker, 'click', (function(marker, i) {
             return function() {
+
+            contentString = '<div id="content">'+
+            '<div id="siteNotice">'+
+            '</div>'+
+            '<h1 id="firstHeading" class="firstHeading">'+
+            plants[i].title+
+            '</h1>'+
+            '<div id="bodyContent">'+
+            '<p><a href=plantdetails?common_name='+
+            encodeURIComponent(plants[i].title.trim())+
+            '>'+
+            'Click here for more details</a></p>'+
+            '</div>'+
+            '</div>';
+            
             infowindow.setContent(contentString);
             infowindow.open(map, marker);
         }
