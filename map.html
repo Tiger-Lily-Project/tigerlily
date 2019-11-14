@@ -79,21 +79,21 @@ const trackLocation = ({ onSuccess, onError = () => { } }) => {
             '</div>'+
             '</div>';
 
-        var infowindow = new google.maps.InfoWindow({
-            content: contentString
-        });
-
         var marker = new google.maps.Marker({
             map: map,
             position: {
                 lat: lat,
                 lng: lng
             },
-            title: title
+            title: title,
+            clickable: true
         });
-        
-        marker.addListener('click', function() {
-            infowindow.open(map, marker);
+        marker.info = new google.maps.InfoWindow({
+         content: contentString
+        });
+
+        google.maps.event.addListener(marker, 'click', function() {
+            marker.info.open(map, marker);
         });
       }
   
