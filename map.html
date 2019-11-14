@@ -55,21 +55,53 @@ const trackLocation = ({ onSuccess, onError = () => { } }) => {
     //       }
     //   ]
   
+        var infowindow = new google.maps.InfoWindow();
+        var contentString;
       for (var i = 0; i < plants.length; i++) {
           console.log(plants[i])
           var lat = parseFloat(plants[i].lat);
           console.log("lat: ", lat)
           console.log("lng: ", lng)
           var lng = parseFloat(plants[i].lng);
-  
+          var title = plants[i].title;
+          var titleURL = encodeURIComponent(title.trim());
+          console.log("title: " + title)
           console.log(i, lat, lng);
-          var marker = new google.maps.Marker({
-              map: map,
-              position: {
-                  lat: lat,
-                  lng: lng
-              },
-          });
+         console.log(titleURL)
+          console.log(plants[i].title)
+
+        
+
+        var marker = new google.maps.Marker({
+            map: map,
+            position: {
+                lat: lat,
+                lng: lng
+            },
+            title: title,
+            clickable: true
+        });
+        google.maps.event.addListener(marker, 'click', (function(marker, i) {
+            return function() {
+
+            contentString = '<div id="content">'+
+            '<div id="siteNotice">'+
+            '</div>'+
+            '<h1 id="firstHeading" class="firstHeading">'+
+            plants[i].title+
+            '</h1>'+
+            '<div id="bodyContent">'+
+            '<p><a href=plantdetails?common_name='+
+            encodeURIComponent(plants[i].title.trim())+
+            '>'+
+            'Click here for more details</a></p>'+
+            '</div>'+
+            '</div>';
+            
+            infowindow.setContent(contentString);
+            infowindow.open(map, marker);
+        }
+        })(marker, i));
       }
   
       // Call trackLocation
