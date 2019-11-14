@@ -64,14 +64,37 @@ const trackLocation = ({ onSuccess, onError = () => { } }) => {
           var title = plants[i].title;
           console.log("title: " + title)
           console.log(i, lat, lng);
-          var marker = new google.maps.Marker({
-              map: map,
-              position: {
-                  lat: lat,
-                  lng: lng
-              },
-              title: title
-          });
+
+          var contentString = '<div id="content">'+
+            '<div id="siteNotice">'+
+            '</div>'+
+            '<h1 id="firstHeading" class="firstHeading">'+
+            title+
+            '</h1>'+
+            '<div id="bodyContent">'+
+            '<p><a href=plantdetails?common_name='+
+            title+
+            '>'+
+            'Click here for more details</a></p>'+
+            '</div>'+
+            '</div>';
+
+        var infowindow = new google.maps.InfoWindow({
+            content: contentString
+        });
+
+        var marker = new google.maps.Marker({
+            map: map,
+            position: {
+                lat: lat,
+                lng: lng
+            },
+            title: title
+        });
+        
+        marker.addListener('click', function() {
+            infowindow.open(map, marker);
+        });
       }
   
       // Call trackLocation
