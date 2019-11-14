@@ -39,6 +39,7 @@ class Database:
         row = cursor.fetchone()
         while row is not None:
             plant = Plant(str(row[0]), str(row[1]), str(row[2]), str(row[3]))
+            plant = Plant.getDict(plant)
             plants.append(plant)
             row = cursor.fetchone()
         cursor.close()
@@ -69,6 +70,7 @@ class Database:
         row = cursor.fetchone()
         while row is not None:
             plant = Plant(str(row[0]), str(row[1]), str(row[2]), str(row[3]))
+            plant = Plant.getDict(plant)
             plants.append(plant)
             row = cursor.fetchone()
         cursor.close()
@@ -83,7 +85,7 @@ class Database:
         row = cursor.fetchone()
         while row is not None:
             plant = Plant(str(row[0]), str(row[1]), str(row[2]), str(row[3]))
-            plant = Plant.getJson(plant)
+            plant = Plant.getDict(plant)
            
             plants.append(plant)
             row = cursor.fetchone()

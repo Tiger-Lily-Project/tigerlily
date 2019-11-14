@@ -35,7 +35,7 @@ def index():
         # plants = []
         # plant1 = Plant("plant1", 40.3471, -74.6566, "rip")
         # print("made a plant")
-        # plant1 = Plant.getJson(plant1)
+        # plant1 = Plant.getDict(plant1)
         # print("got json")
         # plants.append(plant1)
         # print(plants)

@@ -30,7 +30,7 @@ class Plant:
     def getStatus(self):
         return self._status
 
-    def getJson(self):
+    def getDict(self):
         print("getting json")
         json = {}
         # json["name"] = self._name
