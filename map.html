@@ -31,7 +31,8 @@ const trackLocation = ({ onSuccess, onError = () => { } }) => {
       locationMarker = new google.maps.Marker({
           map: map,
           icon: {
-              url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
+            //   url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
+            url: "/static/my_location.svg"
           }
       });
   
@@ -115,4 +116,7 @@ const trackLocation = ({ onSuccess, onError = () => { } }) => {
               alert(`Error: ${getPositionErrorMessage(err.code) || err.message}`)
       });
   }
+</script>
+<script async defer
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDgPsCmJi55tXonvondJH9BCh7AOvDg3-8&callback=initMap">
 </script>
