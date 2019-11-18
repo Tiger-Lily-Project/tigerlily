@@ -18,6 +18,7 @@ const trackLocation = ({ onSuccess, onError = () => { } }) => {
 };
 
 const addMarkers = () => {
+    console.log(map.getBounds())
     var infowindow = new google.maps.InfoWindow();
     var contentString;
     for (var i = 0; i < plants.length; i++) {
@@ -97,7 +98,10 @@ function initMap() {
             alert(`Error: Failed to obtain location`)
     });
 
-    console.log(map.getBounds())
+    google.maps.event.addListenerOnce(map, "bounds_changed", function(){
+        // addMarkers();
+        google.maps.event.addListener(map, "idle", addMarkers);
+    });
 
 }
 </script>
