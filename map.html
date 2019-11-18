@@ -18,7 +18,15 @@ const trackLocation = ({ onSuccess, onError = () => { } }) => {
 };
 
 const addMarkers = () => {
-    console.log(map.getBounds())
+    // Get map bounds
+    bounds = map.getBounds()
+    bounds = bounds.toJSON()
+
+
+    // Send AJAX request to server
+    // (server updates plants array with plants in range)
+
+    // place plants 
     var infowindow = new google.maps.InfoWindow();
     var contentString;
     for (var i = 0; i < plants.length; i++) {
@@ -85,7 +93,7 @@ function initMap() {
         }
     });
 
-    addMarkers()
+    // addMarkers()
   
       // Call trackLocation
       // From https://medium.com/risan/track-users-location-and-display-it-on-google-maps-41d1f850786e
