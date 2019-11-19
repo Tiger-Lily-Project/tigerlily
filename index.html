@@ -31,6 +31,7 @@
     <script>
       const trackLocation = ({ onSuccess, onError = () => { } }) => {
     if ('geolocation' in navigator === false) {
+      console.log('Geolocation is not supported by your browser. Check your settings or try a different browser')
       return onError(new Error('Geolocation is not supported by your browser.'));
     }
   
