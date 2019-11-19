@@ -29,7 +29,7 @@ def index():
     try:
         database = Database()
         database.connect()
-        plants = database.get_n_plants(30)
+        plants = database.get_all_species()
 
         # print("in try")
         # plants = []
