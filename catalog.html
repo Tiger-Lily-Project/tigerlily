@@ -8,11 +8,14 @@
   <body>
    {% include 'header.html' %}
    <table>
+       <tr>
+            <td align="left"><b>test</b></td>
+       </tr>
+       <!--
     {% for first_char in species %}
        <tr>
         <td align="left"><b>{{first_char}}</b></td>
        </tr>>
-       <!--
         {% for species_info in species[first_char] %}
         <tr>
             <td align="left">{{species_info.getImg()}}</td>
