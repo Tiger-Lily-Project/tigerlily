@@ -7,9 +7,11 @@
   </head>
   <body>
     {% include 'header.html' %}
-    {{error}}
+    {{error}}<br>
     <table>
-        <tr>hello</tr>
+    {% for first_char in species: %}
+        <tr>{{first_char}}</tr>
+    {% endfor %}
     </table>
     {% include 'footer.html' %}
   </body>
