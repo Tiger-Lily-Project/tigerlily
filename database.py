@@ -154,6 +154,9 @@ class Database:
 if __name__ == '__main__':
     database = Database()
     database.connect()
-    species_info = database.get_species_info("Japanese Black Pine")
-    print(species_info)
+    species = database.get_all_species()
+    for first_char in species:
+        print(first_char)
+        for info in species[first_char]:
+            print(info.getCommonName())
     database.disconnect()
