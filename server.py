@@ -106,7 +106,7 @@ def catalog():
 
     # Render the home page, passing in the list of plants.
     html = render_template('catalog.html', 
-    species = species['A'], error = error_msg)
+    species = species, error = error_msg)
     response = make_response(html)
 
     return response
