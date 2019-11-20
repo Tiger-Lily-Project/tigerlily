@@ -46,18 +46,29 @@ class Database:
         return plants
 
     # Returns all species to create a catalog
+    # Returns dictionary, key = first letter, value = list of species starting with key
     def get_all_species(self):
         cursor = self._connection.cursor()
-        stmt = 'SELECT * FROM species_info;'
+        stmt = 'SELECT * FROM species_info ORDER BY common_name ASC;'
         cursor.execute(stmt)
 
-        species = []
+        species = {}
         row = cursor.fetchone()
         while row is not None:
+
             species_info = SpeciesInfo(str(row[0]), str(row[1]), str(row[2]), str(row[3]), str(row[4]))
-            species.append(species_info)
+            # Get first character of common name
+            first_char = species_info.getCommonName()[0]
+            # Create list if it doesn't exist
+            if first_char not in species.keys():
+                species[first_char] = []
+            # Append species to list
+            species[first_char].append(species_info)
+
             row = cursor.fetchone()
+
         cursor.close()
+
         return species
 
     # Returns all individual plants in the database
@@ -76,6 +87,7 @@ class Database:
         cursor.close()
         return plants
 
+    # Returns n plants from the database
     def get_n_plants(self, n):
         cursor = self._connection.cursor()
         stmt = "SELECT * FROM plant_indiv WHERE status != 'Stump' AND status != 'Removed' LIMIT %s;"
@@ -102,6 +114,17 @@ class Database:
         species_info = SpeciesInfo(str(row[0]), str(row[1]), str(row[2]), str(row[3]), str(row[4]))
 
         return species_info
+
+    # Get number of plants of a certain species by common name
+    def get_species_count(self, common_name):
+        cursor = self._connection.cursor()
+        stmt = "SELECT COUNT(common_name) FROM plant_indiv WHERE common_name = %s;"
+        cursor.execute(stmt, [common_name])
+
+        row = cursor.fetchone()
+        count = int(row[0])
+
+        return count
         
     # Creates a statement to search for pins based on range and given location
     def create_range_stmt(self, lati, longi, radius):

@@ -8,15 +8,13 @@
   <body>
    {% include 'header.html' %}
    <br> 
-   <br>
    <h2>{{common_name}}</h2>
     <br>
+    <b>Latin Name: </b>{{species_info.getLatinName()}}
     <br>
-    <b>Latin Name:</b> {{species_info.getLatinName()}}
+    <b>Type of Tree: </b>{{species_info.getDecOrEvg()}}
     <br>
-    <b>Type of Tree:</b>{{species_info.getDecOrEvg()}}
-    <br>
-    <b>Description:</b>{{species_info.getBlurb()}}
+    <b>Description: </b>{{species_info.getBlurb()}}
     <br>
     <br>
    {% include 'footer.html' %}
