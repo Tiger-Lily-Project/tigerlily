@@ -96,14 +96,17 @@ def catalog():
         database.connect()
         species = database.get_all_species()
         database.disconnect()
+        error_msg = "nothing wrong :)"
     except Exception as e:
+        error_msg = str(e)
         species = []
     except Error as e:
+        error_msg = str(e)
         species = []
 
     # Render the home page, passing in the list of plants.
     html = render_template('catalog.html', 
-    species = species)
+    species = species, error = error_msg)
     response = make_response(html)
 
     return response
