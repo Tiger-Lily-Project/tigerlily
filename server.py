@@ -95,6 +95,7 @@ def catalog():
         database = Database()
         database.connect()
         species = database.get_all_species()
+        print(species['A'][0])
         database.disconnect()
         error_msg = "nothing wrong :)"
     except Exception as e:
