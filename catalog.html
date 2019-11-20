@@ -9,8 +9,8 @@
     {% include 'header.html' %}
     {{error}}
     <table>
-    {% for letter, species_list in species.iteritems() %}
     <!--
+    {% for letter, species_list in species.iteritems() %}
         <tr>
             <td align="left"><b>{{letter}}</b></td>
         </tr>>
@@ -20,8 +20,8 @@
             <td align="left">{{species_info.getCommonName()}}</td>
         </tr>
         {% endfor %}
-    -->
     {% endfor %}
+    -->
     </table>
    {% include 'footer.html' %}
   </body>
