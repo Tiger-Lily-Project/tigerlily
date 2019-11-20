@@ -95,7 +95,6 @@ def catalog():
         database = Database()
         database.connect()
         species = database.get_all_species()
-        print(species['A'][0])
         database.disconnect()
         error_msg = "nothing wrong :)"
     except Exception as e:
@@ -107,7 +106,7 @@ def catalog():
 
     # Render the home page, passing in the list of plants.
     html = render_template('catalog.html', 
-    species = species, error = error_msg)
+    species = species['A'], error = error_msg)
     response = make_response(html)
 
     return response
