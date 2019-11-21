@@ -18,11 +18,12 @@ const trackLocation = ({ onSuccess, onError = () => { } }) => {
     return navigator.geolocation.watchPosition(onSuccess, onError);
 };
 
+let request = null
+
 const markers_in_bounds = () => {
     // Get map bounds
     let bounds = map.getBounds()
     bounds = bounds.toJSON()
-
 
     // Send AJAX request to server
     let url = '/'
