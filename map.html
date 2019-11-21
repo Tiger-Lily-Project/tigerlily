@@ -1,3 +1,4 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 <script>
     // Based on various pages on Google Maps Javascript API documentation except where noted otherwise
 
@@ -17,15 +18,32 @@ const trackLocation = ({ onSuccess, onError = () => { } }) => {
     return navigator.geolocation.watchPosition(onSuccess, onError);
 };
 
-const addMarkers = () => {
+const markers_in_bounds = () => {
     // Get map bounds
-    bounds = map.getBounds()
+    let bounds = map.getBounds()
     bounds = bounds.toJSON()
 
 
     // Send AJAX request to server
+    let url = '/'
+    if (request != null) 
+        request.abort()
+    request = $.ajax(
+        {
+            type: "GET",
+            url: url,
+            bounds: bounds,
+            success: handleResponse
+        }
+    )
     // (server updates plants array with plants in range)
+}
 
+function handleResponse() {
+    console.log(response)
+}
+
+const addMarkers = () => {
     // place plants 
     var infowindow = new google.maps.InfoWindow();
     var contentString;
@@ -108,7 +126,7 @@ function initMap() {
 
     google.maps.event.addListenerOnce(map, "bounds_changed", function(){
         // addMarkers();
-        google.maps.event.addListener(map, "idle", addMarkers);
+        google.maps.event.addListener(map, "idle", markers_in_bounds);
     });
 
 }

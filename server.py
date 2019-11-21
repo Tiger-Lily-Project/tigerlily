@@ -27,9 +27,17 @@ def index():
 
     # Gets a list of all plants available in the database.
     try:
+        bounds = request.args.get('bounds')
+
         database = Database()
         database.connect()
-        plants = database.get_n_plants(200)
+
+        if (bounds is None):
+            plants = database.get_n_plants(200)
+        else:
+            print(bounds)
+            # Comment in range search when updated to 
+            # plants = database.search_in_range() 
 
         # print("in try")
         # plants = []
