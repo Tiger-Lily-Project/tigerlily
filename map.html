@@ -18,30 +18,27 @@ const trackLocation = ({ onSuccess, onError = () => { } }) => {
     return navigator.geolocation.watchPosition(onSuccess, onError);
 };
 
-let request = null
-
 const markers_in_bounds = () => {
+    console.log("ran markers_in_bounds")
     // Get map bounds
     let bounds = map.getBounds()
     bounds = bounds.toJSON()
+    console.log("bounds: ", bounds)
 
     // Send AJAX request to server
     let url = '/'
-    if (request != null) 
-        request.abort()
-    request = $.ajax(
-        {
-            type: "GET",
-            url: url,
-            bounds: bounds,
-            success: handleResponse
-        }
-    )
+    $.ajax({
+        url: url,
+        type: "GET",
+        contentType: "application/json",
+        data: {bounds: JSON.stringify(bounds)},
+        success: function(data){ console.log("plants after ajax: ", plants)}
+    });
     // (server updates plants array with plants in range)
 }
 
-function handleResponse() {
-    console.log(response)
+function handleResponse(response) {
+    console.log("whatever")
 }
 
 const addMarkers = () => {
@@ -98,6 +95,7 @@ const addMarkers = () => {
 function initMap() {
     // console.log('{{plants | safe}}')
     plants = '{{plants | safe}}'
+    console.log("plants in init: ", plants)
     plants = JSON.parse(plants)
 
     map = new google.maps.Map(document.getElementById('map'), {
@@ -111,8 +109,6 @@ function initMap() {
         url: "/static/my_location.svg"
         }
     });
-
-    // addMarkers()
   
       // Call trackLocation
       // From https://medium.com/risan/track-users-location-and-display-it-on-google-maps-41d1f850786e
@@ -126,7 +122,6 @@ function initMap() {
     });
 
     google.maps.event.addListenerOnce(map, "bounds_changed", function(){
-        // addMarkers();
         google.maps.event.addListener(map, "idle", markers_in_bounds);
     });
 

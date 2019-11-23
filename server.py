@@ -28,27 +28,22 @@ def index():
     # Gets a list of all plants available in the database.
     try:
         bounds = request.args.get('bounds')
+        bounds = json.loads(bounds)
+        print("bounds: ")
+        print(bounds)
 
-        database = Database()
-        database.connect()
+        south = bounds["south"]
+        east = bounds["east"]
 
-        if (bounds is None):
+        # database = Database()
+        # database.connect()
+
+        if bounds is None:
             plants = database.get_n_plants(200)
         else:
-            print(bounds)
-            # Comment in range search when updated to 
-            # plants = database.search_in_range() 
+            plants = database.search_in_range(south, east, 0.01) 
 
-        # print("in try")
-        # plants = []
-        # plant1 = Plant("plant1", 40.3471, -74.6566, "rip")
-        # print("made a plant")
-        # plant1 = Plant.getDict(plant1)
-        # print("got json")
-        # plants.append(plant1)
-        # print(plants)
-
-        database.disconnect()
+        # database.disconnect()
     except Exception as e:
         plants = []
     except Error as e:
@@ -57,8 +52,7 @@ def index():
 
     print("index in server.py: ")
     print(plants)
-
-    plants = json.dumps(plants)
+    print()
 
     # Render the home page, passing in the list of plants.
     html = render_template('index.html', plants = plants)
