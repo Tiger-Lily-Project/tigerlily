@@ -54,6 +54,13 @@ def index():
     print(plants)
     print()
 
+    plants = [
+        {
+            "name": hi,
+            "test": ugh
+        }
+    ]
+
     # Render the home page, passing in the list of plants.
     html = render_template('index.html', plants = plants)
     response = make_response(html)
