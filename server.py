@@ -35,15 +35,15 @@ def index():
         south = bounds["south"]
         east = bounds["east"]
 
-        # database = Database()
-        # database.connect()
+        database = Database()
+        database.connect()
 
         if bounds is None:
             plants = database.get_n_plants(200)
         else:
             plants = database.search_in_range(south, east, 0.01) 
 
-        # database.disconnect()
+        database.disconnect()
     except Exception as e:
         plants = []
     except Error as e:
@@ -53,13 +53,6 @@ def index():
     print("index in server.py: ")
     print(plants)
     print()
-
-    plants = [
-        {
-            "name": hi,
-            "test": ugh
-        }
-    ]
 
     # Render the home page, passing in the list of plants.
     html = render_template('index.html', plants = plants)
