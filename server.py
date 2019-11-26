@@ -74,10 +74,10 @@ def plantdetails():
         database.disconnect()
     except Exception as e:
         species_info = SpeciesInfo('','','','','')
-        count = 2
+        count = 0
     except Error as e:
         species_info = SpeciesInfo('','','','','')
-        count = 2
+        count = 0
 
     # Render the home page, passing in the list of plants.
     html = render_template('plantdetails.html', 

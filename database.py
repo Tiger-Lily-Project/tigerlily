@@ -122,7 +122,7 @@ class Database:
         cursor.execute(stmt, [common_name])
 
         row = cursor.fetchone()
-        count = int(row[0])
+        count = int(row[1])
 
         return count
         
