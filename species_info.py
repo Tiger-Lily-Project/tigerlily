@@ -23,6 +23,10 @@ class SpeciesInfo:
     def getCommonName(self):
         return self._common_name
 
+    def getEncodedCommonName(self):
+        trimmed_name = self._common_name.strip()
+        return trimmed_name.replace(" ", "%20")
+
     def getLatinName(self):
         return self._latin_name
     
