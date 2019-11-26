@@ -15,8 +15,8 @@
         </tr>
         {% for species_info in species[first_char]: %}
         <tr>
-          <td align="left"><img src="/static/images/{{species_info.getImg()}}" alt="test" width = "200"></td>
-          <td align="left">{{species_info.getCommonName()}}</td>
+          <td align="left"><img src="/static/images/{{species_info.getImg()}}" alt="test" width = "150"></td>
+          <td align="left"><a href="plantdetails?class_id={{{{species_info.getCommonName()}}}}"></a></td>
         </tr>
         {% endfor %}
     {% endfor %}
