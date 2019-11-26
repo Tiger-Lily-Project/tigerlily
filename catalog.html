@@ -15,7 +15,7 @@
         </tr>
         {% for spec_info in species[first_char]: %}
         <tr>
-          <td align="left">{{spec_info.getImg()}}</td>
+          <td align="left"><img src="/static/images/{{species_info.getImg()}}" alt="test" width = "600"></td>
           <td align="left">{{spec_info.getCommonName()}}</td>
         </tr>
         {% endfor %}
