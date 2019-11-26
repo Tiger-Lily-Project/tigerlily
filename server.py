@@ -70,16 +70,20 @@ def plantdetails():
         database = Database()
         database.connect()
         species_info = database.get_species_info(common_name)
+        count = database.get_species_count(common_name)
         database.disconnect()
     except Exception as e:
         species_info = SpeciesInfo('','','','','')
+        count = 0
     except Error as e:
         species_info = SpeciesInfo('','','','','')
+        count = 0
 
     # Render the home page, passing in the list of plants.
     html = render_template('plantdetails.html', 
     common_name = common_name, 
-    species_info = species_info)
+    species_info = species_info,
+    count = 0)
     response = make_response(html)
 
     return response
