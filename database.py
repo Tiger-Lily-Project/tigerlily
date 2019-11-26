@@ -79,7 +79,7 @@ class Database:
             return self.get_all_species()
         
         cursor = self._connection.cursor()
-        stmt = "SELECT * FROM species_info WHERE common_name LIKE %s ORDER BY common_name ASC;"
+        stmt = "SELECT * FROM species_info WHERE LOWER(common_name) LIKE LOWER(%s) ORDER BY common_name ASC;"
         cursor.execute(stmt, ['%' + search + '%'])
 
         species = {}
