@@ -10,10 +10,12 @@
     <table>
     {% for first_char in species: %}
         <tr>
-          <td align="left">{{first_char}}</td>
+          <td align="left"><b>{{first_char}}</b></td>
+          <td align="left"></td>
         </tr>
         {% for spec_info in species[first_char]: %}
         <tr>
+          <td align="left">{{spec_info.getImg()}}</td>
           <td align="left">{{spec_info.getCommonName()}}</td>
         </tr>
         {% endfor %}
