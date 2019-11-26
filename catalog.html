@@ -13,10 +13,10 @@
           <td align="left"><b>{{first_char}}</b></td>
           <td align="left"></td>
         </tr>
-        {% for spec_info in species[first_char]: %}
+        {% for species_info in species[first_char]: %}
         <tr>
-          <td align="left"><img src="/static/images/{{species_info.getImg()}}" alt="test" width = "600"></td>
-          <td align="left">{{spec_info.getCommonName()}}</td>
+          <td align="left"><img src="/static/images/{{species_info.getImg()}}" alt="test" width = "100"></td>
+          <td align="left">{{species_info.getCommonName()}}</td>
         </tr>
         {% endfor %}
     {% endfor %}
