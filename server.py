@@ -29,7 +29,7 @@ def index():
     try:
         database = Database()
         database.connect()
-        plants = database.get_n_plants(200)
+        plants = database.get_n_plants(30)
 
         # print("in try")
         # plants = []
@@ -59,7 +59,7 @@ def index():
     return response
 #-----------------------------------------------------------------------
 
-# Renders the home page.
+# Renders the details page.
 @app.route('/')
 @app.route('/plantdetails')
 def plantdetails():
@@ -80,6 +80,30 @@ def plantdetails():
     html = render_template('plantdetails.html', 
     common_name = common_name, 
     species_info = species_info)
+    response = make_response(html)
+
+    return response
+#-----------------------------------------------------------------------
+
+# Renders the catalog page.
+@app.route('/')
+@app.route('/catalog')
+def catalog():
+
+    # Gets a list of all species available in the database.
+    try:
+        database = Database()
+        database.connect()
+        species = database.get_all_species()
+        database.disconnect()
+    except Exception as e:
+        species = []
+    except Error as e:
+        species = []
+
+    # Render the home page, passing in the list of plants.
+    html = render_template('catalog.html', 
+    species = species)
     response = make_response(html)
 
     return response

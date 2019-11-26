@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Catalog</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+  </head>
+  <body>
+    {% include 'header.html' %}
+    <table border = 5>
+    {% for first_char in species: %}
+        <tr>
+          <td align="left"><b>{{first_char}}</b></td>
+          <td align="left"></td>
+        </tr>
+        {% for species_info in species[first_char]: %}
+        <tr>
+          <td align="left"><img src="/static/images/{{species_info.getImg()}}" alt="test" width = "100"></td>
+          <td align="left">{{species_info.getCommonName()}}</td>
+        </tr>
+        {% endfor %}
+    {% endfor %}
+    </table>
+    {% include 'footer.html' %}
+  </body>
+</html>
