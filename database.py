@@ -71,6 +71,36 @@ class Database:
 
         return species
 
+    # Returns species containing
+    # Returns dictionary, key = first letter, value = list of species starting with key
+    def get_species_by_name(self, search):
+
+        if search == '':
+            return self.get_all_species()
+        
+        cursor = self._connection.cursor()
+        stmt = "SELECT * FROM species_info WHERE LOWER(common_name) LIKE LOWER(%s) ORDER BY common_name ASC;"
+        cursor.execute(stmt, ['%' + search + '%'])
+
+        species = {}
+        row = cursor.fetchone()
+        while row is not None:
+
+            species_info = SpeciesInfo(str(row[0]), str(row[1]), str(row[2]), str(row[3]), str(row[4]))
+            # Get first character of common name
+            first_char = species_info.getCommonName()[0]
+            # Create list if it doesn't exist
+            if first_char not in species.keys():
+                species[first_char] = []
+            # Append species to list
+            species[first_char].append(species_info)
+
+            row = cursor.fetchone()
+
+        cursor.close()
+
+        return species
+
     # Returns all individual plants in the database
     def get_all_plants(self):
         cursor = self._connection.cursor()

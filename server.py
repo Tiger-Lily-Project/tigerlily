@@ -94,11 +94,15 @@ def plantdetails():
 @app.route('/catalog')
 def catalog():
 
+    search = request.args.get('search')
+    if search is None:
+        search = ''
+
     # Gets a list of all species available in the database.
     try:
         database = Database()
         database.connect()
-        species = database.get_all_species()
+        species = database.get_species_by_name(search)
         database.disconnect()
     except Exception as e:
         species = []

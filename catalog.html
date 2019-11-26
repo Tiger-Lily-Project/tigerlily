@@ -7,6 +7,15 @@
   </head>
   <body>
     {% include 'header.html' %}
+    <form action="catalog" method="get">
+        <table>
+           <tr>
+              <td align="left">Search by common name:</td>
+              <td align="left"><input type="text" name="search" value={{search}}></td>
+              <td align="left"><input type="submit" value="Search"></td>
+           </tr>
+        </table>
+     </form>
     <table>
     {% for first_char in species: %}
         <tr>
