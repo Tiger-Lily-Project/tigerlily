@@ -83,7 +83,7 @@ def plantdetails():
     html = render_template('plantdetails.html', 
     common_name = common_name, 
     species_info = species_info,
-    count = 0)
+    count = count)
     response = make_response(html)
 
     return response
