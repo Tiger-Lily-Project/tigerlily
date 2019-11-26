@@ -7,15 +7,15 @@
   </head>
   <body>
     {% include 'header.html' %}
-    <table border = 5>
+    <table>
     {% for first_char in species: %}
         <tr>
-          <td align="left"><b>{{first_char}}</b></td>
+          <td align="left"><h2>{{first_char}}</h2></td>
           <td align="left"></td>
         </tr>
         {% for species_info in species[first_char]: %}
         <tr>
-          <td align="left"><img src="/static/images/{{species_info.getImg()}}" alt="test" width = "100"></td>
+          <td align="left"><img src="/static/images/{{species_info.getImg()}}" alt="test" width = "200"></td>
           <td align="left">{{species_info.getCommonName()}}</td>
         </tr>
         {% endfor %}
