@@ -29,10 +29,10 @@ class Database:
         if self._connection is not None:
             self._connection.close()
 
-    # Searches for plants within the range of the given latitude and longitude
-    def search_in_range(self, lati, longi, radius):
+    # Searches for plants within the given coordinates
+    def search_in_range(self, minLat, maxLat, minLong, maxLong):
         cursor = self._connection.cursor()
-        stmt, values = self.create_range_stmt(lati, longi, radius)
+        stmt, values = self.create_range_stmt(minLat, maxLat, minLong, maxLong)
         cursor.execute(stmt, values)
 
         plants = []
@@ -104,7 +104,7 @@ class Database:
         return species_info
         
     # Creates a statement to search for pins based on range and given location
-    def create_range_stmt(self, lati, longi, radius):
+    def create_range_stmt(self, minLat, maxLat, minLong, maxLong):
 
         # Will hold the search terms in the order they're used.
         search_values = []
@@ -116,10 +116,10 @@ class Database:
         stmtStr += " AND status != 'Stump' AND status != 'Removed';"
 
         # Append the boundaries for the latitude and longitude ranges.
-        search_values.append(lati - radius)
-        search_values.append(lati + radius)
-        search_values.append(longi - radius)
-        search_values.append(longi + radius)
+        search_values.append(minLat)
+        search_values.append(maxLat)
+        search_values.append(minLong)
+        search_values.append(maxLong)
 
         # Return the statement and the ordered list of values.
         return stmtStr, search_values
