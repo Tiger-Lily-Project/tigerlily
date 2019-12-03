@@ -13,29 +13,20 @@ from flask import render_template
 from sqlite3 import Error
 from plant import Plant
 from flask import json
-# from flask_talisman import Talisman
+from flask_talisman import Talisman
 
 #-----------------------------------------------------------------------
 
 app = Flask(__name__, template_folder='.')
-# csp = {
-#  'default-src': '\'self\'',
-#  'script-src': [
-#      '\'self\'',
-#      'https://maps.googleapis.com'
-#      ],
-#  'style-src': [
-#      'unsafe-inline',
-#      '\'self\'',
-#      'https://maps.googleapis.com'
-#  ],
-#  'img-src': [
-#      '\'self\'',
-#      'https://maps.gstatic.com',
-#      'https://maps.googleapis.com'
-#  ]
-# }
-# talisman = Talisman(app, content_security_policy=csp, content_security_policy_nonce_in=['script-src'])
+csp = {
+ 'default-src': '\'self\'',
+ 'script-src': [
+     '\'self\'',
+     'https://maps.googleapis.com'
+     ],
+ 'style-src': 'unsafe-inline'
+}
+talisman = Talisman(app, content_security_policy=csp, content_security_policy_nonce_in=['script-src'])
 
 #-----------------------------------------------------------------------
 
@@ -123,13 +114,6 @@ def index():
 
     return response
 #-----------------------------------------------------------------------
-
-@app.before_request
-def before_request():
-    if request.url.startswith('http://'):
-        url = request.url.replace('http://', 'https://', 1)
-        code = 301
-        return redirect(url, code=code)
 
 # Renders the details page.
 @app.route('/')
