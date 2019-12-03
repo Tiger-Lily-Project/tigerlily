@@ -25,7 +25,7 @@ app = Flask(__name__, template_folder='.')
 @app.route('/index')
 def index():
 
-    submit_button = request.form.get("submit_button")
+    submit_button = request.args.get("submit_button")
 
     if submit_button == "Clear Filter":
         species = []
@@ -33,13 +33,13 @@ def index():
         dec_or_evg = []
 
     else:
-        species = request.form.getlist("species")
+        species = request.args.getlist("species")
         if species is None:
             species = []
-        status = request.form.getlist("status")
+        status = request.args.getlist("status")
         if status is None:
             status = []
-        dec_or_evg = request.form.getlist("dec_or_evg")
+        dec_or_evg = request.args.getlist("dec_or_evg")
         if dec_or_evg is None:
             dec_or_evg = []
 
