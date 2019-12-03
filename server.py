@@ -13,10 +13,17 @@ from flask import render_template
 from sqlite3 import Error
 from plant import Plant
 from flask import json
+from flask_talisman import Talisman
 
 #-----------------------------------------------------------------------
 
 app = Flask(__name__, template_folder='.')
+csp = {
+ 'default-src': [
+        '\'self\''
+    ]
+}
+talisman = Talisman(app, content_security_policy=csp)
 
 #-----------------------------------------------------------------------
 
