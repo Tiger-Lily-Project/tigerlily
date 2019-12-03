@@ -25,6 +25,16 @@ app = Flask(__name__, template_folder='.')
 @app.route('/index')
 def index():
 
+    species = request.form.getlist("species")
+    if species is None:
+        species = ''
+    status = request.form.getlist("status")
+    if status is None:
+        status = ''
+    dec_or_evg = request.form.getlist("dec_or_evg")
+    if dec_or_evg is None:
+        dec_or_evg = ''
+
     # Gets a list of all plants available in the database.
     try:
         database = Database()
