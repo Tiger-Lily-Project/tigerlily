@@ -202,7 +202,7 @@ class Database:
         
         row = cursor.fetchone()
         while row is not None:
-            status.append(str(row[0]))
+            status_vals.append(str(row[0]))
             row = cursor.fetchone()
 
         cursor.close()
