@@ -243,12 +243,12 @@ class Database:
         stmtStr = "SELECT common_name, lat, long, status FROM ( \
                 SELECT plant_indiv.common_name, plant_indiv.lat, plant_indiv.long, plant_indiv.status, species_info.dec_or_evg \
                 FROM plant_indiv JOIN species_info ON plant_indiv.common_name = species_info.common_name \
-            ) tmp"
+            ) tmp WHERE"
 
         # Append WHERE for names
         for i in range(0, len(species)):
             if i == 0:
-                stmtStr += " WHERE common_name = %s"
+                stmtStr += " common_name = %s"
             else:
                 stmtStr += " OR common_name = %s"
             
@@ -261,7 +261,7 @@ class Database:
         # Append WHERE for statuses
         for i in range(0, len(status)):
             if i == 0:
-                stmtStr += " WHERE status = %s"
+                stmtStr += " status = %s"
             else:
                 stmtStr += " OR status = %s"
     
@@ -272,7 +272,7 @@ class Database:
         # Append WHERE for dec_or_evg
         for i in range(0, len(dec_or_evg)):
             if i == 0:
-                stmtStr += " WHERE dec_or_evg = %s"
+                stmtStr += " dec_or_evg = %s"
             else:
                 stmtStr += " OR dec_or_evg = %s"
 
