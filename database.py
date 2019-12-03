@@ -245,6 +245,8 @@ class Database:
         if len(species) == 0 and len(status) == 0 and len(dec_or_evg) == 0:
             return self.get_n_plants(n)
 
+        print("NOT EMPTY")
+
         stmtStr = "SELECT common_name, lat, long, status FROM ( \
                 SELECT plant_indiv.common_name, plant_indiv.lat, plant_indiv.long, plant_indiv.status, species_info.dec_or_evg \
                 FROM plant_indiv JOIN species_info ON plant_indiv.common_name = species_info.common_name \
