@@ -83,7 +83,7 @@
     <!-- {% include 'map.html' %} -->
     <!-- <script type="text/javascript"
          src="{{ url_for('static', filename='map.js') }}"></script> -->
-    <script nonce="{{ csp_nonce() }}">
+    <script>
       const trackLocation = ({ onSuccess, onError = () => { } }) => {
     if ('geolocation' in navigator === false) {
       console.log('Geolocation is not supported by your browser. Check your settings or try a different browser')
@@ -190,7 +190,7 @@ function initMap() {
 
 }
     </script>
-    <script nonce="{{ csp_nonce() }}" async defer
+    <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDgPsCmJi55tXonvondJH9BCh7AOvDg3-8&callback=initMap">
     </script>
   {% include 'footer.html' %}  
