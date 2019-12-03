@@ -220,6 +220,8 @@ class Database:
         if len(species) == 0 and len(status) == 0 and len(dec_or_evg) == 0:
             return self.get_n_plants(n)
 
+        cursor = self._connection.cursor()
+
         stmtStr, vals = self.create_filter_stmt(n, species, status, dec_or_evg)
 
         cursor.execute(stmtStr, vals)
