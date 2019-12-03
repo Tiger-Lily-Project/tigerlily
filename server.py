@@ -74,11 +74,15 @@ def index():
         database.disconnect()
 
     except Exception as e:
+        print("EXCEPTION")
+        print(e)
         plants = []
         all_species = []
         status_vals = []
         dec_or_evg_vals = []
     except Error as e:
+        print("ERROR")
+        print(e)
         plants = []
         all_species = []
         status_vals = []
