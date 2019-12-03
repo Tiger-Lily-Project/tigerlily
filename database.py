@@ -224,7 +224,7 @@ class Database:
 
         filtered_plants = []
 
-        stmtStr, vals = self.create_filter_stmt(self, n, species, status, dec_or_evg)
+        stmtStr, vals = self.create_filter_stmt(n, species, status, dec_or_evg)
 
         cursor.execute(stmtStr, vals)
 
