@@ -39,7 +39,7 @@ def index():
     try:
         database = Database()
         database.connect()
-        plants = database.get_n_plants(200)
+        plants = database.get_filtered_plants(200, species, status, dec_or_evg)
 
         all_species = database.get_all_species()
 
@@ -133,53 +133,6 @@ def catalog():
     # Render the catalog page, passing in the list of species.
     html = render_template('catalog.html', 
     species = species)
-    response = make_response(html)
-
-    return response
-#-----------------------------------------------------------------------
-
-# Filters results based on searches.
-@app.route('/')
-@app.route('/filter')
-def filter():
-
-    species = request.form.getlist("species")
-    if species is None:
-        species = ''
-    status = request.form.getlist("status")
-    if status is None:
-        status = ''
-    dec_or_evg = request.form.getlist("dec_or_evg")
-    if dec_or_evg is None:
-        dec_or_evg = ''
-
-    # Gets a list of all species available in the database.
-    try:
-        database = Database()
-        database.connect()
-
-        plants = database.get_n_plants(200)
-        
-        #plants = database.get_filtered_plants(200, species, status, dec_or_evg)
-
-        all_species = database.get_all_species()
-
-        status_vals = database.get_status_vals()
-        
-        dec_or_evg_vals = database.get_dec_or_evg_vals()
-
-        database.disconnect()
-    except Exception as e:
-        plants = []
-    except Error as e:
-        plants = []
-
-    # Render the home page, passing in the list of plants.
-    html = render_template('index.html', 
-    plants = plants,
-    all_species = all_species,
-    status_vals = status_vals,
-    dec_or_evg_vals = dec_or_evg_vals)
     response = make_response(html)
 
     return response
