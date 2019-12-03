@@ -34,7 +34,8 @@ def index():
         all_species = database.get_all_species()
 
         status_vals = database.get_status_vals()
-        dec_or_evg_vals = database.get_dec_or_evg_vals()
+        
+        #dec_or_evg_vals = database.get_dec_or_evg_vals()
 
         # print("in try")
         # plants = []
@@ -61,8 +62,8 @@ def index():
     html = render_template('index.html', 
     plants = plants,
     all_species = all_species, 
-    status_vals = status_vals,
-    dec_or_evg_vals = dec_or_evg_vals)
+    status_vals = status_vals)
+    #,dec_or_evg_vals = dec_or_evg_vals)
     response = make_response(html)
 
     return response
