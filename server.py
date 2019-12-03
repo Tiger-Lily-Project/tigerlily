@@ -31,7 +31,7 @@ def index():
         database.connect()
         plants = database.get_n_plants(200)
 
-        all_species = json.dumps(database.get_all_species())
+        all_species = database.get_all_species()
 
         # print("in try")
         # plants = []
