@@ -197,9 +197,7 @@ class Database:
         cursor = self._connection.cursor()
         stmtStr = "SELECT DISTINCT status FROM plant_indiv;"
         cursor.execute(stmtStr)
-        return ["test"]
 
-        '''
         status_vals = []
         
         row = cursor.fetchone()
@@ -209,7 +207,6 @@ class Database:
 
         cursor.close()
         return status_vals
-        '''
 
     
 
