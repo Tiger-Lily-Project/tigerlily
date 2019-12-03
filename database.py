@@ -189,7 +189,7 @@ class Database:
             row = cursor.fetchone()
 
         cursor.close()
-        return dec_or_evg_vals.sort()
+        return dec_or_evg_vals
 
     # Gets possible values of status
     def get_status_vals(self):
@@ -206,7 +206,7 @@ class Database:
             row = cursor.fetchone()
 
         cursor.close()
-        return status_vals.sort()
+        return status_vals
 
     
 
