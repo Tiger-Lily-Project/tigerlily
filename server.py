@@ -22,11 +22,14 @@ csp = {
  'default-src': '\'self\'',
  'script-src': [
      '\'self\'',
-     'https://maps.googleapis.com/*'
+     'https://maps.googleapis.com'
      ],
- 'style-src': 'unsafe-inline'
+ 'style-src': [
+     '\'self\'',
+     'https://maps.googleapis.com'
+     ]
 }
-talisman = Talisman(app, content_security_policy=csp, content_security_policy_nonce_in=['script-src'])
+talisman = Talisman(app, content_security_policy=csp, content_security_policy_nonce_in=['script-src', 'style-src'])
 
 #-----------------------------------------------------------------------
 
