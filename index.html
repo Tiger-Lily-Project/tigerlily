@@ -79,11 +79,11 @@
       </table>
     </form>
     <br>
-    <div id="map" nonce="{{ csp_nonce() }}"></div>
+    <div id="map"></div>
     <!-- {% include 'map.html' %} -->
     <!-- <script type="text/javascript"
          src="{{ url_for('static', filename='map.js') }}"></script> -->
-    <script>
+    <script nonce="{{ csp_nonce() }}">
       const trackLocation = ({ onSuccess, onError = () => { } }) => {
     if ('geolocation' in navigator === false) {
       console.log('Geolocation is not supported by your browser. Check your settings or try a different browser')
