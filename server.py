@@ -173,5 +173,17 @@ def catalog():
     return response
 #-----------------------------------------------------------------------
 
+# Renders the "about us" page.
+@app.route('/')
+@app.route('/about')
+def about():
+
+    # Render the catalog page, passing in the list of species.
+    html = render_template('about.html')
+    response = make_response(html)
+
+    return response
+#-----------------------------------------------------------------------
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=10101, debug=True)
