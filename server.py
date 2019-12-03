@@ -26,7 +26,7 @@ csp = {
      ],
  'style-src': 'unsafe-inline'
 }
-talisman = Talisman(app, content_security_policy=csp, content_security_policy_nonce_in=['script-src'])
+talisman = Talisman(app, content_security_policy=None)
 
 #-----------------------------------------------------------------------
 
