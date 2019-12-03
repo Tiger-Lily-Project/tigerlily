@@ -46,8 +46,8 @@
         </td>
         <td align="left">
           <select multiple>
-          {% for first_char in all_species: %}
-            {% for species_info in all_species[first_char]: %}
+          {% for first_char in species: %}
+            {% for species_info in species[first_char]: %}
               <option value="{{species_info.getCommonName()}}">{{species_info.getCommonName()}}</option>
             {% endfor %}
           {% endfor %}
