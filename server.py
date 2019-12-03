@@ -31,6 +31,8 @@ def index():
         database.connect()
         plants = database.get_n_plants(200)
 
+        all_species = json.dumps(database.get_all_species())
+
         # print("in try")
         # plants = []
         # plant1 = Plant("plant1", 40.3471, -74.6566, "rip")
@@ -53,7 +55,7 @@ def index():
     plants = json.dumps(plants)
 
     # Render the home page, passing in the list of plants.
-    html = render_template('index.html', plants = plants)
+    html = render_template('index.html', plants = plants, all_species = all_species)
     response = make_response(html)
 
     return response

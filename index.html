@@ -25,6 +25,67 @@
       {% include 'header.html' %}
     <br>
     <a href="catalog">Catalog</a>
+    <br>
+    <table>
+      <tr>
+        <td>
+          Filter by:
+        </td>
+        <td>
+          <select>
+            <option value=""> SPECIES </option>
+            <!--
+            <script language="javascript" type="text/javascript">
+              for (letter in all_species) {
+                for (species in all_species[letter]) {
+                  document.write("<option value=\"" + species.getCommonName() + "\">" + species.getCommonName() + "</option");
+                }
+              }
+            </script>
+          -->
+          </select>
+        </td>
+        <td>
+          <select>
+            <option value=""> STATUS </option>
+            <!--
+            <script language="javascript" type="text/javascript">
+              var statuses = [];
+              for (plant in plants) {
+                if (!statuses.includes(plant.getStatus())) {
+                  statuses.push(plant.getStatus());
+                }
+              }
+              for (status in statuses) {
+                document.write("<option value=\"" + status + "\">" + status + "</option");
+              }
+            </script>
+          -->
+          </select>
+        </td>
+        <td>
+          <select>
+            <option value=""> SEASONALITY </option>
+            <!--
+            <script language="javascript" type="text/javascript">
+              var seasonalities = [];
+              for (letter in all_species) {
+                for (species in all_species[letter]) {
+                  if (!seasonalities.includes(species.getDecOrEvg())) {
+                    seasonalities.push(species.getDecOrEvg());
+                  }
+                }
+              }
+              for (seas in seasonalities) {
+                document.write("<option value=\"" + seas + "\">" + seas + "</option");
+              }
+            </script>
+          -->
+          </select>
+        </td>
+      </tr>
+    </table>
+    <br>
     <div id="map"></div>
     <!-- {% include 'map.html' %} -->
     <!-- <script type="text/javascript"
