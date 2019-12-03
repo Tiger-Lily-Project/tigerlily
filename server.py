@@ -43,6 +43,13 @@ def index():
         if dec_or_evg is None:
             dec_or_evg = []
 
+    print("SPECIES")
+    print(species)
+    print("STATUS")
+    print(status)
+    print("DEC OR EVG")
+    print(dec_or_evg)
+
     # Gets a list of all plants available in the database.
     try:
         database = Database()
@@ -67,13 +74,11 @@ def index():
         database.disconnect()
 
     except Exception as e:
-        print(e)
         plants = []
         all_species = []
         status_vals = []
         dec_or_evg_vals = []
     except Error as e:
-        print(e)
         plants = []
         all_species = []
         status_vals = []
