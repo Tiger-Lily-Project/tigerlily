@@ -25,11 +25,42 @@ app = Flask(__name__, template_folder='.')
 @app.route('/index')
 def index():
 
+    submit_button = request.args.get("submit_button")
+
+    if submit_button == "Clear Filter":
+        species = []
+        status = []
+        dec_or_evg = []
+
+    else:
+        species = request.args.getlist("species")
+        if species is None:
+            species = []
+        status = request.args.getlist("status")
+        if status is None:
+            status = []
+        dec_or_evg = request.args.getlist("dec_or_evg")
+        if dec_or_evg is None:
+            dec_or_evg = []
+
+    print("SPECIES")
+    print(species)
+    print("STATUS")
+    print(status)
+    print("DEC OR EVG")
+    print(dec_or_evg)
+
     # Gets a list of all plants available in the database.
     try:
         database = Database()
         database.connect()
-        plants = database.get_n_plants(200)
+        plants = database.get_filtered_plants(200, species, status, dec_or_evg)
+
+        all_species = database.get_all_species()
+
+        status_vals = database.get_status_vals()
+        
+        dec_or_evg_vals = database.get_dec_or_evg_vals()
 
         # print("in try")
         # plants = []
@@ -41,19 +72,34 @@ def index():
         # print(plants)
 
         database.disconnect()
-    except Exception as e:
-        plants = []
-    except Error as e:
-        plants = []
-    #     print(e)
 
-    print("index in server.py: ")
-    print(plants)
+    except Exception as e:
+        print("EXCEPTION")
+        print(e)
+        plants = []
+        all_species = []
+        status_vals = []
+        dec_or_evg_vals = []
+    except Error as e:
+        print("ERROR")
+        print(e)
+        plants = []
+        all_species = []
+        status_vals = []
+        dec_or_evg_vals = []
+
+    #print("index in server.py: ")
+    #print(plants)
 
     plants = json.dumps(plants)
 
     # Render the home page, passing in the list of plants.
-    html = render_template('index.html', plants = plants)
+    html = render_template('index.html', 
+    plants = plants,
+    all_species = all_species,
+    status_vals = status_vals,
+    dec_or_evg_vals = dec_or_evg_vals)
+
     response = make_response(html)
 
     return response
@@ -65,7 +111,7 @@ def index():
 def plantdetails():
 
     common_name = request.args.get("common_name")
-    # Gets a list of all plants available in the database.
+    # Gets a the information on the requested species.
     try:
         database = Database()
         database.connect()
@@ -79,7 +125,7 @@ def plantdetails():
         species_info = SpeciesInfo('','','','','')
         count = 0
 
-    # Render the home page, passing in the list of plants.
+    # Render the details page, passing in the plant.
     html = render_template('plantdetails.html', 
     common_name = common_name, 
     species_info = species_info,
@@ -109,7 +155,7 @@ def catalog():
     except Error as e:
         species = []
 
-    # Render the home page, passing in the list of plants.
+    # Render the catalog page, passing in the list of species.
     html = render_template('catalog.html', 
     species = species)
     response = make_response(html)
