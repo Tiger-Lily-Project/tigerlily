@@ -217,7 +217,7 @@ class Database:
     # Gets filtered plants
     def get_filtered_plants(self, n, species, status, dec_or_evg):
 
-        return get_n_plants(n)
+        return self.get_n_plants(n)
 
     
 
