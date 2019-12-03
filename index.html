@@ -31,17 +31,24 @@
           Filter by:
         </td>
         <td align="left">
-          <select>
+          <select multiple>
             <option value="species"> SPECIES </option>
           </select>
         </td>
         <td align="left">
-          <select>
+          <select multiple>
             <option value="status"> STATUS </option>
+            <script>
+
+              for (status in status_vals) {
+                document.write("<option value=\"" + status + "\">" + status + "</option>");
+              }
+
+            </script>
           </select>
         </td>
         <td align="left">
-          <select>
+          <select multiple>
             <option value="seasonality"> SEASONALITY </option>
           </select>
         </td>

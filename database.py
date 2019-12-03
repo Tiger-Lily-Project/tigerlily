@@ -104,7 +104,7 @@ class Database:
     # Returns all individual plants in the database
     def get_all_plants(self):
         cursor = self._connection.cursor()
-        stmt = "SELECT * FROM plant_indiv WHERE status != 'Stump' AND status != 'Removed';"
+        stmt = "SELECT * FROM plant_indiv;"
         cursor.execute(stmt)
 
         plants = []
@@ -120,7 +120,7 @@ class Database:
     # Returns n plants from the database
     def get_n_plants(self, n):
         cursor = self._connection.cursor()
-        stmt = "SELECT * FROM plant_indiv WHERE status != 'Stump' AND status != 'Removed' LIMIT %s;"
+        stmt = "SELECT * FROM plant_indiv LIMIT %s;"
         cursor.execute(stmt, [n])
 
         plants = []
@@ -165,9 +165,6 @@ class Database:
         # Creates the baseline statement.
         stmtStr = "SELECT * FROM plant_indiv WHERE lat >= %s AND lat <= %s AND long >= %s AND long <= %s"
 
-        # Only selects those which are not removed or stumps.
-        stmtStr += " AND status != 'Stump' AND status != 'Removed';"
-
         # Append the boundaries for the latitude and longitude ranges.
         search_values.append(minLat)
         search_values.append(maxLat)
@@ -176,6 +173,42 @@ class Database:
 
         # Return the statement and the ordered list of values.
         return stmtStr, search_values
+
+    # Gets possible values of dec_or_evg
+    def get_dec_or_evg_vals(self):
+
+        cursor = self._connection.cursor()
+        stmtStr = "SELECT DISTINCT dec_or_evg FROM species_info;"
+        cursor.execute(stmt)
+
+        dec_or_evg_vals = []
+        
+        row = cursor.fetchone()
+        while row is not None:
+            dec_or_evg_vals.append[str(row[0])]
+            row = cursor.fetchone()
+
+        cursor.close()
+        return dec_or_evg_vals
+
+    # Gets possible values of status
+    def get_status_vals(self):
+
+        cursor = self._connection.cursor()
+        stmtStr = "SELECT DISTINCT status FROM plant_indiv;"
+        cursor.execute(stmt)
+
+        status_vals = []
+        
+        row = cursor.fetchone()
+        while row is not None:
+            status.append[str(row[0])]
+            row = cursor.fetchone()
+
+        cursor.close()
+        return status_vals
+
+    
 
 #---------------------------------------------------------------------------
 
