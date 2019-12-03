@@ -219,7 +219,7 @@ class Database:
 
         plants = self.get_n_plants(n)
 
-        if species == '' and status == '' and dec_or_evg = '':
+        if species == '' and status == '' and dec_or_evg == '':
             return plants
 
         filtered_plants = []
