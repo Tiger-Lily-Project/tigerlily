@@ -207,7 +207,6 @@ class Database:
 
         cursor.close()
         return status_vals
-        '''
 
     
 
