@@ -65,11 +65,17 @@ def index():
         # print(plants)
 
         database.disconnect()
+        
     except Exception as e:
         plants = []
+        all_species = []
+        status_vals = []
+        dec_or_evg = []
     except Error as e:
         plants = []
-    #     print(e)
+        all_species = []
+        status_vals = []
+        dec_or_evg = []
 
     print("index in server.py: ")
     print(plants)
