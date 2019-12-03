@@ -26,29 +26,30 @@
     <br>
     <a href="catalog">Catalog</a>
     <br>
-    <!--
     <table>
         <td align="left">
           Filter by:
         </td>
         <td align="left">
-          <select>
+          <select multiple>
+            <option value="species"> SPECIES </option>
+            <option value="seasonality"> SEASONALITY </option>
+          </select>
+        </td>
+        <td align="left">
+          <select multiple>
+            <option value="status"> STATUS </option>
             <option value="species"> SPECIES </option>
           </select>
         </td>
         <td align="left">
-          <select>
-            <option value="status"> STATUS </option>
-          </select>
-        </td>
-        <td align="left">
-          <select>
+          <select multiple>
             <option value="seasonality"> SEASONALITY </option>
+            <option value="species"> SPECIES </option>
           </select>
         </td>
       </tr>
     </table>
-  -->
     <br>
     <div id="map"></div>
     <!-- {% include 'map.html' %} -->

@@ -63,7 +63,7 @@ def index():
     all_species = all_species, 
     status_vals = status_vals,
     dec_or_evg_vals = dec_or_evg_vals)
-    response = make_response(html)
+    response = make_response(html))
 
     return response
 #-----------------------------------------------------------------------
