@@ -79,7 +79,7 @@
       </table>
     </form>
     <br>
-    <div id="map"></div>
+    <div id="map" nonce="{{ csp_nonce() }}"></div>
     <!-- {% include 'map.html' %} -->
     <!-- <script type="text/javascript"
          src="{{ url_for('static', filename='map.js') }}"></script> -->
