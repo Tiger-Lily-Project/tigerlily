@@ -190,7 +190,7 @@ function initMap() {
 
 }
     </script>
-    <script async defer
+    <script nonce="{{ csp_nonce() }}" async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDgPsCmJi55tXonvondJH9BCh7AOvDg3-8&callback=initMap">
     </script>
   {% include 'footer.html' %}  
