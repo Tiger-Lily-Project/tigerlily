@@ -31,12 +31,10 @@ def index():
         database.connect()
         plants = database.get_n_plants(200)
 
-        '''
         all_species = database.get_all_species()
 
         status_vals = database.get_status_vals()
         dec_or_evg_vals = database.get_dec_or_evg_vals()
-        '''
 
         # print("in try")
         # plants = []
@@ -61,12 +59,10 @@ def index():
 
     # Render the home page, passing in the list of plants.
     html = render_template('index.html', 
-    plants = plants)
-    ''', 
+    plants = plants,
     all_species = all_species, 
     status_vals = status_vals,
     dec_or_evg_vals = dec_or_evg_vals)
-    '''
     response = make_response(html)
 
     return response

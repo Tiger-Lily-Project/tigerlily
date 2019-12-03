@@ -185,7 +185,7 @@ class Database:
         
         row = cursor.fetchone()
         while row is not None:
-            dec_or_evg_vals.append[str(row[0])]
+            dec_or_evg_vals.append(str(row[0]))
             row = cursor.fetchone()
 
         cursor.close()
@@ -202,7 +202,7 @@ class Database:
         
         row = cursor.fetchone()
         while row is not None:
-            status.append[str(row[0])]
+            status.append(str(row[0]))
             row = cursor.fetchone()
 
         cursor.close()
