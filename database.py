@@ -217,9 +217,87 @@ class Database:
     # Gets filtered plants
     def get_filtered_plants(self, n, species, status, dec_or_evg):
 
-        return self.get_n_plants(n)
+        plants = self.get_n_plants(n)
 
+        if species == '' and status == '' and dec_or_evg = '':
+            return plants
+
+        filtered_plants = []
+
+        stmtStr, vals = self.create_filter_stmt(self, n, species, status, dec_or_evg)
+
+        cursor.execute(stmtStr, vals)
+
+        plants = []
+        row = cursor.fetchone()
+        while row is not None:
+            plant = Plant(str(row[0]), str(row[1]), str(row[2]), str(row[3]))
+            plant = Plant.getDict(plant)
+           
+            plants.append(plant)
+            row = cursor.fetchone()
+        cursor.close()
+        return plants
+
+    # Create filtering SQL statement
+    def create_filter_stmt(self, n, species, status, dec_or_evg):
+
+        if species == '' and status == '' and dec_or_evg == '':
+            return self.get_n_plants(n)
+
+        stmtStr = "SELECT common_name, lat, long, status FROM ( \
+                SELECT plant_indiv.common_name, plant_indiv.lat, plant_indiv.long, plant_indiv.status, species_info.dec_or_evg \
+                FROM plant_indiv JOIN species_info ON plant_indiv.common_name = species_info.common_name \
+            ) tmp"
+
+        # Append WHERE for names
+        for i in range(0, len(species)):
+            if i == 0:
+                stmtStr += " WHERE common_name = %s"
+            else:
+                stmtStr += " OR common_name = %s"
+            
+        # Append AND if necessary
+        if len(species) > 0 and len(status) > 0:
+            stmtStr += " AND"
+        elif len(species) > 0 and len(dec_or_evg) > 0:
+            stmtStr += " AND"
+
+        # Append WHERE for statuses
+        for i in range(0, len(status)):
+            if i == 0:
+                stmtStr += " WHERE status = %s"
+            else:
+                stmtStr += " OR status = %s"
     
+        # Append AND if necessary
+        if len(status) > 0 and len(dec_or_evg) > 0:
+            stmtStr += " AND"
+
+        # Append WHERE for dec_or_evg
+        for i in range(0, len(dec_or_evg)):
+            if i == 0:
+                stmtStr += " WHERE dec_or_evg = %s"
+            else:
+                stmtStr += " OR dec_or_evg = %s"
+
+        # Limit by n
+        stmtStr += " LIMIT %s"
+
+        stmtStr += ";"
+
+        # Create list of prepared values
+        vals = []
+        for spec in species:
+            vals.append(spec)
+        for stat in status:
+            vals.append(stat)
+        for(d_o_e in dec_or_evg):
+            vals.append(d_o_e)
+        vals.append(n)
+
+        return stmtStr, vals
+
 
 #---------------------------------------------------------------------------
 
