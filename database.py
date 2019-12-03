@@ -179,7 +179,7 @@ class Database:
 
         cursor = self._connection.cursor()
         stmtStr = "SELECT DISTINCT dec_or_evg FROM species_info;"
-        cursor.execute(stmt)
+        cursor.execute(stmtStr)
 
         dec_or_evg_vals = []
         
@@ -196,10 +196,7 @@ class Database:
 
         cursor = self._connection.cursor()
         stmtStr = "SELECT DISTINCT status FROM plant_indiv;"
-        cursor.execute(stmt)
-
-        return ["test"]
-        '''
+        cursor.execute(stmtStr)
 
         status_vals = []
         
