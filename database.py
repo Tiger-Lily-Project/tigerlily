@@ -217,12 +217,8 @@ class Database:
     # Gets filtered plants
     def get_filtered_plants(self, n, species, status, dec_or_evg):
 
-        plants = self.get_n_plants(n)
-
-        if species == '' and status == '' and dec_or_evg == '':
-            return plants
-
-        filtered_plants = []
+        if len(species) == 0 and len(status) == 0 and len(dec_or_evg) == 0:
+            return self.get_n_plants(n)
 
         stmtStr, vals = self.create_filter_stmt(n, species, status, dec_or_evg)
 
@@ -241,11 +237,6 @@ class Database:
 
     # Create filtering SQL statement
     def create_filter_stmt(self, n, species, status, dec_or_evg):
-
-        if len(species) == 0 and len(status) == 0 and len(dec_or_evg) == 0:
-            return self.get_n_plants(n)
-
-        print("NOT EMPTY")
 
         stmtStr = "SELECT common_name, lat, long, status FROM ( \
                 SELECT plant_indiv.common_name, plant_indiv.lat, plant_indiv.long, plant_indiv.status, species_info.dec_or_evg \
