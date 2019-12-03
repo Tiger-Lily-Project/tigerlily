@@ -163,9 +163,9 @@ def filter():
         plants = []
 
     # Render the home page, passing in the list of plants.
-    html = render_template('catalog.html', 
+    html = render_template('index.html', 
     plants = plants,
-    species = all_species,
+    all_species = all_species,
     status_vals = status_vals,
     dec_or_evg_vals = dec_or_evg_vals)
     response = make_response(html)
