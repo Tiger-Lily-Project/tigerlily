@@ -20,9 +20,10 @@ from flask_talisman import Talisman
 app = Flask(__name__, template_folder='.')
 csp = {
  'default-src': '\'self\'',
- 'script-src': '\'self\''
+ 'script-src': '\'self\'',
+ 'style-src': 'unsafe-inline'
 }
-talisman = Talisman(app, content_security_policy=csp, content_security_policy_nonce_in=['script-src'])
+talisman = Talisman(app, content_security_policy=csp, content_security_policy_nonce_in=['script-src', 'style-src'])
 
 #-----------------------------------------------------------------------
 
