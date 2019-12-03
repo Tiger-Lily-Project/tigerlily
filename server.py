@@ -147,8 +147,10 @@ def filter():
     try:
         database = Database()
         database.connect()
+
+        plants = database.get_n_plants(200)
         
-        plants = database.get_filtered_plants(200, species, status, dec_or_evg)
+        #plants = database.get_filtered_plants(200, species, status, dec_or_evg)
 
         all_species = database.get_all_species()
 
