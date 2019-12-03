@@ -242,7 +242,7 @@ class Database:
     # Create filtering SQL statement
     def create_filter_stmt(self, n, species, status, dec_or_evg):
 
-        if species == '' and status == '' and dec_or_evg == '':
+        if len(species) == 0 and len(status) == 0 and len(dec_or_evg) == 0:
             return self.get_n_plants(n)
 
         stmtStr = "SELECT common_name, lat, long, status FROM ( \

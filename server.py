@@ -28,20 +28,20 @@ def index():
     submit_button = request.form.get("submit_button")
 
     if submit_button == "Clear Filter":
-        species = ''
-        status = ''
-        dec_or_evg = ''
+        species = []
+        status = []
+        dec_or_evg = []
 
     else:
         species = request.form.getlist("species")
         if species is None:
-            species = ''
+            species = []
         status = request.form.getlist("status")
         if status is None:
-            status = ''
+            status = []
         dec_or_evg = request.form.getlist("dec_or_evg")
         if dec_or_evg is None:
-            dec_or_evg = ''
+            dec_or_evg = []
 
     # Gets a list of all plants available in the database.
     try:
