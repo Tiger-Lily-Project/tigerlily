@@ -292,7 +292,7 @@ class Database:
             vals.append(spec)
         for stat in status:
             vals.append(stat)
-        for(d_o_e in dec_or_evg):
+        for d_o_e in dec_or_evg:
             vals.append(d_o_e)
         vals.append(n)
 
