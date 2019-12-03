@@ -21,7 +21,7 @@ app = Flask(__name__, template_folder='.')
 #-----------------------------------------------------------------------
 
 # Renders the home page.
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 @app.route('/index')
 def index():
 
