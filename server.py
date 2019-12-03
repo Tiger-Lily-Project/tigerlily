@@ -88,8 +88,8 @@ def index():
         status_vals = []
         dec_or_evg_vals = []
 
-    print("index in server.py: ")
-    print(plants)
+    #print("index in server.py: ")
+    #print(plants)
 
     plants = json.dumps(plants)
 
