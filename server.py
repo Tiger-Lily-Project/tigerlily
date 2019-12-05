@@ -120,6 +120,11 @@ def getPins():
         database = Database()
         database.connect()
 
+        print("south: ", bounds["south"])
+        print("north: ", bounds["north"])
+        print("east: ", bounds["east"])
+        print("west: ", bounds["west"])
+
         plants = database.search_in_range(bounds["south"], bounds["north"], bounds["east"], bounds["west"])
 
         database.disconnect()
