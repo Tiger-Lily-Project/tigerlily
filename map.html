@@ -32,7 +32,7 @@ const markers_in_bounds = () => {
         type: "GET",
         contentType: "application/json",
         data: {bounds: JSON.stringify(bounds)},
-        success: addMarkers(data.plants)
+        success: function(data){addMarkers(data.plants)}
     });
     // (server updates plants array with plants in range)
 }
