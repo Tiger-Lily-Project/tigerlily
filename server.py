@@ -28,7 +28,7 @@ csp = {
 }
 talisman = Talisman(app, content_security_policy=None)
 
-#-----------------------------------------------------------------------
+#region Index
 
 # Renders the home page.
 @app.route('/')
@@ -113,7 +113,10 @@ def index():
     response = make_response(html)
 
     return response
-#-----------------------------------------------------------------------
+
+#endregion
+
+#region Details
 
 # Renders the details page.
 @app.route('/')
@@ -143,7 +146,10 @@ def plantdetails():
     response = make_response(html)
 
     return response
-#-----------------------------------------------------------------------
+
+#endregion
+
+#region Catalog
 
 # Renders the catalog page.
 @app.route('/')
@@ -171,7 +177,10 @@ def catalog():
     response = make_response(html)
 
     return response
-#-----------------------------------------------------------------------
+
+#endregion
+
+#region About
 
 # Renders the "about us" page.
 @app.route('/')
@@ -183,6 +192,41 @@ def about():
     response = make_response(html)
 
     return response
+
+#endregion
+
+#region Tour
+
+# Renders the tour page page.
+@app.route('/')
+@app.route('/tour')
+def tour():
+
+    ids = [572, 152, 3389, 3376, 3331, 656, 181, 271, 3260, 3485, 407, 874, 3109, 3906, 820, 3467, 793]
+
+    plants = []
+
+    try:
+        database = Database()
+        database.connect()
+
+        for id_num in ids:
+            plant = database.get_plant_by_id(id_num)
+            plants.append(plant)
+
+        database.disconnect()
+    
+    except:
+        plants = []
+
+    # Render the catalog page, passing in the list of species.
+    html = render_template('tour.html', plants = plants)
+    response = make_response(html)
+
+    return response
+
+#endregion
+    
 #-----------------------------------------------------------------------
 
 if __name__ == '__main__':

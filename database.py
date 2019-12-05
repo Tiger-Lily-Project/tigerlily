@@ -91,7 +91,7 @@ class Database:
     # Returns plant json dict based on id number
     def get_plant_by_id(self, num):
         cursor = self._connection.cursor()
-        stmt = "SELECT * FROM plant_indiv WHERE id = %s;"
+        stmt = "SELECT * FROM plant_indiv WHERE primary_id = %s;"
         cursor.execute(stmt, [num])
 
         row = cursor.fetchone()
