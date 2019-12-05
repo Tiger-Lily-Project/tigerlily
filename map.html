@@ -26,13 +26,13 @@ const markers_in_bounds = () => {
     console.log("bounds: ", bounds)
 
     // Send AJAX request to server
-    let url = '/'
+    let url = '/getPins'
     $.ajax({
         url: url,
         type: "GET",
         contentType: "application/json",
         data: {bounds: JSON.stringify(bounds)},
-        success: function(data){ console.log("plants after ajax: ", plants)}
+        success: function(data){ console.log("plants after ajax: ", data.plants)}
     });
     // (server updates plants array with plants in range)
 }

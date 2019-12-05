@@ -27,35 +27,16 @@ def index():
 
     # Gets a list of all plants available in the database.
     try:
-        bounds = request.args.get('bounds')
-        bounds = json.loads(bounds)
-        print("bounds: ")
-        print(bounds)
-
-        south = bounds["south"]
-        east = bounds["east"]
-
         database = Database()
         database.connect()
 
-        if bounds is None:
-            plants = database.get_n_plants(200)
-        else:
-            plants = database.search_in_range(south, east, 0.01) 
-            # plants = bounds
+        plants = database.get_n_plants(200)
 
         database.disconnect()
     except Exception as e:
         plants = []
     except Error as e:
         plants = []
-    #     print(e)
-
-    print("index in server.py: ")
-    print(plants)
-    print()
-
-    print(len(plants))
 
     # Render the home page, passing in the list of plants.
     html = render_template('index.html', plants = plants)
@@ -63,6 +44,28 @@ def index():
 
     return response
 #-----------------------------------------------------------------------
+
+@app.route('/getPins')
+def getPins():
+    print("in getPins")
+    try:
+        bounds = request.args.get('bounds')
+        bounds = json.loads(bounds)
+        print("bounds: ")
+        print(bounds)
+
+        database = Database()
+        database.connect()
+
+        south = bounds["south"]
+        east = bounds["east"]
+        plants = database.search_in_range(south, east, 0.01) 
+
+        database.disconnect()
+    except Exception as e:
+        plants = []
+    return json.jsonify(plants = plants)
+
 
 # Renders the home page.
 @app.route('/')
