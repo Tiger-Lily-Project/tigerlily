@@ -1,56 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <style>
+    /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+    .row.content {height: 550px}
+    
+    /* Set gray background color and 100% height */
+    .sidenav {
+      background-color: #f1f1f1;
+      height: 100%;
+    }
+        
+    /* On small screens, set height to 'auto' for the grid */
+    @media screen and (max-width: 767px) {
+      .row.content {height: auto;} 
+    }
+  </style>
+</head>
+<body>
 
-    <title>Theme Template for Bootstrap</title>
+<nav class="navbar navbar-inverse visible-xs">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="#">Logo</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">Dashboard</a></li>
+        <li><a href="#">Age</a></li>
+        <li><a href="#">Gender</a></li>
+        <li><a href="#">Geo</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
 
-    <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href=
-    "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-
-    <!-- Custom styles for this template -->
-    <link href="theme.css" rel="stylesheet">
-  </head>
-
-  <body>
-
-    <!-- Fixed navbar -->
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="index.html">Princeton University Plants</a>
+<div class="container-fluid">
+  <div class="row content">
+    <div class="col-sm-3 sidenav hidden-xs">
+      <h2>Logo</h2>
+      <ul class="nav nav-pills nav-stacked">
+        <li class="active"><a href="#section1">Dashboard</a></li>
+        <li><a href="#section2">Age</a></li>
+        <li><a href="#section3">Gender</a></li>
+        <li><a href="#section3">Geo</a></li>
+      </ul><br>
+    </div>
+    <br>
+    
+    <div class="col-sm-9">
+      <div class="well">
+        <h4>Dashboard</h4>
+        <p>Some text..</p>
+      </div>
+      <div class="row">
+        <div class="col-sm-3">
+          <div class="well">
+            <h4>Users</h4>
+            <p>1 Million</p> 
+          </div>
         </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li class="active"><a href="index.html">Home</a></li>
-            <li><a href="catalog.html">Catalog</a></li>
-            <li><a href="about.html">About</a></li>
-          </ul>
-        </div><!--/.nav-collapse -->
+        <div class="col-sm-3">
+          <div class="well">
+            <h4>Pages</h4>
+            <p>100 Million</p> 
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="well">
+            <h4>Sessions</h4>
+            <p>10 Million</p> 
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="well">
+            <h4>Bounce</h4>
+            <p>30%</p> 
+          </div>
+        </div>
       </div>
-    </nav>
-
-    <div class="container theme-showcase" role="main">
-
-      <!-- Main jumbotron for a primary marketing message or call to action -->
-      <div class="jumbotron">
-        <h1>Theme example</h1>
-        <p>This is a template showcasing the optional theme stylesheet included in Bootstrap. Use it as a starting point to create something more unique by building on or modifying it.</p>
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="well">
+            <p>Text</p> 
+            <p>Text</p> 
+            <p>Text</p> 
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="well">
+            <p>Text</p> 
+            <p>Text</p> 
+            <p>Text</p> 
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="well">
+            <p>Text</p> 
+            <p>Text</p> 
+            <p>Text</p> 
+          </div>
+        </div>
       </div>
+      <div class="row">
+        <div class="col-sm-8">
+          <div class="well">
+            <p>Text</p> 
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="well">
+            <p>Text</p> 
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-    </div> <!-- /container -->
-
-  </body>
+</body>
 </html>
