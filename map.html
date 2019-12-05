@@ -32,7 +32,7 @@ const markers_in_bounds = () => {
         type: "GET",
         contentType: "application/json",
         data: {bounds: JSON.stringify(bounds)},
-        success: function(data){ console.log("plants after ajax: ", data.plants)}
+        success: addMarkers(data.plants)
     });
     // (server updates plants array with plants in range)
 }
@@ -41,7 +41,7 @@ function handleResponse(response) {
     console.log("whatever")
 }
 
-const addMarkers = () => {
+const addMarkers = (plants) => {
     // place plants 
     var infowindow = new google.maps.InfoWindow();
     var contentString;
