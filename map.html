@@ -32,7 +32,10 @@ const markers_in_bounds = () => {
         type: "GET",
         contentType: "application/json",
         data: {bounds: JSON.stringify(bounds)},
-        success: function(data){addMarkers(data.plants)}
+        success: function(data){
+            console.log(data)
+            addMarkers(data.plants)
+        }
     });
     // (server updates plants array with plants in range)
 }
@@ -42,7 +45,6 @@ function handleResponse(response) {
 }
 
 const addMarkers = (plants) => {
-    console.log(plants)
     // place plants 
     var infowindow = new google.maps.InfoWindow();
     var contentString;
