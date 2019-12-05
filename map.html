@@ -94,9 +94,9 @@ const addMarkers = (plants) => {
   
 function initMap() {
     // console.log('{{plants | safe}}')
-    plants = '{{plants | safe}}'
-    console.log("plants in init: ", plants)
-    plants = JSON.parse(plants)
+    // plants = '{{plants | safe}}'
+    // console.log("plants in init: ", plants)
+    // plants = JSON.parse(plants)
 
     map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: 40.3471, lng: -74.6566},
