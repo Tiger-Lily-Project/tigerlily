@@ -184,6 +184,17 @@ def about():
 
     return response
 #-----------------------------------------------------------------------
+# Renders the "about us" page.
+@app.route('/')
+@app.route('/test')
+def test():
+
+    # Render the catalog page, passing in the list of species.
+    html = render_template('test.html')
+    response = make_response(html)
+
+    return response
+#-----------------------------------------------------------------------
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=10101, debug=True)
