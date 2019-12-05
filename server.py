@@ -189,8 +189,81 @@ def about():
 @app.route('/test')
 def test():
 
-    # Render the catalog page, passing in the list of species.
-    html = render_template('test.html')
+      submit_button = request.args.get("submit_button")
+
+    if submit_button == "Clear Filter":
+        species = []
+        status = []
+        dec_or_evg = []
+
+    else:
+        species = request.args.getlist("species")
+        if species is None:
+            species = []
+        status = request.args.getlist("status")
+        if status is None:
+            status = []
+        dec_or_evg = request.args.getlist("dec_or_evg")
+        if dec_or_evg is None:
+            dec_or_evg = []
+
+    print("SPECIES")
+    print(species)
+    print("STATUS")
+    print(status)
+    print("DEC OR EVG")
+    print(dec_or_evg)
+
+    # Gets a list of all plants available in the database.
+    try:
+        database = Database()
+        database.connect()
+        plants = database.get_filtered_plants(200, species, status, dec_or_evg)
+
+        all_species = database.get_all_species()
+
+        status_vals = database.get_status_vals()
+        
+        dec_or_evg_vals = database.get_dec_or_evg_vals()
+
+        # print("in try")
+        # plants = []
+        # plant1 = Plant("plant1", 40.3471, -74.6566, "rip")
+        # print("made a plant")
+        # plant1 = Plant.getDict(plant1)
+        # print("got json")
+        # plants.append(plant1)
+        # print(plants)
+
+        database.disconnect()
+
+    except Exception as e:
+        print("EXCEPTION")
+        print(e)
+        plants = []
+        all_species = []
+        status_vals = []
+        dec_or_evg_vals = []
+    except Error as e:
+        print("ERROR")
+        print(e)
+        plants = []
+        all_species = []
+        status_vals = []
+        dec_or_evg_vals = []
+
+    #print("index in server.py: ")
+    #print(plants)
+
+    plants = json.dumps(plants)
+
+    # Render the home page, passing in the list of plants.
+    html = render_template('test.html', 
+    plants = plants,
+    all_species = all_species,
+    status_vals = status_vals,
+    dec_or_evg_vals = dec_or_evg_vals)
+
     response = make_response(html)
 
     return response
