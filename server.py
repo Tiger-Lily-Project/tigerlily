@@ -190,7 +190,6 @@ def about():
 @app.route('/indextest')
 def about():
 
-    # Render the catalog page, passing in the list of species.
     html = render_template('indextest.html')
     response = make_response(html)
 
