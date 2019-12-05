@@ -163,7 +163,7 @@ class Database:
         search_values = []
 
         # Creates the baseline statement.
-        stmtStr = "SELECT * FROM plant_indiv WHERE lat >= %s AND lat <= %s AND long >= %s AND long <= %s"
+        stmtStr = "SELECT * FROM plant_indiv WHERE lat >= %s AND lat <= %s AND long <= %s AND long >= %s"
 
         # Append the boundaries for the latitude and longitude ranges.
         search_values.append(minLat)
