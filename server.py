@@ -120,9 +120,8 @@ def getPins():
         database = Database()
         database.connect()
 
-        south = bounds["south"]
-        east = bounds["east"]
-        plants = database.search_in_range(south, east, 0.01) 
+        plants = database.search_in_range(south, east, 0.01)
+        plants = database.search_in_range(bounds["south"], bounds["north"], bounds["east"], bounds["west"]):
 
         database.disconnect()
     except Exception as e:
