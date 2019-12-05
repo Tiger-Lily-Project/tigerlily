@@ -126,6 +126,8 @@ def getPins():
         database.disconnect()
     except Exception as e:
         plants = []
+    
+    print(plants)
     return json.jsonify(plants = plants)
 
 
