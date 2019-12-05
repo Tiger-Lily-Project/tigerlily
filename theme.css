@@ -7,6 +7,7 @@ body {
   position: static;
   display: block;
   margin-bottom: 20px;
+  padding-top: 80px;
 }
 
 .theme-showcase > p > .btn {
@@ -16,4 +17,5 @@ body {
 
 .theme-showcase .navbar .container {
   width: auto;
+  padding-top: 80px;
 }
