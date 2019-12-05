@@ -126,6 +126,7 @@ def getPins():
         print("west: ", bounds["west"])
 
         plants = database.search_in_range(bounds["south"], bounds["north"], bounds["east"], bounds["west"])
+        print(plants)
 
         database.disconnect()
     except Exception as e:
