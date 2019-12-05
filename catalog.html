@@ -68,12 +68,13 @@
       <div class="well">
         <h2>{{first_char}}</h2>
           {% for species_info in species[first_char]: %}
-          <img src="/static/images/{{species_info.getImg()}}" alt="test" width = "150">
           <br>
           <a href="plantdetails?common_name={{species_info.getEncodedCommonName()}}">{{species_info.getCommonName()}}</a>
+          <br>
+          <img src="/static/images/{{species_info.getImg()}}" alt="test" width = "150">
           {% endfor %}
-      {% endfor %}
       </div>
+      {% endfor %}
     </div>
   </div>
 </div>
