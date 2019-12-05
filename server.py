@@ -72,14 +72,7 @@ def index():
         
         dec_or_evg_vals = database.get_dec_or_evg_vals()
 
-        # print("in try")
-        # plants = []
-        # plant1 = Plant("plant1", 40.3471, -74.6566, "rip")
-        # print("made a plant")
-        # plant1 = Plant.getDict(plant1)
-        # print("got json")
-        # plants.append(plant1)
-        # print(plants)
+        plants = database.get_n_plants(200)
 
         database.disconnect()
 
@@ -115,7 +108,36 @@ def index():
     return response
 #-----------------------------------------------------------------------
 
-# Renders the details page.
+@app.route('/getPins')
+def getPins():
+    print("in getPins")
+    try:
+        bounds = request.args.get('bounds')
+        bounds = json.loads(bounds)
+        print("bounds: ")
+        print(bounds)
+
+        database = Database()
+        database.connect()
+
+        print("south: ", bounds["south"])
+        print("north: ", bounds["north"])
+        print("east: ", bounds["east"])
+        print("west: ", bounds["west"])
+
+        plants = database.search_in_range(bounds["south"], bounds["north"], bounds["east"], bounds["west"])
+        print(plants)
+
+        database.disconnect()
+    except Exception as e:
+        plants = []
+        print(e)
+    
+    print(plants)
+    return json.jsonify(plants = plants)
+
+
+# Renders the home page.
 @app.route('/')
 @app.route('/plantdetails')
 def plantdetails():
