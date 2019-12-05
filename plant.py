@@ -32,7 +32,7 @@ class Plant:
         return self._status
 
     def getIdNum(self):
-        return self._id
+        return self._id_num
 
     def getDict(self):
         json = {}

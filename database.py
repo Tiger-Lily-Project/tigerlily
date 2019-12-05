@@ -200,14 +200,18 @@ class Database:
         cursor = self._connection.cursor()
 
         stmtStr, vals = self.create_filter_stmt(n, species, status, dec_or_evg)
+        print("made stmt")
 
         cursor.execute(stmtStr, vals)
+        print("executed")
 
         plants = []
         row = cursor.fetchone()
         while row is not None:
             plant = Plant(str(row[0]), str(row[1]), str(row[2]), str(row[3]), str(row[4]))
+            print("made plant")
             plant = Plant.getDict(plant)
+            print("made into dict")
            
             plants.append(plant)
             row = cursor.fetchone()
