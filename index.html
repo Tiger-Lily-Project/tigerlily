@@ -24,6 +24,64 @@
   <body>
       {% include 'header.html' %}
     <br>
+    <a href="catalog">Catalog</a>
+    <br>
+    <br>
+    <form action="index" method="get">
+      <table>
+        <tr>
+          <td align="left">
+            FILTER BY:
+          </td>
+          <td align="left">
+            SPECIES
+          </td>
+          <td align="left">
+            STATUS
+          </td>
+          <td align="left">
+            SEASONALITY
+          </td>
+          <td align="left">
+              <input type="submit" name="submit_button" value="Clear Filter">
+          </td>
+        </tr>
+        <tr>
+          <td align="left">
+            Show only:
+          </td>
+          <td align="left">
+            <select multiple name="species">
+            {% for first_char in all_species: %}
+              {% for species_info in all_species[first_char]: %}
+                <option value="{{species_info.getCommonName()}}">{{species_info.getCommonName()}}</option>
+              {% endfor %}
+            {% endfor %}
+            </select>
+          </td>
+          <td align="left">
+            <select multiple name="status">
+            {% for status in status_vals: %}
+              <option value="{{status}}">{{status}}</option>
+            {% endfor %}
+            </select>
+          </td>
+          <td align="left">
+            <select multiple name="dec_or_evg">
+            {% for dec_or_evg in dec_or_evg_vals: %}
+              <option value="{{dec_or_evg}}">{{dec_or_evg}}</option>
+            {% endfor %}
+            </select>
+          </td>
+          <td align="left">
+            <input type="submit" name="submit_button" value="Apply Filter">
+          </td>
+        </tr>
+      </table>
+    </form>
+    <br>
+    <a href="about">About Us</a>
+    <br>
     <div id="map"></div>
     {% include 'map.html' %}
     <!-- <script async defer

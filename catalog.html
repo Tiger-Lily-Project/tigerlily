@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Catalog</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+  </head>
+  <body>
+    {% include 'header.html' %}
+    <form action="catalog" method="get">
+        <table>
+           <tr>
+              <td align="left">Search by common name:</td>
+              <td align="left"><input type="text" name="search" value={{search}}></td>
+              <td align="left"><input type="submit" value="Search"></td>
+           </tr>
+        </table>
+     </form>
+    <table>
+    <a href="catalog">Display all trees</a>
+    {% for first_char in species: %}
+        <tr>
+          <td align="left"><h2>{{first_char}}</h2></td>
+          <td align="left"></td>
+        </tr>
+        {% for species_info in species[first_char]: %}
+        <tr>
+          <td align="left"><img src="/static/images/{{species_info.getImg()}}" alt="test" width = "150"></td>
+          <td align="left">
+            <a href="plantdetails?common_name={{species_info.getEncodedCommonName()}}">{{species_info.getCommonName()}}</a>
+          </td>
+        </tr>
+        {% endfor %}
+    {% endfor %}
+    </table>
+    {% include 'footer.html' %}
+  </body>
+</html>
