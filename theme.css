@@ -7,15 +7,14 @@ body {
   position: static;
   display: block;
   margin-bottom: 20px;
-  padding-top: 80px;
+
 }
 
 .theme-showcase > p > .btn {
   margin: 5px 0;
-  padding-top: 80px;
+
 }
 
 .theme-showcase .navbar .container {
   width: auto;
-  padding-top: 80px;
 }
