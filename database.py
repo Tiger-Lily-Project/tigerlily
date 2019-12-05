@@ -283,8 +283,9 @@ class Database:
     # Returns statement and ordered list of search values
     def create_filter_stmt(self, n, species, status, dec_or_evg):
 
-        stmtStr = "SELECT common_name, lat, long, status FROM ( \
-                SELECT plant_indiv.common_name, plant_indiv.lat, plant_indiv.long, plant_indiv.status, species_info.dec_or_evg \
+        stmtStr = "SELECT common_name, lat, long, status, primary_id FROM ( \
+                SELECT plant_indiv.common_name, plant_indiv.lat, plant_indiv.long, plant_indiv.status, \
+                    plant_indiv.primary_id, species_info.dec_or_evg \
                 FROM plant_indiv JOIN species_info ON plant_indiv.common_name = species_info.common_name \
             ) tmp WHERE"
 
