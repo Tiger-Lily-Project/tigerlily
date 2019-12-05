@@ -81,8 +81,6 @@ def index():
         # plants.append(plant1)
         # print(plants)
 
-        database.disconnect()
-
     except Exception as e:
         print("EXCEPTION")
         print(e)
@@ -97,6 +95,8 @@ def index():
         all_species = []
         status_vals = []
         dec_or_evg_vals = []
+
+    database.disconnect()
 
     #print("index in server.py: ")
     #print(plants)

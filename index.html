@@ -116,6 +116,7 @@ const addMarkers = () => {
         // console.log("lng: ", lng)
         var lng = parseFloat(plants[i].lng);
         var title = plants[i].title;
+        var titleNum = plants[i].title + " " + plants[i].id_num;
         var titleURL = encodeURIComponent(title.trim());
         // console.log("title: " + title)
         // console.log(i, lat, lng);
@@ -128,7 +129,7 @@ const addMarkers = () => {
                 lat: lat,
                 lng: lng
             },
-            title: title,
+            title: titleNum,
             clickable: true
         });
 
@@ -140,6 +141,7 @@ const addMarkers = () => {
                 '</div>'+
                 '<h1 id="firstHeading" class="firstHeading">'+
                 plants[i].title+
+                plants[i].id_num+
                 '</h1>'+
                 '<div id="bodyContent">'+
                 '<p><a href=plantdetails?common_name='+
