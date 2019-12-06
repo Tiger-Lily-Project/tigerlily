@@ -202,7 +202,7 @@ class Database:
 
         cursor = self._connection.cursor()
 
-        stmtStr, vals = self.create_filter_stmt(n, species, dec_or_evg, south, north, east, west)
+        stmtStr, vals = self.create_filter_stmt(species, dec_or_evg, south, north, east, west)
 
         cursor.execute(stmtStr, vals)
 
