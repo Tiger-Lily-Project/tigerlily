@@ -101,6 +101,11 @@ def getPins():
         species = request.cookies.get('species')
         dec_or_evg = request.cookies.get('dec_or_evg')
 
+        print("SPECIES FROM REQUEST")
+        print(species)
+        print("DOE FROM REQUEST")
+        print(dec_or_evg)
+
         print("south: ", south)
         print("north: ", north)
         print("east: ", east)
