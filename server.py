@@ -64,7 +64,7 @@ def index():
     try:
         database = Database()
         database.connect()
-        plants = database.get_filtered_plants(species, status, dec_or_evg)
+        plants = database.get_filtered_plants(species, dec_or_evg)
 
         all_species = database.get_all_species()
         
@@ -130,10 +130,6 @@ def getPins():
         database = Database()
         database.connect()
 
-        all_species = database.get_all_species()
-        
-        dec_or_evg_vals = database.get_dec_or_evg_vals()
-
         south = bounds["south"]
         north = bounds["north"]
         east = bounds["east"]
@@ -144,7 +140,7 @@ def getPins():
         print("east: ", east)
         print("west: ", west)
 
-        plants = database.get_filtered_plants(all_species, dec_or_evg_vals, south, north, east, west)
+        plants = database.get_filtered_plants(species, dec_or_evg, south, north, east, west)
         print(plants)
 
         database.disconnect()
