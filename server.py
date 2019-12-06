@@ -60,7 +60,7 @@ def index():
     print("DEC OR EVG INDEX")
     print(dec_or_evg)
     print()
-    print(all_species)
+
     # Gets a list of all plants available in the database.
     try:
         database = Database()
@@ -68,6 +68,8 @@ def index():
         plants = database.get_filtered_plants(species, dec_or_evg)
 
         all_species = database.get_all_species()
+
+        print(all_species)
         
         dec_or_evg_vals = database.get_dec_or_evg_vals()
 
