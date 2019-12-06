@@ -81,6 +81,8 @@ def getPins():
     print("in getPins")
     try:
         bounds = request.args.get('bounds')
+        bounds = json.loads(bounds)
+
         south = bounds["south"]
         north = bounds["north"]
         east = bounds["east"]
@@ -91,10 +93,10 @@ def getPins():
         print("east: ", east)
         print("west: ", west)
 
-        species = request.GET.get('species')
+        species = request.GET["species"]
         if species is None:
             species = []
-        dec_or_evg = request.GET.get('dec_or_evg')
+        dec_or_evg = request.GET["dec_or_evg"]
         if dec_or_evg is None:
             dec_or_evg = []
 
