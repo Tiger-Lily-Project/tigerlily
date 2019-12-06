@@ -34,7 +34,7 @@ talisman = Talisman(app, content_security_policy=None)
 @app.route('/')
 @app.route('/index')
 def index():
-
+    print("in index")
     submit_button = request.args.get("submit_button")
 
     if submit_button == "Clear Filter":
@@ -59,7 +59,8 @@ def index():
     print(status)
     print("DEC OR EVG INDEX")
     print(dec_or_evg)
-
+    print()
+    print(all_species)
     # Gets a list of all plants available in the database.
     try:
         database = Database()
