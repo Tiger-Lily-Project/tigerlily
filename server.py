@@ -103,8 +103,10 @@ def getPins():
 
         print("SPECIES FROM REQUEST")
         print(species)
+        print(len(species))
         print("DOE FROM REQUEST")
         print(dec_or_evg)
+        print(len(dec_or_evg))
 
         print("south: ", south)
         print("north: ", north)
