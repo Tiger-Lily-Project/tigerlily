@@ -31,7 +31,7 @@ const markers_in_bounds = () => {
         url: url,
         type: "GET",
         contentType: "application/json",
-        data: {bounds: JSON.stringify(bounds)},
+        data: {bounds: JSON.stringify(bounds), species: species, dec_or_evg: dec_or_evg},
         success: function(data){
             console.log(data)
             addMarkers(data.plants)
