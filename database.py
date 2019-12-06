@@ -198,6 +198,7 @@ class Database:
     def get_filtered_plants(self, species, dec_or_evg, south, north, east, west):
 
         if len(species) == 0 and len(dec_or_evg) == 0:
+            print("not filtering")
             return self.search_in_range(south, north, east, west)
 
         cursor = self._connection.cursor()
@@ -205,6 +206,7 @@ class Database:
         stmtStr, vals = self.create_filter_stmt(species, dec_or_evg, south, north, east, west)
 
         cursor.execute(stmtStr, vals)
+        print("executed")
 
         plants = []
         row = cursor.fetchone()
