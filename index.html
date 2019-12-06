@@ -78,32 +78,41 @@
     <br>
     
     <div class="col-sm-9">
-      <div class="well">
-          Filter By (hold shift to select more than one):
-          <div class="row">
-            <div class="col-sm-3">
-                <label for="sel1">Species:</label>
-                <select multiple class="form-control" id="sel1">
-                    {% for first_char in all_species: %}
-                    {% for species_info in all_species[first_char]: %}
-                      <option value="{{species_info.getCommonName()}}">{{species_info.getCommonName()}}</option>
-                    {% endfor %}
-                  {% endfor %}
-                </select>
-            </div>
-            <div class="col-sm-3">
-                <label for="sel2">Seasonality:</label>
-                <select multiple class="form-control" id="sel2">
-                   {% for dec_or_evg in dec_or_evg_vals: %}
-                   <option value="{{dec_or_evg}}">{{dec_or_evg}}</option>
-                   {% endfor %}
-                </select>
-            </div>
-            <div class="col-sm-3">
-                <button type="button" class="btn btn-primary">Apply Filter</button>
+        <button class="btn btn-primary hidden visible-xs" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+            Filter By:
+          </button>
+          
+          <div class="collapse dont-collapse-sm" id="collapseExample">
+            <div class="well">
+                <h4>Filter By (hold shift to select more than one):</h4>
+                <div class="row">
+                  <div class="col-sm-3">
+                      <label for="sel1">Species:</label>
+                      <select multiple class="form-control" id="sel1">
+                          {% for first_char in all_species: %}
+                          {% for species_info in all_species[first_char]: %}
+                            <option value="{{species_info.getCommonName()}}">{{species_info.getCommonName()}}</option>
+                          {% endfor %}
+                        {% endfor %}
+                      </select>
+                  </div>
+                  <div class="col-sm-3">
+                      <label for="sel2">Seasonality:</label>
+                      <select multiple class="form-control" id="sel2">
+                         {% for dec_or_evg in dec_or_evg_vals: %}
+                         <option value="{{dec_or_evg}}">{{dec_or_evg}}</option>
+                         {% endfor %}
+                      </select>
+                  </div>
+                  <div class="col-sm-3">
+                      <br>
+                      <button type="button" class="btn btn-primary">Apply Filter</button>
+                  </div>
+                </div>
             </div>
           </div>
-        </div>
+
+      
       <div id="map"> </div>
     </div>
   </div>
