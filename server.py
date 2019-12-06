@@ -53,18 +53,18 @@ def index():
         if dec_or_evg is None:
             dec_or_evg = []
 
-    print("SPECIES")
+    print("SPECIES INDEX")
     print(species)
-    print("STATUS")
+    print("STATUS INDEX")
     print(status)
-    print("DEC OR EVG")
+    print("DEC OR EVG INDEX")
     print(dec_or_evg)
 
     # Gets a list of all plants available in the database.
     try:
         database = Database()
         database.connect()
-        plants = database.get_filtered_plants(200, species, status, dec_or_evg)
+        plants = database.get_filtered_plants(species, status, dec_or_evg)
 
         all_species = database.get_all_species()
         
@@ -134,8 +134,6 @@ def getPins():
         
         dec_or_evg_vals = database.get_dec_or_evg_vals()
 
-        plants = database.get_n_plants(200)
-
         south = bounds["south"]
         north = bounds["north"]
         east = bounds["east"]
@@ -150,7 +148,7 @@ def getPins():
         print(plants)
 
         database.disconnect()
-        
+
     except Exception as e:
         plants = []
         print(e)
