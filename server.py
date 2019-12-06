@@ -141,7 +141,6 @@ def getPins():
         print("west: ", west)
 
         plants = database.get_filtered_plants(species, dec_or_evg, south, north, east, west)
-        print(plants)
 
         database.disconnect()
 
@@ -149,7 +148,6 @@ def getPins():
         plants = []
         print(e)
     
-    print(plants)
     return json.jsonify(plants = plants)
 
 
