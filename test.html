@@ -4,7 +4,6 @@
   <title>Bootstrap Example</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="shortcut icon" type="image/ico" href="/static/favicon.ico">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
@@ -22,18 +21,6 @@
     /* On small screens, set height to 'auto' for the grid */
     @media screen and (max-width: 767px) {
       .row.content {height: auto;} 
-    }
-
-    html, body{
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    }
-    
-    #map{
-    position: relative; 
-    height: 600px;
     }
   </style>
 </head>
@@ -78,48 +65,13 @@
     <br>
     
     <div class="col-sm-9">
-        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-            Filter By:
-        </button>
-
-        <div class="collapse" id="collapseExample">
-            <div class="well">
-                <h4>Hold shift to select more than one</h4>
-                <div class="row">
-                  <div class="col-sm-3">
-                      <label for="sel1">Species:</label>
-                      <select multiple class="form-control" id="sel1">
-                          {% for first_char in all_species: %}
-                          {% for species_info in all_species[first_char]: %}
-                            <option value="{{species_info.getCommonName()}}">{{species_info.getCommonName()}}</option>
-                          {% endfor %}
-                        {% endfor %}
-                      </select>
-                  </div>
-                  <div class="col-sm-3">
-                      <label for="sel2">Seasonality:</label>
-                      <select multiple class="form-control" id="sel2">
-                         {% for dec_or_evg in dec_or_evg_vals: %}
-                         <option value="{{dec_or_evg}}">{{dec_or_evg}}</option>
-                         {% endfor %}
-                      </select>
-                  </div>
-                  <div class="col-sm-3">
-                      <br>
-                      <button type="button" class="btn btn-primary">Apply Filter</button>
-                  </div>
-                </div>
-              </div>   
-        </div>
-
-     
-      <div id="map"> 
+      <div class="well">
+        <h4>Dashboard</h4>
+        <p>Some text..</p>
       </div>
     </div>
   </div>
 </div>
 
-{% include 'map.html' %}
 </body>
-
 </html>
