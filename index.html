@@ -79,7 +79,34 @@
     
     <div class="col-sm-9">
       <div class="well">
-          <form action="index" method="get">
+          Filter By:
+          <div class="row">
+            <div class="col-sm-3">
+                <h3>SPECIES</h3>
+
+            </div>
+            <div class="col-sm-3">
+
+            </div>
+            <div class="col-sm-3">
+
+            </div>
+            <div class="col-sm-3">
+
+            </div>
+          </div>
+        </div>
+      <div id="map"> </div>
+    </div>
+  </div>
+</div>
+
+{% include 'map.html' %}
+</body>
+
+</html>
+
+<form action="index" method="get">
               <table>
                 <tr>
                   <td align="left">
@@ -131,13 +158,3 @@
                 </tr>
               </table>
             </form>
-      </div>
-      <div id="map"> </div>
-    </div>
-  </div>
-</div>
-
-{% include 'map.html' %}
-</body>
-
-</html>
