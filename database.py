@@ -197,7 +197,7 @@ class Database:
     # Gets filtered plants
     def get_filtered_plants(self, species, dec_or_evg, south, north, east, west):
 
-        if len(species) == 0 and len(status) == 0 and len(dec_or_evg) == 0:
+        if len(species) == 0 and len(dec_or_evg) == 0:
             return self.search_in_range(south, north, east, west)
 
         cursor = self._connection.cursor()
@@ -252,7 +252,6 @@ class Database:
             vals.append(spec)
         for d_o_e in dec_or_evg:
             vals.append(d_o_e)
-        vals.append(n)
 
         return stmtStr, vals
 
