@@ -81,14 +81,20 @@ def getPins():
     print("in getPins")
     try:
         bounds = request.args.get('bounds')
-        bounds = json.loads(bounds)
-        print("bounds: ")
-        print(bounds)
+        south = bounds["south"]
+        north = bounds["north"]
+        east = bounds["east"]
+        west = bounds["west"]
 
-        species = request.args.getlist("species")
+        print("south: ", south)
+        print("north: ", north)
+        print("east: ", east)
+        print("west: ", west)
+
+        species = request.GET['species']
         if species is None:
             species = []
-        dec_or_evg = request.args.getlist("dec_or_evg")
+        dec_or_evg = request.GET['dec_or_evg']
         if dec_or_evg is None:
             dec_or_evg = []
 
@@ -99,16 +105,6 @@ def getPins():
 
         database = Database()
         database.connect()
-
-        south = bounds["south"]
-        north = bounds["north"]
-        east = bounds["east"]
-        west = bounds["west"]
-
-        print("south: ", south)
-        print("north: ", north)
-        print("east: ", east)
-        print("west: ", west)
 
         plants = database.get_filtered_plants(species, dec_or_evg, south, north, east, west)
 
