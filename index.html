@@ -79,10 +79,10 @@
     
     <div class="col-sm-9">
       <div class="well">
-          Filter By:
+          Filter By (hold shift to select more than one):
           <div class="row">
             <div class="col-sm-3">
-                <label for="sel1">Species (hold shift to select more than one):</label>
+                <label for="sel1">Species:</label>
                 <select multiple class="form-control" id="sel1">
                     {% for first_char in all_species: %}
                     {% for species_info in all_species[first_char]: %}
@@ -100,10 +100,7 @@
                 </select>
             </div>
             <div class="col-sm-3">
-                <input type="submit" name="submit_button" value="Apply Filter">
-            </div>
-            <div class="col-sm-3">
-
+                <button type="button" class="btn btn-primary">Apply Filter</button>
             </div>
           </div>
         </div>
