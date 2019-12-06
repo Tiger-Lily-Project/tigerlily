@@ -40,10 +40,10 @@ def index():
         database = Database()
         database.connect()
 
-        species = request.args.get("species")
+        species = request.args.getlist("species")
         if species is None:
             species = []
-        dec_or_evg = request.args.get("dec_or_evg")
+        dec_or_evg = request.args.getlist("dec_or_evg")
         if dec_or_evg is None:
             dec_or_evg = []
 
