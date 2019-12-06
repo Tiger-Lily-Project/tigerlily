@@ -211,7 +211,6 @@ class Database:
         stmtStr, vals = self.create_filter_stmt(species, dec_or_evg, south, north, east, west)
 
         cursor.execute(stmtStr, vals)
-        print("executed")
 
         plants = []
         row = cursor.fetchone()
@@ -239,14 +238,10 @@ class Database:
                 stmtStr += " common_name = %s"
             else:
                 stmtStr += " OR common_name = %s"
-
-        print("appended species")
             
         # Append AND if necessary
         if len(species) > 0 and len(dec_or_evg) > 0:
             stmtStr += " AND"
-
-        print("appended and ")
 
         # Append WHERE for dec_or_evg
         for i in range(0, len(dec_or_evg)):
@@ -254,8 +249,6 @@ class Database:
                 stmtStr += " dec_or_evg = %s"
             else:
                 stmtStr += " OR dec_or_evg = %s"
-
-        print("appended dec or evg")
 
         stmtStr += ";"
 

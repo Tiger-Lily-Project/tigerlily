@@ -41,8 +41,6 @@ def index():
         database.connect()
 
         all_species = database.get_all_species()
-
-        print(all_species)
         
         dec_or_evg_vals = database.get_dec_or_evg_vals()
 
