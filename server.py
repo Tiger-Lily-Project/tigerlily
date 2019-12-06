@@ -52,9 +52,6 @@ def index():
         print("DEC OR EVG")
         print(dec_or_evg)
 
-        request.cookies.set("species", species)
-        request.cookies.set("dec_or_evg", dec_or_evg)
-
         all_species = database.get_all_species()
         
         dec_or_evg_vals = database.get_dec_or_evg_vals()
@@ -64,7 +61,6 @@ def index():
     except Exception as e:
         print("EXCEPTION")
         print(e)
-        plants = []
         species = []
         dec_or_evg = []
         all_species = []
@@ -74,18 +70,18 @@ def index():
         print(e)
         species = []
         dec_or_evg = []
-        plants = []
         all_species = []
         dec_or_evg_vals = []
 
     # Render the home page, passing in the list of plants.
     html = render_template('index.html',
-    species = species,
-    dec_or_evg = dec_or_evg,
     all_species = all_species,
     dec_or_evg_vals = dec_or_evg_vals)
 
     response = make_response(html)
+
+    response.cookies.set("species", species)
+    response.cookies.set("dec_or_evg", dec_or_evg)
 
     return response
 #-----------------------------------------------------------------------
