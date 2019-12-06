@@ -80,8 +80,8 @@ def index():
 
     response = make_response(html)
 
-    response.cookies.set("species", species)
-    response.cookies.set("dec_or_evg", dec_or_evg)
+    response.set_cookie("species", species)
+    response.set_cookie("dec_or_evg", dec_or_evg)
 
     return response
 #-----------------------------------------------------------------------
