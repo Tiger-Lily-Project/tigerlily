@@ -27,15 +27,11 @@ const markers_in_bounds = () => {
 
     // Send AJAX request to server
     let url = '/getPins'
-    console.log("in get pins")
-    console.log(species)
-    let species = species
-    let dec_or_evg = dec_or_evg
     $.ajax({
         url: url,
         type: "GET",
         contentType: "application/json",
-        data: {bounds: JSON.stringify(bounds), species: species, dec_or_evg: dec_or_evg},
+        data: {bounds: JSON.stringify(bounds)},
         success: function(data){
             console.log(data)
             addMarkers(data.plants)

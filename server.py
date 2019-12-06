@@ -52,6 +52,9 @@ def index():
         print("DEC OR EVG")
         print(dec_or_evg)
 
+        request.cookies.set("species", species)
+        request.cookies.set("dec_or_evg", dec_or_evg)
+
         all_species = database.get_all_species()
         
         dec_or_evg_vals = database.get_dec_or_evg_vals()
@@ -99,8 +102,8 @@ def getPins():
         east = bounds["east"]
         west = bounds["west"]
 
-        species = request.args.get('species')
-        dec_or_evg = request.args.get('dec_or_evg')
+        species = request.cookies.get('species')
+        dec_or_evg = request.cookies.get('dec_or_evg')
 
         print("south: ", south)
         print("north: ", north)
