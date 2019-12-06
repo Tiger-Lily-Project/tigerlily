@@ -40,11 +40,21 @@ def index():
         database = Database()
         database.connect()
 
+        species = request.args.get("species")
+        if species is None:
+            species = []
+        dec_or_evg = request.args.get("dec_or_evg")
+        if dec_or_evg is None:
+            dec_or_evg = []
+
+        print("SPECIES")
+        print(species)
+        print("DEC OR EVG")
+        print(dec_or_evg)
+
         all_species = database.get_all_species()
         
         dec_or_evg_vals = database.get_dec_or_evg_vals()
-
-        plants = database.get_n_plants(200)
 
         database.disconnect()
 
@@ -52,22 +62,23 @@ def index():
         print("EXCEPTION")
         print(e)
         plants = []
+        species = []
+        dec_or_evg = []
         all_species = []
         dec_or_evg_vals = []
     except Error as e:
         print("ERROR")
         print(e)
+        species = []
+        dec_or_evg = []
         plants = []
         all_species = []
         dec_or_evg_vals = []
 
-    #print("index in server.py: ")
-    #print(plants)
-
-    plants = json.dumps(plants)
-
     # Render the home page, passing in the list of plants.
-    html = render_template('index.html', 
+    html = render_template('index.html',
+    species = species,
+    dec_or_evg = dec_or_evg,
     all_species = all_species,
     dec_or_evg_vals = dec_or_evg_vals)
 
@@ -88,22 +99,13 @@ def getPins():
         east = bounds["east"]
         west = bounds["west"]
 
+        species = request.args.get('species')
+        dec_or_evg = request.args.get('dec_or_evg')
+
         print("south: ", south)
         print("north: ", north)
         print("east: ", east)
         print("west: ", west)
-
-        species = request.args.get("species")
-        if species is None:
-            species = []
-        dec_or_evg = request.args.get("dec_or_evg")
-        if dec_or_evg is None:
-            dec_or_evg = []
-
-        print("SPECIES")
-        print(species)
-        print("DEC OR EVG")
-        print(dec_or_evg)
 
         database = Database()
         database.connect()
