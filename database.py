@@ -254,6 +254,10 @@ class Database:
 
         # Create list of prepared values
         vals = []
+        vals.append(south)
+        vals.append(north)
+        vals.append(east)
+        vals.append(west)
         for spec in species:
             vals.append(spec)
         for d_o_e in dec_or_evg:
