@@ -67,8 +67,6 @@ def index():
         plants = database.get_filtered_plants(200, species, status, dec_or_evg)
 
         all_species = database.get_all_species()
-
-        status_vals = database.get_status_vals()
         
         dec_or_evg_vals = database.get_dec_or_evg_vals()
 
@@ -117,18 +115,42 @@ def getPins():
         print("bounds: ")
         print(bounds)
 
+        species = request.args.getlist("species")
+        if species is None:
+            species = []
+        dec_or_evg = request.args.getlist("dec_or_evg")
+        if dec_or_evg is None:
+            dec_or_evg = []
+
+        print("SPECIES")
+        print(species)
+        print("DEC OR EVG")
+        print(dec_or_evg)
+
         database = Database()
         database.connect()
 
-        print("south: ", bounds["south"])
-        print("north: ", bounds["north"])
-        print("east: ", bounds["east"])
-        print("west: ", bounds["west"])
+        all_species = database.get_all_species()
+        
+        dec_or_evg_vals = database.get_dec_or_evg_vals()
 
-        plants = database.search_in_range(bounds["south"], bounds["north"], bounds["east"], bounds["west"])
+        plants = database.get_n_plants(200)
+
+        south = bounds["south"]
+        north = bounds["north"]
+        east = bounds["east"]
+        west = bounds["west"]
+
+        print("south: ", south)
+        print("north: ", north)
+        print("east: ", east)
+        print("west: ", west)
+
+        plants = database.get_filtered_plants(all_species, dec_or_evg_vals, south, north, east, west)
         print(plants)
 
         database.disconnect()
+        
     except Exception as e:
         plants = []
         print(e)
