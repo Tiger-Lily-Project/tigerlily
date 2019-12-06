@@ -98,8 +98,8 @@ def getPins():
         east = bounds["east"]
         west = bounds["west"]
 
-        species = request.cookies.get('species')
-        dec_or_evg = request.cookies.get('dec_or_evg')
+        species = json.loads(request.cookies.get('species'))
+        dec_or_evg = json.loads(request.cookies.get('dec_or_evg'))
 
         print("SPECIES FROM REQUEST")
         print(species)
