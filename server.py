@@ -93,10 +93,10 @@ def getPins():
         print("east: ", east)
         print("west: ", west)
 
-        species = request.GET["species"]
+        species = request.args.get("species")
         if species is None:
             species = []
-        dec_or_evg = request.GET["dec_or_evg"]
+        dec_or_evg = request.args.get("dec_or_evg")
         if dec_or_evg is None:
             dec_or_evg = []
 
