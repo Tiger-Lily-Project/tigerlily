@@ -197,8 +197,8 @@ class Database:
     # Gets filtered plants
     def get_filtered_plants(self, species, dec_or_evg, south, north, east, west):
 
-        print("species is " + len(species))
-        print("doe is " + len(dec_or_evg))
+        print("species is %d", len(species))
+        print("doe is %d", len(dec_or_evg))
 
         if len(species) == 0 and len(dec_or_evg) == 0:
             print("not filtering")
