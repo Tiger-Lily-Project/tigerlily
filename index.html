@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Bootstrap Example</title>
+  <title>Princeton Plants</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="shortcut icon" type="image/ico" href="/static/favicon.ico">
@@ -82,13 +82,14 @@
             Filter By:
         </button>
 
-        <div class="collapse" id="collapseExample">
+        <form action="/index" method="GET">
+          <div class="collapse" id="collapseExample">
             <div class="well">
-                <h4>Hold shift to select more than one</h4>
+                <h4>Hold control to select more than one</h4>
                 <div class="row">
                   <div class="col-sm-3">
                       <label for="sel1">Species:</label>
-                      <select multiple class="form-control" id="sel1">
+                      <select multiple class="form-control" id="sel1" name="species">
                           {% for first_char in all_species: %}
                           {% for species_info in all_species[first_char]: %}
                             <option value="{{species_info.getCommonName()}}">{{species_info.getCommonName()}}</option>
@@ -98,7 +99,7 @@
                   </div>
                   <div class="col-sm-3">
                       <label for="sel2">Seasonality:</label>
-                      <select multiple class="form-control" id="sel2">
+                      <select multiple class="form-control" id="sel2" name="dec_or_evg">
                          {% for dec_or_evg in dec_or_evg_vals: %}
                          <option value="{{dec_or_evg}}">{{dec_or_evg}}</option>
                          {% endfor %}
@@ -106,11 +107,12 @@
                   </div>
                   <div class="col-sm-3">
                       <br>
-                      <button type="button" class="btn btn-primary">Apply Filter</button>
+                      <a href="/index"><button type="submit" class="btn btn-primary">Apply Filter</button></a>
                   </div>
                 </div>
               </div>   
-        </div>
+          </div>
+        </form>
 
      
       <div id="map"> 
