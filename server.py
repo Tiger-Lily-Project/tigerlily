@@ -35,82 +35,53 @@ talisman = Talisman(app, content_security_policy=None)
 @app.route('/index')
 def index():
 
-    submit_button = request.args.get("submit_button")
-
-    if submit_button == "Clear Filter":
-        species = []
-        status = []
-        dec_or_evg = []
-
-    else:
-        species = request.args.getlist("species")
-        if species is None:
-            species = []
-        status = request.args.getlist("status")
-        if status is None:
-            status = []
-        dec_or_evg = request.args.getlist("dec_or_evg")
-        if dec_or_evg is None:
-            dec_or_evg = []
-
-    print("SPECIES")
-    print(species)
-    print("STATUS")
-    print(status)
-    print("DEC OR EVG")
-    print(dec_or_evg)
-
     # Gets a list of all plants available in the database.
     try:
         database = Database()
         database.connect()
-        plants = database.get_filtered_plants(450, species, status, dec_or_evg)
+
+        species = request.args.getlist("species")
+        if species is None:
+            species = []
+        dec_or_evg = request.args.getlist("dec_or_evg")
+        if dec_or_evg is None:
+            dec_or_evg = []
+
+        print("SPECIES")
+        print(species)
+        print("DEC OR EVG")
+        print(dec_or_evg)
 
         all_species = database.get_all_species()
-
-        status_vals = database.get_status_vals()
         
         dec_or_evg_vals = database.get_dec_or_evg_vals()
 
-        # print("in try")
-        # plants = []
-        # plant1 = Plant("plant1", 40.3471, -74.6566, "rip")
-        # print("made a plant")
-        # plant1 = Plant.getDict(plant1)
-        # print("got json")
-        # plants.append(plant1)
-        # print(plants)
+        database.disconnect()
 
     except Exception as e:
         print("EXCEPTION")
         print(e)
-        plants = []
+        species = []
+        dec_or_evg = []
         all_species = []
-        status_vals = []
         dec_or_evg_vals = []
     except Error as e:
         print("ERROR")
         print(e)
-        plants = []
+        species = []
+        dec_or_evg = []
         all_species = []
-        status_vals = []
         dec_or_evg_vals = []
 
-    database.disconnect()
-
-    #print("index in server.py: ")
-    #print(plants)
-
-    plants = json.dumps(plants)
-
     # Render the home page, passing in the list of plants.
-    html = render_template('index.html', 
-    plants = plants,
+    html = render_template('index.html',
     all_species = all_species,
-    status_vals = status_vals,
     dec_or_evg_vals = dec_or_evg_vals)
 
     response = make_response(html)
+
+    response.set_cookie("species", json.dumps(species))
+    response.set_cookie("dec_or_evg", json.dumps(dec_or_evg))
 
     return response
 
@@ -118,7 +89,48 @@ def index():
 
 #region Details
 
-# Renders the details page.
+@app.route('/getPins')
+def getPins():
+    print("in getPins")
+    try:
+        bounds = request.args.get('bounds')
+        bounds = json.loads(bounds)
+
+        south = bounds["south"]
+        north = bounds["north"]
+        east = bounds["east"]
+        west = bounds["west"]
+
+        species = json.loads(request.cookies.get('species'))
+        dec_or_evg = json.loads(request.cookies.get('dec_or_evg'))
+
+        print("SPECIES FROM REQUEST")
+        print(species)
+        print(len(species))
+        print("DOE FROM REQUEST")
+        print(dec_or_evg)
+        print(len(dec_or_evg))
+
+        print("south: ", south)
+        print("north: ", north)
+        print("east: ", east)
+        print("west: ", west)
+
+        database = Database()
+        database.connect()
+
+        plants = database.get_filtered_plants(species, dec_or_evg, south, north, east, west)
+
+        database.disconnect()
+
+    except Exception as e:
+        plants = []
+        print(e)
+    
+    return json.jsonify(plants = plants)
+
+
+# Renders the home page.
 @app.route('/')
 @app.route('/plantdetails')
 def plantdetails():
@@ -227,6 +239,17 @@ def tour():
 
 #endregion
     
+#-----------------------------------------------------------------------
+# Renders the "about us" page.
+@app.route('/')
+@app.route('/test')
+def test():
+
+    # Render the catalog page, passing in the list of species.
+    html = render_template('test.html')
+    response = make_response(html)
+
+    return response
 #-----------------------------------------------------------------------
 
 if __name__ == '__main__':

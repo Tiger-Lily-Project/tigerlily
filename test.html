@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>About Us</title>
+  <title>Bootstrap Example</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-  <link rel="shortcut icon" type="image/ico" href="/static/favicon.ico">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
   <style>
@@ -36,15 +35,15 @@
         <span class="icon-bar"></span>                        
       </button>
       <a class="navbar-brand" href="#">
-       <a href="/index"> <img src="/static/logo_with_text.png" height="45" class="d-inline-block align-top" alt="Princeton Plants"></a>
+        <a href="/index"> <img src="/static/logo_with_text.png" height="45" class="d-inline-block align-top" alt="Princeton Plants"></a>
       </a>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
-        <li><a href="/index">Home</a></li>
+        <li class="active"><a href="/index">Home</a></li>
         <li><a href="#">Guided Tour</a></li>
         <li><a href="/catalog">Catalog</a></li>
-        <li class="active"><a href="/about">About Us</a></li>
+        <li><a href="/about">About Us</a></li>
       </ul>
     </div>
   </div>
@@ -54,35 +53,22 @@
   <div class="row content">
     <div class="col-sm-3 sidenav hidden-xs">
       <br>
-      <a href ="/index"><img src="/static/logo_with_text.png" height="50" class="d-inline-block align-top" alt="Princeton Plants"></a>
+      <a href="/index"> <img src="/static/logo_with_text.png" height="50" class="d-inline-block align-top" alt="Princeton Plants"></a>
       <br>
       <ul class="nav nav-pills nav-stacked">
-        <li><a href="/index">Home</a></li>
+        <li class="active"><a href="/index">Home</a></li>
         <li><a href="#section2">Guided Tour</a></li>
         <li><a href="/catalog">Catalog</a></li>
-        <li class="active"><a href="/about">About Us</a></li>
+        <li><a href="/about">About Us</a></li>
       </ul><br>
     </div>
     <br>
     
     <div class="col-sm-9">
-      <h4>About Us</h4>
-      <br>
-      <br>
-      Wendy Ho '21 COS
-      <br>
-      Zoe Kahana '21 COS
-      <br>
-      Hannah Smalley '21 SPO
-      <br>
-      <br>
-      Many thanks to Mr. Devin Livi and the Princeton Facilities Operations team for their help!
-      <br>
-      <br>
-      Tree locations from Princeton Facilities Operations team.
-      <br>
-      <br>
-      Tree photos and descriptions from Wikipedia.
+      <div class="well">
+        <h4>Dashboard</h4>
+        <p>Some text..</p>
+      </div>
     </div>
   </div>
 </div>

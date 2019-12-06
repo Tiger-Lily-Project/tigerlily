@@ -1,205 +1,127 @@
 <!DOCTYPE html>
-
-<!-- Code based on various pages on Google Maps Javascript API documentation -->
-
-<html>
-  <head>
-    <title>Princeton Plants</title>
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-    <meta charset="utf-8">
-    <style>
-      /* Always set the map height explicitly to define the size of the div
-       * element that contains the map. */
-      #map {
-        height: 100%;
-      }
-      /* Optional: Makes the sample page fill the window. */
-      html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
-    </style>
-  </head>
-  <body>
-      {% include 'header.html' %}
-    <br>
-    <a href="catalog">Catalog</a>
-    <br>
-    <br>
-    <form action="index" method="get">
-      <table>
-        <tr>
-          <td align="left">
-            FILTER BY:
-          </td>
-          <td align="left">
-            SPECIES
-          </td>
-          <td align="left">
-            STATUS
-          </td>
-          <td align="left">
-            SEASONALITY
-          </td>
-          <td align="left">
-              <input type="submit" name="submit_button" value="Clear Filter">
-          </td>
-        </tr>
-        <tr>
-          <td align="left">
-            Show only:
-          </td>
-          <td align="left">
-            <select multiple name="species">
-            {% for first_char in all_species: %}
-              {% for species_info in all_species[first_char]: %}
-                <option value="{{species_info.getCommonName()}}">{{species_info.getCommonName()}}</option>
-              {% endfor %}
-            {% endfor %}
-            </select>
-          </td>
-          <td align="left">
-            <select multiple name="status">
-            {% for status in status_vals: %}
-              <option value="{{status}}">{{status}}</option>
-            {% endfor %}
-            </select>
-          </td>
-          <td align="left">
-            <select multiple name="dec_or_evg">
-            {% for dec_or_evg in dec_or_evg_vals: %}
-              <option value="{{dec_or_evg}}">{{dec_or_evg}}</option>
-            {% endfor %}
-            </select>
-          </td>
-          <td align="left">
-            <input type="submit" name="submit_button" value="Apply Filter">
-          </td>
-        </tr>
-      </table>
-    </form>
-    <br>
-    <a href="about">About Us</a>
-    <br>
-    <a href="tour">Guided Tour</a>
-    <br>
-    <div id="map"></div>
-    <!-- {% include 'map.html' %} -->
-    <!-- <script type="text/javascript"
-         src="{{ url_for('static', filename='map.js') }}"></script> -->
-    <script nonce="{{ csp_nonce() }}">
-      const trackLocation = ({ onSuccess, onError = () => { } }) => {
-    if ('geolocation' in navigator === false) {
-      console.log('Geolocation is not supported by your browser. Check your settings or try a different browser')
-      return onError(new Error('Geolocation is not supported by your browser.'));
+<html lang="en">
+<head>
+  <title>Princeton Plants</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" type="image/ico" href="/static/favicon.ico">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <style>
+    /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+    .row.content {height: 800px}
+    
+    /* Set gray background color and 100% height */
+    .sidenav {
+      background-color: #f1f1f1;
+      height: 100%;
+      width: 300px;
     }
-  
-    // Use watchPosition for live updates
-    return navigator.geolocation.watchPosition(onSuccess, onError);
-};
+        
+    /* On small screens, set height to 'auto' for the grid */
+    @media screen and (max-width: 767px) {
+      .row.content {height: auto;} 
+    }
 
-const addMarkers = () => {
-    // Get map bounds
-    bounds = map.getBounds()
-    bounds = bounds.toJSON()
+    html, body{
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    }
+    
+    #map{
+    position: relative; 
+    height: 600px;
+    }
+  </style>
+</head>
+<body>
 
+<nav class="navbar navbar-inverse visible-xs">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="#">
+        <a href="/index"> <img src="/static/logo_with_text.png" height="45" class="d-inline-block align-top" alt="Princeton Plants"></a>
+      </a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="/index">Home</a></li>
+        <li><a href="#">Guided Tour</a></li>
+        <li><a href="/catalog">Catalog</a></li>
+        <li><a href="/about">About Us</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
 
-    // Send AJAX request to server
-    // (server updates plants array with plants in range)
+<div class="container-fluid">
+  <div class="row content">
+    <div class="col-sm-3 sidenav hidden-xs">
+      <br>
+      <a href="/index"> <img src="/static/logo_with_text.png" height="50" class="d-inline-block align-top" alt="Princeton Plants"></a>
+      <br>
+      <ul class="nav nav-pills nav-stacked">
+        <li class="active"><a href="/index">Home</a></li>
+        <li><a href="#section2">Guided Tour</a></li>
+        <li><a href="/catalog">Catalog</a></li>
+        <li><a href="/about">About Us</a></li>
+      </ul><br>
+    </div>
+    <br>
+    
+    <div class="col-sm-9">
+        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+            Filter By:
+        </button>
 
-    // place plants 
-    var infowindow = new google.maps.InfoWindow();
-    var contentString;
-    for (var i = 0; i < plants.length; i++) {
-        // console.log(plants[i])
-        var lat = parseFloat(plants[i].lat);
-        // console.log("lat: ", lat)
-        // console.log("lng: ", lng)
-        var lng = parseFloat(plants[i].lng);
-        var title = plants[i].title;
-        var titleNum = plants[i].title + " " + plants[i].id_num;
-        var titleURL = encodeURIComponent(title.trim());
-        // console.log("title: " + title)
-        // console.log(i, lat, lng);
-        // console.log(titleURL)
-        // console.log(plants[i].title)
+        <form action="/index" method="GET">
+          <div class="collapse" id="collapseExample">
+            <div class="well">
+                <h4>Hold control to select more than one</h4>
+                <div class="row">
+                  <div class="col-sm-3">
+                      <label for="sel1">Species:</label>
+                      <select multiple class="form-control" id="sel1" name="species">
+                          {% for first_char in all_species: %}
+                          {% for species_info in all_species[first_char]: %}
+                            <option value="{{species_info.getCommonName()}}">{{species_info.getCommonName()}}</option>
+                          {% endfor %}
+                        {% endfor %}
+                      </select>
+                  </div>
+                  <div class="col-sm-3">
+                      <label for="sel2">Seasonality:</label>
+                      <select multiple class="form-control" id="sel2" name="dec_or_evg">
+                         {% for dec_or_evg in dec_or_evg_vals: %}
+                         <option value="{{dec_or_evg}}">{{dec_or_evg}}</option>
+                         {% endfor %}
+                      </select>
+                  </div>
+                  <div class="col-sm-3">
+                      <br>
+                      <a href="/index"><button type="submit" class="btn btn-primary">Apply Filter</button></a>
+                  </div>
+                </div>
+              </div>   
+          </div>
+        </form>
 
-        var marker = new google.maps.Marker({
-            map: map,
-            position: {
-                lat: lat,
-                lng: lng
-            },
-            title: titleNum,
-            clickable: true
-        });
+     
+      <div id="map"> 
+      </div>
+    </div>
+  </div>
+</div>
 
-        google.maps.event.addListener(marker, 'click', (function(marker, i) {
-            return function() {
-
-                contentString = '<div id="content">'+
-                '<div id="siteNotice">'+
-                '</div>'+
-                '<h1 id="firstHeading" class="firstHeading">'+
-                plants[i].title+
-                plants[i].id_num+
-                '</h1>'+
-                '<div id="bodyContent">'+
-                '<p><a href=plantdetails?common_name='+
-                encodeURIComponent(plants[i].title.trim())+
-                '>'+
-                'Click here for more details</a></p>'+
-                '</div>'+
-                '</div>';
-            
-                infowindow.setContent(contentString);
-                infowindow.open(map, marker);
-            }
-        })(marker, i));
-}
-}
-  
-function initMap() {
-    // console.log('{{plants | safe}}')
-    plants = '{{plants | safe}}'
-    plants = JSON.parse(plants)
-
-    map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: 40.3471, lng: -74.6566},
-        zoom: 17
-    });
-    locationMarker = new google.maps.Marker({
-        map: map,
-        icon: {
-        //   url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
-        url: "/static/my_location.svg"
-        }
-    });
-
-    // addMarkers()
-  
-      // Call trackLocation
-      // From https://medium.com/risan/track-users-location-and-display-it-on-google-maps-41d1f850786e
-    trackLocation({
-        onSuccess: ({ coords: { latitude: lat, longitude: lng } }) => {
-            locationMarker.setPosition({ lat, lng });
-            map.panTo({ lat, lng });
-        },
-        onError: err =>
-            alert(`Error: Failed to obtain location`)
-    });
-
-    google.maps.event.addListenerOnce(map, "bounds_changed", function(){
-        // addMarkers();
-        google.maps.event.addListener(map, "idle", addMarkers);
-    });
-
-}
-    </script>
-    <script nonce="{{ csp_nonce() }}" async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDgPsCmJi55tXonvondJH9BCh7AOvDg3-8&callback=initMap">
-    </script>
-  {% include 'footer.html' %}  
+{% include 'map.html' %}
 </body>
+
 </html>
