@@ -27,6 +27,10 @@ const markers_in_bounds = () => {
 
     // Send AJAX request to server
     let url = '/getPins'
+    console.log("in get pins")
+    console.log(species)
+    let species = species
+    let dec_or_evg = dec_or_evg
     $.ajax({
         url: url,
         type: "GET",
