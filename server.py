@@ -213,7 +213,7 @@ def getPins():
         west = bounds["west"]
 
         
-        reset = request.args.get('reset')
+        reset = int(request.args.get('reset'))
         if reset == 1:
             species = []
             dec_or_evg = []
