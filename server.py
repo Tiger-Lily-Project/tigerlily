@@ -212,7 +212,7 @@ def getPins():
         east = bounds["east"]
         west = bounds["west"]
 
-'''
+        '''
         reset = request.args.get('reset')
         if reset == 'true':
             species = []
