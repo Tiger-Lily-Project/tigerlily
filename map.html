@@ -18,6 +18,18 @@ const trackLocation = ({ onSuccess, onError = () => { } }) => {
     return navigator.geolocation.watchPosition(onSuccess, onError);
 };
 
+var markers = []
+
+const deleteMarkers = () => {
+    console.log("in delete markers")
+    // loop through markers, setting them to null on the map
+    for (var i = 0; i < markers.length; i++) {
+        markers[i].setMap(null);
+    }
+    // set markers to an empty array
+    markers = [];
+}
+
 const markers_in_bounds = (reset) => {
     console.log("ran markers_in_bounds")
     // Get map bounds
@@ -34,6 +46,7 @@ const markers_in_bounds = (reset) => {
         data: {bounds: JSON.stringify(bounds), reset: reset},
         success: function(data){
             console.log(data)
+            deleteMarkers()
             addMarkers(data.plants)
         }
     });
@@ -70,6 +83,9 @@ const addMarkers = (plants) => {
             title: title,
             clickable: true
         });
+
+        // add marker to array
+        markers.push(marker)
 
         google.maps.event.addListener(marker, 'click', (function(marker, i) {
             return function() {
