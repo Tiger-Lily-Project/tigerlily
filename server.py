@@ -239,6 +239,7 @@ def tour():
 
 #endregion
     
+#region Test
 #-----------------------------------------------------------------------
 # Renders the "about us" page.
 @app.route('/')
@@ -251,6 +252,7 @@ def test():
 
     return response
 #-----------------------------------------------------------------------
+#endregion
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=10101, debug=True)
