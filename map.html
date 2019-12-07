@@ -31,7 +31,7 @@ const deleteMarkers = () => {
     markers = [];
 }*/
 
-const markers_in_bounds = (reset) => {
+const markers_in_bounds = () => {
     console.log("ran markers_in_bounds")
     // Get map bounds
     let bounds = map.getBounds()
@@ -44,7 +44,7 @@ const markers_in_bounds = (reset) => {
         url: url,
         type: "GET",
         contentType: "application/json",
-        data: {bounds: JSON.stringify(bounds), reset: reset},
+        data: {bounds: JSON.stringify(bounds)},
         success: function(data){
             console.log(data)
             //deleteMarkers()
