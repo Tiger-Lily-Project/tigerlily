@@ -89,48 +89,7 @@ def index():
 
 #region Details
 
-@app.route('/getPins')
-def getPins():
-    print("in getPins")
-    try:
-        bounds = request.args.get('bounds')
-        bounds = json.loads(bounds)
-
-        south = bounds["south"]
-        north = bounds["north"]
-        east = bounds["east"]
-        west = bounds["west"]
-
-        species = json.loads(request.cookies.get('species'))
-        dec_or_evg = json.loads(request.cookies.get('dec_or_evg'))
-
-        print("SPECIES FROM REQUEST")
-        print(species)
-        print(len(species))
-        print("DOE FROM REQUEST")
-        print(dec_or_evg)
-        print(len(dec_or_evg))
-
-        print("south: ", south)
-        print("north: ", north)
-        print("east: ", east)
-        print("west: ", west)
-
-        database = Database()
-        database.connect()
-
-        plants = database.get_filtered_plants(species, dec_or_evg, south, north, east, west)
-
-        database.disconnect()
-
-    except Exception as e:
-        plants = []
-        print(e)
-    
-    return json.jsonify(plants = plants)
-
-
-# Renders the home page.
+# Renders the details page.
 @app.route('/')
 @app.route('/plantdetails')
 def plantdetails():
@@ -239,6 +198,55 @@ def tour():
 
 #endregion
     
+#region GetPins
+
+@app.route('/getPins')
+def getPins():
+    print("in getPins")
+    try:
+        bounds = request.args.get('bounds')
+        bounds = json.loads(bounds)
+
+        south = bounds["south"]
+        north = bounds["north"]
+        east = bounds["east"]
+        west = bounds["west"]
+
+        reset = request.args.get('reset')
+        if reset == 'true':
+            species = []
+            dec_or_evg = []
+        else:
+            species = json.loads(request.cookies.get('species'))
+            dec_or_evg = json.loads(request.cookies.get('dec_or_evg'))
+
+        print("SPECIES FROM REQUEST")
+        print(species)
+        print(len(species))
+        print("DOE FROM REQUEST")
+        print(dec_or_evg)
+        print(len(dec_or_evg))
+
+        print("south: ", south)
+        print("north: ", north)
+        print("east: ", east)
+        print("west: ", west)
+
+        database = Database()
+        database.connect()
+
+        plants = database.get_filtered_plants(species, dec_or_evg, south, north, east, west)
+
+        database.disconnect()
+
+    except Exception as e:
+        plants = []
+        print(e)
+    
+    return json.jsonify(plants = plants)
+
+#endregion
+
 #region Test
 #-----------------------------------------------------------------------
 # Renders the "about us" page.
