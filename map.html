@@ -30,12 +30,13 @@ const deleteMarkers = () => {
     markers = [];
 }
 
-const markers_in_bounds = () => {
+const markers_in_bounds = (reset) => {
     console.log("ran markers_in_bounds")
     // Get map bounds
     let bounds = map.getBounds()
     bounds = bounds.toJSON()
     console.log("bounds: ", bounds)
+    console.log("reset: ", reset)
 
     // Send AJAX request to server
     let url = '/getPins'
@@ -43,7 +44,7 @@ const markers_in_bounds = () => {
         url: url,
         type: "GET",
         contentType: "application/json",
-        data: {bounds: JSON.stringify(bounds)/*, reset: reset*/},
+        data: {bounds: JSON.stringify(bounds), reset: reset},
         success: function(data){
             console.log(data)
             deleteMarkers()
