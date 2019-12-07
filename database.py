@@ -23,7 +23,7 @@ class Database:
 
 #endregion
 
-#region Connect/Disconnect
+#region Connections
 
     # Connects to the registrar database
     def connect(self):
@@ -39,11 +39,11 @@ class Database:
 
 #region Plant searches
 
-    # Returns all individual plants in the database
-    def get_all_plants(self):
+    # Searches for plants within the given coordinates
+    def search_in_range(self, south, north, east, west):
         cursor = self._connection.cursor()
-        stmt = "SELECT * FROM plant_indiv;"
-        cursor.execute(stmt)
+        stmt, values = self.create_range_stmt(south, north, east, west)
+        cursor.execute(stmt, values)
 
         plants = []
         row = cursor.fetchone()
@@ -55,11 +55,11 @@ class Database:
         cursor.close()
         return plants
 
-    # Searches for plants within the given coordinates
-    def search_in_range(self, south, north, east, west):
+    # Returns all individual plants in the database
+    def get_all_plants(self):
         cursor = self._connection.cursor()
-        stmt, values = self.create_range_stmt(south, north, east, west)
-        cursor.execute(stmt, values)
+        stmt = "SELECT * FROM plant_indiv;"
+        cursor.execute(stmt)
 
         plants = []
         row = cursor.fetchone()
@@ -87,23 +87,6 @@ class Database:
             row = cursor.fetchone()
         cursor.close()
         return plants
-
-    # Returns plant json dict based on id number
-    def get_plant_by_id(self, num):
-        cursor = self._connection.cursor()
-        stmt = "SELECT * FROM plant_indiv WHERE primary_id = %s;"
-        cursor.execute(stmt, [num])
-
-        row = cursor.fetchone()
-
-        # If search came back empty, throw exception
-        if row is None:
-            raise Exception("no plant exists with the id %d", num)
-        else:
-            plant = Plant(str(row[0]), str(row[1]), str(row[2]), str(row[3]), str(row[4]))
-            plant = Plant.getDict(plant)
-
-        return plant
 
 #endregion
 
@@ -186,43 +169,10 @@ class Database:
         count = int(row[0])
 
         return count
-        
-    # Creates a statement to search for pins based on range and given location
-    def create_range_stmt(self, south, north, east, west):
 
 #endregion
 
-        # Creates the baseline statement.
-        stmtStr = "SELECT * FROM plant_indiv WHERE lat >= %s AND lat <= %s AND long <= %s AND long >= %s"
-
-        # Append the boundaries for the latitude and longitude ranges.
-        search_values.append(south)
-        search_values.append(north)
-        search_values.append(east)
-        search_values.append(west)
-
-        if len(species) == 0 and len(status) == 0 and len(dec_or_evg) == 0:
-            return self.get_n_plants(n)
-
-        cursor = self._connection.cursor()
-
-        stmtStr, vals = self.create_filter_stmt(n, species, status, dec_or_evg)
-
-        cursor.execute(stmtStr, vals)
-
-        plants = []
-        row = cursor.fetchone()
-        while row is not None:
-            print(row)
-            plant = Plant(str(row[0]), str(row[1]), str(row[2]), str(row[3]), str(row[4]))
-            print("made plant")
-            plant = Plant.getDict(plant)
-            print("made into dict")
-           
-            plants.append(plant)
-            row = cursor.fetchone()
-        cursor.close()
-        return plants
+#region Filter searches
 
     # Gets possible values of dec_or_evg
     def get_dec_or_evg_vals(self):
@@ -254,21 +204,43 @@ class Database:
             print("not filtering")
             return self.search_in_range(south, north, east, west)
 
-    # Creates a statement to search for pins based on range and given location
-    def create_range_stmt(self, minLat, maxLat, minLong, maxLong):
+        cursor = self._connection.cursor()
 
         print("filtering")
 
         stmtStr, vals = self.create_filter_stmt(species, dec_or_evg, south, north, east, west)
 
+        cursor.execute(stmtStr, vals)
+
+        plants = []
+        row = cursor.fetchone()
+        while row is not None:
+            plant = Plant(str(row[0]), str(row[1]), str(row[2]), str(row[3]), str(row[4]))
+            plant = Plant.getDict(plant)
+           
+            plants.append(plant)
+            row = cursor.fetchone()
+        cursor.close()
+        return plants
+
+#endregion
+
+#region Search helpers
+
+    # Creates a statement to search for pins based on range and given location
+    def create_range_stmt(self, south, north, east, west):
+
+        # Will hold the search terms in the order they're used.
+        search_values = []
+
         # Creates the baseline statement.
-        stmtStr = "SELECT * FROM plant_indiv WHERE lat >= %s AND lat <= %s AND long >= %s AND long <= %s"
+        stmtStr = "SELECT * FROM plant_indiv WHERE lat >= %s AND lat <= %s AND long <= %s AND long >= %s"
 
         # Append the boundaries for the latitude and longitude ranges.
-        search_values.append(minLat)
-        search_values.append(maxLat)
-        search_values.append(minLong)
-        search_values.append(maxLong)
+        search_values.append(south)
+        search_values.append(north)
+        search_values.append(east)
+        search_values.append(west)
 
         # Return the statement and the ordered list of values.
         return stmtStr, search_values
@@ -313,7 +285,6 @@ class Database:
         for d_o_e in dec_or_evg:
             vals.append(d_o_e)
 
-        # Return statment and list of search values
         return stmtStr, vals
 
 #endregion
