@@ -17,7 +17,7 @@ const trackLocation = ({ onSuccess, onError = () => { } }) => {
     // Use watchPosition for live updates
     return navigator.geolocation.watchPosition(onSuccess, onError);
 };
-/*
+
 var markers = []
 
 const deleteMarkers = () => {
@@ -29,7 +29,7 @@ const deleteMarkers = () => {
     // set markers to an empty array
     markers = [];
 }
-*/
+
 const markers_in_bounds = () => {
     console.log("ran markers_in_bounds")
     // Get map bounds
@@ -46,7 +46,7 @@ const markers_in_bounds = () => {
         data: {bounds: JSON.stringify(bounds)/*, reset: reset*/},
         success: function(data){
             console.log(data)
-            //deleteMarkers()
+            deleteMarkers()
             addMarkers(data.plants)
         }
     });
@@ -85,7 +85,7 @@ const addMarkers = (plants) => {
         });
 
         // add marker to array
-        //markers.push(marker)
+        markers.push(marker)
 
         google.maps.event.addListener(marker, 'click', (function(marker, i) {
             return function() {
