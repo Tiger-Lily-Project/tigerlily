@@ -18,7 +18,7 @@ const trackLocation = ({ onSuccess, onError = () => { } }) => {
     return navigator.geolocation.watchPosition(onSuccess, onError);
 };
 
-const markers_in_bounds = () => {
+const markers_in_bounds = (reset) => {
     console.log("ran markers_in_bounds")
     // Get map bounds
     let bounds = map.getBounds()
@@ -31,7 +31,7 @@ const markers_in_bounds = () => {
         url: url,
         type: "GET",
         contentType: "application/json",
-        data: {bounds: JSON.stringify(bounds)},
+        data: {bounds: JSON.stringify(bounds), reset: reset},
         success: function(data){
             console.log(data)
             addMarkers(data.plants)
@@ -125,7 +125,7 @@ function initMap() {
     });
 
     google.maps.event.addListenerOnce(map, "bounds_changed", function(){
-        google.maps.event.addListener(map, "idle", markers_in_bounds());
+        google.maps.event.addListener(map, "idle", markers_in_bounds(0));
     });
 
 }
