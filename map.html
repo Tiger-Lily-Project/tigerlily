@@ -18,9 +18,8 @@ const trackLocation = ({ onSuccess, onError = () => { } }) => {
     return navigator.geolocation.watchPosition(onSuccess, onError);
 };
 
-//var markers = []
+var markers = []
 
-/*
 const deleteMarkers = () => {
     console.log("in delete markers")
     // loop through markers, setting them to null on the map
@@ -29,9 +28,9 @@ const deleteMarkers = () => {
     }
     // set markers to an empty array
     markers = [];
-}*/
+}
 
-const markers_in_bounds = () => {
+const markers_in_bounds = (reset) => {
     console.log("ran markers_in_bounds")
     // Get map bounds
     let bounds = map.getBounds()
@@ -44,10 +43,10 @@ const markers_in_bounds = () => {
         url: url,
         type: "GET",
         contentType: "application/json",
-        data: {bounds: JSON.stringify(bounds)},
+        data: {bounds: JSON.stringify(bounds), reset: reset},
         success: function(data){
             console.log(data)
-            //deleteMarkers()
+            deleteMarkers()
             addMarkers(data.plants)
         }
     });
@@ -86,7 +85,7 @@ const addMarkers = (plants) => {
         });
 
         // add marker to array
-        //markers.push(marker)
+        markers.push(marker)
 
         google.maps.event.addListener(marker, 'click', (function(marker, i) {
             return function() {
@@ -142,7 +141,7 @@ function initMap() {
     });
 
     google.maps.event.addListenerOnce(map, "bounds_changed", function(){
-        google.maps.event.addListener(map, "idle", markers_in_bounds());
+        google.maps.event.addListener(map, "idle", markers_in_bounds(0));
     });
 
 }
