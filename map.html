@@ -142,7 +142,7 @@ function initMap() {
     });
 
     google.maps.event.addListenerOnce(map, "bounds_changed", function(){
-        google.maps.event.addListener(map, "idle", markers_in_bounds(0));
+        google.maps.event.addListener(map, "idle", markers_in_bounds());
     });
 
 }
