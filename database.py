@@ -103,6 +103,7 @@ class Database:
             plants.append(plant)
             row = cursor.fetchone()
         cursor.close()
+        print(plants[0].title)
         return plants
 
 #endregion
