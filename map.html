@@ -185,7 +185,9 @@ const tour = () => {
             ]
             console.log(coords)
             var tourPath = new google.maps.Polyline({
-	            path: coords
+                path: coords,
+                strokeColor: '#0080FF',
+                strokeWeight: 3
             });
             tourPath.setMap(map);
         }
