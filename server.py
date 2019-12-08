@@ -174,6 +174,7 @@ def getTourPlants():
 
     try:
         ids = request.args.get('ids')
+        ids = json.loads(ids)
         print(ids)
 
         plants = []
