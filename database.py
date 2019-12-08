@@ -88,6 +88,23 @@ class Database:
         cursor.close()
         return plants
 
+    # Gets plant informtion by primary id
+    def get_plant_by_id(self, id_num):
+        cursor = self._connection.cursor()
+        stmt = "SELECT * FROM plant_indiv WHERE primary_id = %s;"
+        cursor.execute(stmt, [id_num])
+
+        plants = []
+        row = cursor.fetchone()
+        while row is not None:
+            plant = Plant(str(row[0]), str(row[1]), str(row[2]), str(row[3]), str(row[4]))
+            plant = Plant.getDict(plant)
+           
+            plants.append(plant)
+            row = cursor.fetchone()
+        cursor.close()
+        return plants
+
 #endregion
 
 #region Species searches
