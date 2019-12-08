@@ -56,8 +56,6 @@ def index():
         
         dec_or_evg_vals = database.get_dec_or_evg_vals()
 
-        database.disconnect()
-
     except Exception as e:
         print("EXCEPTION")
         print(e)
@@ -72,6 +70,8 @@ def index():
         dec_or_evg = []
         all_species = []
         dec_or_evg_vals = []
+
+    database.disconnect()
 
     # Render the home page, passing in the list of plants.
     html = render_template('index.html',
@@ -101,7 +101,6 @@ def plantdetails():
         database.connect()
         species_info = database.get_species_info(common_name)
         count = database.get_species_count(common_name)
-        database.disconnect()
     except Exception as e:
         species_info = SpeciesInfo('','','','','')
         count = 0
@@ -114,6 +113,38 @@ def plantdetails():
     common_name = common_name, 
     species_info = species_info,
     count = count)
+    response = make_response(html)
+
+    return response
+
+# Renders the tour details page.
+@app.route('/')
+@app.route('/tourdetails')
+def tourdetails():
+
+    common_name = request.args.get("common_name")
+    # Gets a the information on the requested species.
+    try:
+        database = Database()
+        database.connect()
+        species_info = database.get_species_info(common_name)
+        blurb = database.get_tour_blurb(common_name)
+    except Exception as e:
+        print(e)
+        species_info = SpeciesInfo('','','','','')
+        blurb = ""
+    except Error as e:
+        print(e)
+        species_info = SpeciesInfo('','','','','')
+        blurb = ""
+
+    database.disconnect()
+
+    # Render the details page, passing in the plant.
+    html = render_template('tourdetails.html', 
+    common_name = common_name,
+    species_info = species_info,
+    blurb = blurb)
     response = make_response(html)
 
     return response
@@ -166,18 +197,20 @@ def about():
 
 #endregion
 
-#region Tour
+#region GetTourPlants
 
-# Renders the tour page page.
+# Gets the tour plants
 @app.route('/')
-@app.route('/tour')
-def tour():
-
-    ids = [572, 152, 3389, 3376, 3331, 656, 181, 271, 3260, 3485, 407, 874, 3109, 3906, 820, 3467, 793]
-
-    plants = []
+@app.route('/getTourPlants')
+def getTourPlants():
 
     try:
+        ids = request.args.get('ids')
+        ids = json.loads(ids)
+        print(ids)
+
+        plants = []
+
         database = Database()
         database.connect()
 
@@ -187,14 +220,15 @@ def tour():
 
         database.disconnect()
     
-    except:
+    except Exception as e:
+        print(e)
         plants = []
 
-    # Render the catalog page, passing in the list of species.
-    html = render_template('tour.html', plants = plants)
-    response = make_response(html)
+    except Error as e:
+        print(e)
+        plants = []
 
-    return response
+    return json.jsonify(plants = plants)
 
 #endregion
     

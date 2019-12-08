@@ -88,6 +88,19 @@ class Database:
         cursor.close()
         return plants
 
+    # Gets plant informtion by primary id
+    def get_plant_by_id(self, id_num):
+        cursor = self._connection.cursor()
+        stmt = "SELECT * FROM plant_indiv WHERE primary_id = %s;"
+        cursor.execute(stmt, [id_num])
+
+        row = cursor.fetchone()
+        if row is not None:
+            plant = Plant(str(row[0]), str(row[1]), str(row[2]), str(row[3]), str(row[4]))
+            plant = Plant.getDict(plant)
+        cursor.close()
+        return plant
+
 #endregion
 
 #region Species searches
@@ -225,6 +238,21 @@ class Database:
 
 #endregion
 
+#region Tour searches
+
+    # Gets a plant's blurb by its common name
+    def get_tour_blurb(self, common_name):
+        cursor = self._connection.cursor()
+        stmt = "SELECT blurb FROM tour WHERE common_name = %s;"
+        cursor.execute(stmt, [common_name])
+
+        row = cursor.fetchone()
+        blurb = str(row[0])
+
+        return blurb
+
+#endregion
+
 #region Search helpers
 
     # Creates a statement to search for pins based on range and given location
@@ -252,7 +280,7 @@ class Database:
                 SELECT plant_indiv.common_name, plant_indiv.lat, plant_indiv.long, \
                     plant_indiv.status, plant_indiv.primary_id, species_info.dec_or_evg \
                 FROM plant_indiv JOIN species_info ON plant_indiv.common_name = species_info.common_name \
-            ) tmp WHERE lat >= %s AND lat <= %s AND long <= %s AND long >= %s AND "
+            ) tmp WHERE lat >= %s AND lat <= %s AND long <= %s AND long >= %s AND"
 
         # Append WHERE for names
         for i in range(0, len(species)):
@@ -284,6 +312,8 @@ class Database:
             vals.append(spec)
         for d_o_e in dec_or_evg:
             vals.append(d_o_e)
+
+        print("stmtStr = ", stmtStr)
 
         return stmtStr, vals
 
