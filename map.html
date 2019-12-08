@@ -35,7 +35,6 @@ const deleteMarkers = () => {
 const markers_in_bounds = (reset, changeState) => {
     changeState = changeState || 0
     if (changeState == 0 && state === "tour") {
-        tour()
         return
     }
     state = "index"
