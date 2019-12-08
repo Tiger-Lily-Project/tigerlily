@@ -117,6 +117,34 @@ def plantdetails():
 
     return response
 
+# Renders the tour details page.
+@app.route('/')
+@app.route('/tourdetails')
+def tourdetails():
+
+    common_name = request.args.get("common_name")
+    # Gets a the information on the requested species.
+    try:
+        database = Database()
+        database.connect()
+        species_info = database.get_species_by_name(common_name)
+        blurb = database.get_tour_blurb(common_name)
+    except Exception as e:
+        species_info = SpeciesInfo('','','','','')
+        blurb = ""
+    except Error as e:
+        species_info = SpeciesInfo('','','','','')
+        blurb = ""
+
+    # Render the details page, passing in the plant.
+    html = render_template('tourdetails.html', 
+    common_name = common_name,
+    species_info = species_info,
+    blurb = blurb)
+    response = make_response(html)
+
+    return response
+
 #endregion
 
 #region Catalog

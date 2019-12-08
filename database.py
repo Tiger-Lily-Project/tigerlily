@@ -238,6 +238,21 @@ class Database:
 
 #endregion
 
+#region Tour searches
+
+    # Gets a plant's blurb by its common name
+    def get_tour_blurb(common_name):
+        cursor = self._connection.cursor()
+        stmt = "SELECT blurb FROM tour WHERE common_name = %s;"
+        cursor.execute(stmt, [common_name])
+
+        row = cursor.fetchone()
+        blurb = str(row[1])
+
+        return blurb
+
+#endregion
+
 #region Search helpers
 
     # Creates a statement to search for pins based on range and given location
