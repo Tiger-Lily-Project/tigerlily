@@ -54,7 +54,9 @@ const markers_in_bounds = (reset, changeState) => {
         data: {bounds: JSON.stringify(bounds), reset: reset},
         success: function(data){
             console.log(data)
-            // deleteMarkers()
+            if (changeState == 1) {
+                deleteMarkers()
+            }
             addMarkers(data.plants)
         }
     });
