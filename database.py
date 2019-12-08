@@ -285,6 +285,8 @@ class Database:
         for d_o_e in dec_or_evg:
             vals.append(d_o_e)
 
+        print("stmtStr = ", stmtStr)
+
         return stmtStr, vals
 
 #endregion
