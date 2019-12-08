@@ -80,6 +80,7 @@ const addMarkers = (plants) => {
     var infowindow = new google.maps.InfoWindow();
     var contentString;
     for (var i = 0; i < plants.length; i++) {
+        console.log(i)
         // console.log(plants[i])
         var lat = parseFloat(plants[i].lat);
         // console.log("lat: ", lat)
