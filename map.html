@@ -218,7 +218,8 @@ const addMarkers = (plants) => {
     var generateRandom = new Math.seedrandom('put.pins')
     var selectedIndices = []
     for (var i = 0; i < MAX_PINS; i++) {
-        selectedIndices.push(generateRandom() * plants.length)
+        randomIndex = Math.trunc(generateRandom() * plants.length)
+        selectedIndices.push(randomIndex)
         console.log(selectedIndices[i])
     }
 
