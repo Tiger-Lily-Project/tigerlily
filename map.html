@@ -78,11 +78,29 @@ const tour = () => {
             console.log(data)
             deleteMarkers()
             addMarkers(data.plants)
-            var coords = []
-            for (var i = 0; i < data.plants.length; i++) {
-                let coord_pair = {lat: parseFloat(data.plants[i].lat), lng: parseFloat(data.plants[i].lng)}
-                coords.push(coord_pair)
-            }
+            var coords = [
+                {lat: 40.3494921, lng: -74.6602896},
+                {lat: 40.3494185, lng: -74.6606088},
+                {lat: 40.3485230, lng: -74.6602369},
+                {lat: 40.348139, lng: -74.660083},
+                {lat: 40.348133, lng: -74.660099},
+                {lat: 40.348116, lng: -74.660107},
+                {lat: 40.3477529, lng: -74.6606565},
+                {lat: 40.347691, lng: -74.660620},
+                {lat: 40.3477529, lng: -74.6606565},
+                {lat: 40.347837, lng: -74.661163},
+                {lat: 40.347643, lng: -74.661843},
+                {lat: 40.347837, lng: -74.661163},
+                {lat: 40.347715, lng: -74.660989},
+                {lat: 40.347665, lng: -74.660869},
+                {lat: 40.347368, lng: -74.661023},
+                {lat: 40.347350, lng: -74.661001},
+                {lat: 40.347327, lng: -74.660981},
+                {lat: 40.346989, lng: -74.660790},
+                {lat: 40.346740, lng: -74.660867},
+                {lat: 40.346718, lng: -74.660780},
+                {lat: 40.346692, lng: -74.660676}
+            ]
             console.log(coords)
             var tourPath = new google.maps.Polyline({
 	            path: coords
