@@ -172,11 +172,12 @@ def about():
 @app.route('/tour')
 def tour():
 
-    ids = [572, 152, 3389, 3376, 3331, 656, 181, 271, 3260, 3485, 407, 874, 3109, 3906, 820, 3467, 793]
-
-    plants = []
-
     try:
+        ids = request.args.get('ids')
+        print(ids)
+
+        plants = []
+
         database = Database()
         database.connect()
 
@@ -189,11 +190,7 @@ def tour():
     except:
         plants = []
 
-    # Render the catalog page, passing in the list of species.
-    html = render_template('tour.html', plants = plants)
-    response = make_response(html)
-
-    return response
+    return json.jsonify(plants = plants)
 
 #endregion
     
