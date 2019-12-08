@@ -252,7 +252,7 @@ class Database:
                 SELECT plant_indiv.common_name, plant_indiv.lat, plant_indiv.long, \
                     plant_indiv.status, plant_indiv.primary_id, species_info.dec_or_evg \
                 FROM plant_indiv JOIN species_info ON plant_indiv.common_name = species_info.common_name \
-            ) tmp WHERE lat >= %s AND lat <= %s AND long <= %s AND long >= %s AND "
+            ) tmp WHERE lat >= %s AND lat <= %s AND long <= %s AND long >= %s AND"
 
         # Append WHERE for names
         for i in range(0, len(species)):
