@@ -94,16 +94,12 @@ class Database:
         stmt = "SELECT * FROM plant_indiv WHERE primary_id = %s;"
         cursor.execute(stmt, [id_num])
 
-        plants = []
         row = cursor.fetchone()
-        while row is not None:
+        if row is not None:
             plant = Plant(str(row[0]), str(row[1]), str(row[2]), str(row[3]), str(row[4]))
             plant = Plant.getDict(plant)
-           
-            plants.append(plant)
-            row = cursor.fetchone()
         cursor.close()
-        return plants
+        return plant
 
 #endregion
 
