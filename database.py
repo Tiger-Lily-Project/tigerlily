@@ -15,9 +15,15 @@ from plant import Plant
 
 class Database:
 
+#region Constructors
+
     # Creates a database.
     def __init__(self):
         self._connection = None
+
+#endregion
+
+#region Connections
 
     # Connects to the registrar database
     def connect(self):
@@ -29,21 +35,75 @@ class Database:
         if self._connection is not None:
             self._connection.close()
 
+#endregion
+
+#region Plant searches
+
     # Searches for plants within the given coordinates
-    def search_in_range(self, minLat, maxLat, minLong, maxLong):
+    def search_in_range(self, south, north, east, west):
         cursor = self._connection.cursor()
-        stmt, values = self.create_range_stmt(minLat, maxLat, minLong, maxLong)
+        stmt, values = self.create_range_stmt(south, north, east, west)
         cursor.execute(stmt, values)
 
         plants = []
         row = cursor.fetchone()
         while row is not None:
-            plant = Plant(str(row[0]), str(row[1]), str(row[2]), str(row[3]))
+            plant = Plant(str(row[0]), str(row[1]), str(row[2]), str(row[3]), str(row[4]))
             plant = Plant.getDict(plant)
             plants.append(plant)
             row = cursor.fetchone()
         cursor.close()
         return plants
+
+    # Returns all individual plants in the database
+    def get_all_plants(self):
+        cursor = self._connection.cursor()
+        stmt = "SELECT * FROM plant_indiv;"
+        cursor.execute(stmt)
+
+        plants = []
+        row = cursor.fetchone()
+        while row is not None:
+            plant = Plant(str(row[0]), str(row[1]), str(row[2]), str(row[3]), str(row[4]))
+            plant = Plant.getDict(plant)
+            plants.append(plant)
+            row = cursor.fetchone()
+        cursor.close()
+        return plants
+
+    # Returns n plants from the database
+    def get_n_plants(self, n):
+        cursor = self._connection.cursor()
+        stmt = "SELECT * FROM plant_indiv LIMIT %s;"
+        cursor.execute(stmt, [n])
+
+        plants = []
+        row = cursor.fetchone()
+        while row is not None:
+            plant = Plant(str(row[0]), str(row[1]), str(row[2]), str(row[3]), str(row[4]))
+            plant = Plant.getDict(plant)
+           
+            plants.append(plant)
+            row = cursor.fetchone()
+        cursor.close()
+        return plants
+
+    # Gets plant informtion by primary id
+    def get_plant_by_id(self, id_num):
+        cursor = self._connection.cursor()
+        stmt = "SELECT * FROM plant_indiv WHERE primary_id = %s;"
+        cursor.execute(stmt, [id_num])
+
+        row = cursor.fetchone()
+        if row is not None:
+            plant = Plant(str(row[0]), str(row[1]), str(row[2]), str(row[3]), str(row[4]))
+            plant = Plant.getDict(plant)
+        cursor.close()
+        return plant
+
+#endregion
+
+#region Species searches
 
     # Returns all species to create a catalog
     # Returns dictionary, key = first letter, value = list of species starting with key
@@ -101,39 +161,6 @@ class Database:
 
         return species
 
-    # Returns all individual plants in the database
-    def get_all_plants(self):
-        cursor = self._connection.cursor()
-        stmt = "SELECT * FROM plant_indiv;"
-        cursor.execute(stmt)
-
-        plants = []
-        row = cursor.fetchone()
-        while row is not None:
-            plant = Plant(str(row[0]), str(row[1]), str(row[2]), str(row[3]))
-            plant = Plant.getDict(plant)
-            plants.append(plant)
-            row = cursor.fetchone()
-        cursor.close()
-        return plants
-
-    # Returns n plants from the database
-    def get_n_plants(self, n):
-        cursor = self._connection.cursor()
-        stmt = "SELECT * FROM plant_indiv LIMIT %s;"
-        cursor.execute(stmt, [n])
-
-        plants = []
-        row = cursor.fetchone()
-        while row is not None:
-            plant = Plant(str(row[0]), str(row[1]), str(row[2]), str(row[3]))
-            plant = Plant.getDict(plant)
-           
-            plants.append(plant)
-            row = cursor.fetchone()
-        cursor.close()
-        return plants
-
     # Gets information on a plant species by its common name
     def get_species_info(self, common_name):
         cursor = self._connection.cursor()
@@ -155,24 +182,10 @@ class Database:
         count = int(row[0])
 
         return count
-        
-    # Creates a statement to search for pins based on range and given location
-    def create_range_stmt(self, minLat, maxLat, minLong, maxLong):
 
-        # Will hold the search terms in the order they're used.
-        search_values = []
+#endregion
 
-        # Creates the baseline statement.
-        stmtStr = "SELECT * FROM plant_indiv WHERE lat >= %s AND lat <= %s AND long <= %s AND long >= %s"
-
-        # Append the boundaries for the latitude and longitude ranges.
-        search_values.append(minLat)
-        search_values.append(maxLat)
-        search_values.append(minLong)
-        search_values.append(maxLong)
-
-        # Return the statement and the ordered list of values.
-        return stmtStr, search_values
+#region Filter searches
 
     # Gets possible values of dec_or_evg
     def get_dec_or_evg_vals(self):
@@ -194,42 +207,28 @@ class Database:
 
         return dec_or_evg_vals
 
-    # Gets possible values of status
-    def get_status_vals(self):
-
-        cursor = self._connection.cursor()
-        stmtStr = "SELECT DISTINCT status FROM plant_indiv;"
-        cursor.execute(stmtStr)
-
-        status_vals = []
-        
-        row = cursor.fetchone()
-        while row is not None:
-            status_vals.append(str(row[0]))
-            row = cursor.fetchone()
-
-        cursor.close()
-
-        status_vals.sort()
-
-        return status_vals
-
     # Gets filtered plants
-    def get_filtered_plants(self, n, species, status, dec_or_evg):
+    def get_filtered_plants(self, species, dec_or_evg, south, north, east, west):
 
-        if len(species) == 0 and len(status) == 0 and len(dec_or_evg) == 0:
-            return self.get_n_plants(n)
+        print("species is", len(species))
+        print("doe is", len(dec_or_evg))
+
+        if len(species) == 0 and len(dec_or_evg) == 0:
+            print("not filtering")
+            return self.search_in_range(south, north, east, west)
 
         cursor = self._connection.cursor()
 
-        stmtStr, vals = self.create_filter_stmt(n, species, status, dec_or_evg)
+        print("filtering")
+
+        stmtStr, vals = self.create_filter_stmt(species, dec_or_evg, south, north, east, west)
 
         cursor.execute(stmtStr, vals)
 
         plants = []
         row = cursor.fetchone()
         while row is not None:
-            plant = Plant(str(row[0]), str(row[1]), str(row[2]), str(row[3]))
+            plant = Plant(str(row[0]), str(row[1]), str(row[2]), str(row[3]), str(row[4]))
             plant = Plant.getDict(plant)
            
             plants.append(plant)
@@ -237,13 +236,51 @@ class Database:
         cursor.close()
         return plants
 
-    # Create filtering SQL statement
-    def create_filter_stmt(self, n, species, status, dec_or_evg):
+#endregion
 
-        stmtStr = "SELECT common_name, lat, long, status FROM ( \
-                SELECT plant_indiv.common_name, plant_indiv.lat, plant_indiv.long, plant_indiv.status, species_info.dec_or_evg \
+#region Tour searches
+
+    # Gets a plant's blurb by its common name
+    def get_tour_blurb(self, common_name):
+        cursor = self._connection.cursor()
+        stmt = "SELECT blurb FROM tour WHERE common_name = %s;"
+        cursor.execute(stmt, [common_name])
+
+        row = cursor.fetchone()
+        blurb = str(row[0])
+
+        return blurb
+
+#endregion
+
+#region Search helpers
+
+    # Creates a statement to search for pins based on range and given location
+    def create_range_stmt(self, south, north, east, west):
+
+        # Will hold the search terms in the order they're used.
+        search_values = []
+
+        # Creates the baseline statement.
+        stmtStr = "SELECT * FROM plant_indiv WHERE lat >= %s AND lat <= %s AND long <= %s AND long >= %s"
+
+        # Append the boundaries for the latitude and longitude ranges.
+        search_values.append(south)
+        search_values.append(north)
+        search_values.append(east)
+        search_values.append(west)
+
+        # Return the statement and the ordered list of values.
+        return stmtStr, search_values
+
+    # Create filtering SQL statement
+    def create_filter_stmt(self, species, dec_or_evg, south, north, east, west):
+
+        stmtStr = "SELECT common_name, lat, long, status, primary_id FROM ( \
+                SELECT plant_indiv.common_name, plant_indiv.lat, plant_indiv.long, \
+                    plant_indiv.status, plant_indiv.primary_id, species_info.dec_or_evg \
                 FROM plant_indiv JOIN species_info ON plant_indiv.common_name = species_info.common_name \
-            ) tmp WHERE"
+            ) tmp WHERE lat >= %s AND lat <= %s AND long <= %s AND long >= %s AND"
 
         # Append WHERE for names
         for i in range(0, len(species)):
@@ -253,20 +290,7 @@ class Database:
                 stmtStr += " OR common_name = %s"
             
         # Append AND if necessary
-        if len(species) > 0 and len(status) > 0:
-            stmtStr += " AND"
-        elif len(species) > 0 and len(dec_or_evg) > 0:
-            stmtStr += " AND"
-
-        # Append WHERE for statuses
-        for i in range(0, len(status)):
-            if i == 0:
-                stmtStr += " status = %s"
-            else:
-                stmtStr += " OR status = %s"
-    
-        # Append AND if necessary
-        if len(status) > 0 and len(dec_or_evg) > 0:
+        if len(species) > 0 and len(dec_or_evg) > 0:
             stmtStr += " AND"
 
         # Append WHERE for dec_or_evg
@@ -276,25 +300,28 @@ class Database:
             else:
                 stmtStr += " OR dec_or_evg = %s"
 
-        # Limit by n
-        stmtStr += " LIMIT %s"
-
         stmtStr += ";"
 
         # Create list of prepared values
         vals = []
+        vals.append(south)
+        vals.append(north)
+        vals.append(east)
+        vals.append(west)
         for spec in species:
             vals.append(spec)
-        for stat in status:
-            vals.append(stat)
         for d_o_e in dec_or_evg:
             vals.append(d_o_e)
-        vals.append(n)
+
+        print("stmtStr = ", stmtStr)
 
         return stmtStr, vals
 
+#endregion
 
 #---------------------------------------------------------------------------
+
+#region Testing
 
 # For testing:
 
@@ -307,3 +334,5 @@ if __name__ == '__main__':
         for info in species[first_char]:
             print(info.getCommonName())
     database.disconnect()
+
+#endregion

@@ -28,116 +28,68 @@ csp = {
 }
 talisman = Talisman(app, content_security_policy=None)
 
-#-----------------------------------------------------------------------
+#region Index
 
 # Renders the home page.
 @app.route('/')
 @app.route('/index')
 def index():
 
-    submit_button = request.args.get("submit_button")
-
-    if submit_button == "Clear Filter":
-        species = []
-        status = []
-        dec_or_evg = []
-
-    else:
-        species = request.args.getlist("species")
-        if species is None:
-            species = []
-        status = request.args.getlist("status")
-        if status is None:
-            status = []
-        dec_or_evg = request.args.getlist("dec_or_evg")
-        if dec_or_evg is None:
-            dec_or_evg = []
-
-    print("SPECIES")
-    print(species)
-    print("STATUS")
-    print(status)
-    print("DEC OR EVG")
-    print(dec_or_evg)
-
     # Gets a list of all plants available in the database.
     try:
         database = Database()
         database.connect()
-        plants = database.get_filtered_plants(200, species, status, dec_or_evg)
+
+        species = request.args.getlist("species")
+        if species is None:
+            species = []
+        dec_or_evg = request.args.getlist("dec_or_evg")
+        if dec_or_evg is None:
+            dec_or_evg = []
+
+        print("SPECIES")
+        print(species)
+        print("DEC OR EVG")
+        print(dec_or_evg)
 
         all_species = database.get_all_species()
-
-        status_vals = database.get_status_vals()
         
         dec_or_evg_vals = database.get_dec_or_evg_vals()
-
-        plants = database.get_n_plants(200)
-
-        database.disconnect()
 
     except Exception as e:
         print("EXCEPTION")
         print(e)
-        plants = []
+        species = []
+        dec_or_evg = []
         all_species = []
-        status_vals = []
         dec_or_evg_vals = []
     except Error as e:
         print("ERROR")
         print(e)
-        plants = []
+        species = []
+        dec_or_evg = []
         all_species = []
-        status_vals = []
         dec_or_evg_vals = []
 
-    #print("index in server.py: ")
-    #print(plants)
-
-    plants = json.dumps(plants)
+    database.disconnect()
 
     # Render the home page, passing in the list of plants.
-    html = render_template('index.html', 
-    plants = plants,
+    html = render_template('index.html',
     all_species = all_species,
-    status_vals = status_vals,
     dec_or_evg_vals = dec_or_evg_vals)
 
     response = make_response(html)
 
+    response.set_cookie("species", json.dumps(species))
+    response.set_cookie("dec_or_evg", json.dumps(dec_or_evg))
+
     return response
-#-----------------------------------------------------------------------
 
-@app.route('/getPins')
-def getPins():
-    print("in getPins")
-    try:
-        bounds = request.args.get('bounds')
-        bounds = json.loads(bounds)
-        print("bounds: ")
-        print(bounds)
+#endregion
 
-        database = Database()
-        database.connect()
+#region Details
 
-        print("south: ", bounds["south"])
-        print("north: ", bounds["north"])
-        print("east: ", bounds["east"])
-        print("west: ", bounds["west"])
-
-        plants = database.search_in_range(bounds["south"], bounds["north"], bounds["east"], bounds["west"])
-        print(plants)
-
-        database.disconnect()
-    except Exception as e:
-        plants = []
-        print(e)
-    
-    print(plants)
-    return json.jsonify(plants = plants)
-
-
-# Renders the home page.
+# Renders the details page.
 @app.route('/')
 @app.route('/plantdetails')
 def plantdetails():
@@ -149,7 +101,6 @@ def plantdetails():
         database.connect()
         species_info = database.get_species_info(common_name)
         count = database.get_species_count(common_name)
-        database.disconnect()
     except Exception as e:
         species_info = SpeciesInfo('','','','','')
         count = 0
@@ -165,7 +116,42 @@ def plantdetails():
     response = make_response(html)
 
     return response
-#-----------------------------------------------------------------------
+
+# Renders the tour details page.
+@app.route('/')
+@app.route('/tourdetails')
+def tourdetails():
+
+    common_name = request.args.get("common_name")
+    # Gets a the information on the requested species.
+    try:
+        database = Database()
+        database.connect()
+        species_info = database.get_species_info(common_name)
+        blurb = database.get_tour_blurb(common_name)
+    except Exception as e:
+        print(e)
+        species_info = SpeciesInfo('','','','','')
+        blurb = ""
+    except Error as e:
+        print(e)
+        species_info = SpeciesInfo('','','','','')
+        blurb = ""
+
+    database.disconnect()
+
+    # Render the details page, passing in the plant.
+    html = render_template('tourdetails.html', 
+    common_name = common_name,
+    species_info = species_info,
+    blurb = blurb)
+    response = make_response(html)
+
+    return response
+
+#endregion
+
+#region Catalog
 
 # Renders the catalog page.
 @app.route('/')
@@ -193,7 +179,10 @@ def catalog():
     response = make_response(html)
 
     return response
-#-----------------------------------------------------------------------
+
+#endregion
+
+#region About
 
 # Renders the "about us" page.
 @app.route('/')
@@ -205,6 +194,95 @@ def about():
     response = make_response(html)
 
     return response
+
+#endregion
+
+#region GetTourPlants
+
+# Gets the tour plants
+@app.route('/')
+@app.route('/getTourPlants')
+def getTourPlants():
+
+    try:
+        ids = request.args.get('ids')
+        ids = json.loads(ids)
+        print(ids)
+
+        plants = []
+
+        database = Database()
+        database.connect()
+
+        for id_num in ids:
+            plant = database.get_plant_by_id(id_num)
+            plants.append(plant)
+
+        database.disconnect()
+    
+    except Exception as e:
+        print(e)
+        plants = []
+
+    except Error as e:
+        print(e)
+        plants = []
+
+    return json.jsonify(plants = plants)
+
+#endregion
+    
+#region GetPins
+
+@app.route('/getPins')
+def getPins():
+    print("in getPins")
+    try:
+        bounds = request.args.get('bounds')
+        bounds = json.loads(bounds)
+
+        south = bounds["south"]
+        north = bounds["north"]
+        east = bounds["east"]
+        west = bounds["west"]
+
+        
+        reset = int(request.args.get('reset'))
+        if reset == 1:
+            species = []
+            dec_or_evg = []
+        else:
+            species = json.loads(request.cookies.get('species'))
+            dec_or_evg = json.loads(request.cookies.get('dec_or_evg'))
+
+        print("SPECIES FROM REQUEST")
+        print(species)
+        print(len(species))
+        print("DOE FROM REQUEST")
+        print(dec_or_evg)
+        print(len(dec_or_evg))
+
+        print("south: ", south)
+        print("north: ", north)
+        print("east: ", east)
+        print("west: ", west)
+
+        database = Database()
+        database.connect()
+
+        plants = database.get_filtered_plants(species, dec_or_evg, south, north, east, west)
+
+        database.disconnect()
+
+    except Exception as e:
+        plants = []
+        print(e)
+    
+    return json.jsonify(plants = plants)
+
+#endregion
+
+#region Test
 #-----------------------------------------------------------------------
 # Renders the "about us" page.
 @app.route('/')
@@ -217,6 +295,7 @@ def test():
 
     return response
 #-----------------------------------------------------------------------
+#endregion
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=10101, debug=True)

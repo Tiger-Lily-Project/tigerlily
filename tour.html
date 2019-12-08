@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Catalog</title>
+  <title>Princeton Plants</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
   <link rel="shortcut icon" type="image/ico" href="/static/favicon.ico">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
   <style>
@@ -22,6 +22,18 @@
     /* On small screens, set height to 'auto' for the grid */
     @media screen and (max-width: 767px) {
       .row.content {height: auto;} 
+    }
+
+    html, body{
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    }
+    
+    #map{
+    position: relative; 
+    height: 600px;
     }
   </style>
 </head>
@@ -41,9 +53,9 @@
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
-        <li><a href="/index">Home</a></li>
+        <li class="active"><a href="/index">Home</a></li>
         <li><a href="#">Guided Tour</a></li>
-        <li class="active"><a href="/catalog">Catalog</a></li>
+        <li><a href="/catalog">Catalog</a></li>
         <li><a href="/about">About Us</a></li>
       </ul>
     </div>
@@ -57,30 +69,21 @@
       <a href="/index"> <img src="/static/logo_with_text.png" height="50" class="d-inline-block align-top" alt="Princeton Plants"></a>
       <br>
       <ul class="nav nav-pills nav-stacked">
-        <li><a href="/index">Home</a></li>
-        <li><a href="/index">Guided Tour</a></li>
-        <li class="active"><a href="/catalog">Catalog</a></li>
+        <li class="active"><a href="/index">Home</a></li>
+        <li><a href="/tour">Guided Tour</a></li>
+        <li><a href="/catalog">Catalog</a></li>
         <li><a href="/about">About Us</a></li>
       </ul><br>
     </div>
     <br>
-    
-    <div class="col-sm-9">
-      {% for first_char in species: %}
-      <div class="well">
-        <h2>{{first_char}}</h2>
-          {% for species_info in species[first_char]: %}
-          <br>
-          <a href="plantdetails?common_name={{species_info.getEncodedCommonName()}}">{{species_info.getCommonName()}}</a>
-          <br>
-          <img src="/static/images/{{species_info.getImg()}}" alt="test" width = "150">
-          <br>
-          {% endfor %}
-      </div>
-      {% endfor %}
-    </div>
   </div>
 </div>
 
+<div class="col-sm-9">
+  Welcome to the tour page :)
+</div>
+
+{% include 'map.html' %}
 </body>
+
 </html>

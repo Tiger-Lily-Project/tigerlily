@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Catalog</title>
+  <title>Plant Details</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
@@ -42,8 +42,8 @@
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
         <li><a href="/index">Home</a></li>
-        <li><a href="#">Guided Tour</a></li>
-        <li class="active"><a href="/catalog">Catalog</a></li>
+        <li><a href="/index">Guided Tour</a></li>
+        <li><a href="/catalog">Catalog</a></li>
         <li><a href="/about">About Us</a></li>
       </ul>
     </div>
@@ -59,25 +59,24 @@
       <ul class="nav nav-pills nav-stacked">
         <li><a href="/index">Home</a></li>
         <li><a href="/index">Guided Tour</a></li>
-        <li class="active"><a href="/catalog">Catalog</a></li>
+        <li><a href="/catalog">Catalog</a></li>
         <li><a href="/about">About Us</a></li>
       </ul><br>
     </div>
     <br>
     
     <div class="col-sm-9">
-      {% for first_char in species: %}
       <div class="well">
-        <h2>{{first_char}}</h2>
-          {% for species_info in species[first_char]: %}
-          <br>
-          <a href="plantdetails?common_name={{species_info.getEncodedCommonName()}}">{{species_info.getCommonName()}}</a>
-          <br>
-          <img src="/static/images/{{species_info.getImg()}}" alt="test" width = "150">
-          <br>
-          {% endfor %}
+        <br> 
+        <h2>{{common_name}}</h2>
+         <img class="img-responsive" src="/static/images/{{species_info.getImg()}}" alt="test" width = "600">
+         <br>
+         <b>Latin Name:</b> {{species_info.getLatinName()}}
+         <br>
+         <b>About this tree: </b>{{blurb}}
+         <br>
+         <br>
       </div>
-      {% endfor %}
     </div>
   </div>
 </div>
