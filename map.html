@@ -219,15 +219,16 @@ const addMarkers = (plants) => {
     var selectedIndices = []
     for (var i = 0; i < MAX_PINS; i++) {
         selectedIndices.push(generateRandom() * plants.length)
+        console.log(selectedIndices[i])
     }
 
     // Place pins on the map
     for (var i = 0; i < plants.length; i++) {
+        console.log("checking index ", i)
         // For large numbers of plants, is this one of the randomly selected indices?
         if (plants.length > MAX_PINS) {
             if (!selectedIndices.includes(i)) continue
         }
-        print(i)
 
         var lat = parseFloat(plants[i].lat);
         var lng = parseFloat(plants[i].lng);
