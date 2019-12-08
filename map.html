@@ -80,7 +80,7 @@ const tour = () => {
             addMarkers(data.plants)
             var coords = []
             for (var i = 0; i < data.plants.length; i++) {
-                let coord_pair = {lat: data.plants[i].lat, lng: data.plants[i].lng}
+                let coord_pair = {lat: parseFloat(data.plants[i].lat), lng: parseFloat(data.plants[i].lng)}
                 coords.push(coord_pair)
             }
             console.log(coords)
