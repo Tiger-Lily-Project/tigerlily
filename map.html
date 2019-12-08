@@ -214,7 +214,7 @@ const addMarkers = (plants) => {
     var pseudoRandom = new Math.seedrandom('pins')
     for (var i = 0; i < plants.length; i++) {
         if (plants.length > 40) {
-            console.log(pseudoRandom)
+            console.log(pseudoRandom())
         }
         // console.log(plants[i])
         var lat = parseFloat(plants[i].lat);
