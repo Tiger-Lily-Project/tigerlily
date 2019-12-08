@@ -100,7 +100,7 @@ def plantdetails():
         database = Database()
         database.connect()
         species_info = database.get_species_info(common_name)
-        count = database.get_species_count(common_name
+        count = database.get_species_count(common_name)
     except Exception as e:
         species_info = SpeciesInfo('','','','','')
         count = 0
