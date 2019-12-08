@@ -26,6 +26,7 @@ const deleteMarkers = () => {
     for (var i = 0; i < markers.length; i++) {
         markers[i].setMap(null);
     }
+    console.log("removed " + markers.length + " markers")
     // set markers to an empty array
     markers = [];
 }
@@ -34,7 +35,6 @@ const markers_in_bounds = (reset) => {
     console.log("ran markers_in_bounds")
     // Get map bounds
     let bounds = map.getBounds()
-    bounds = bounds.toJSON()
     console.log("bounds: ", bounds)
     console.log("reset: ", reset)
 
@@ -60,13 +60,12 @@ function handleResponse(response) {
 
 const tour = () => {
     let ids = [572, 152, 3389, 3376, 3331, 656, 181, 271, 3260, 3485, 407, 874, 3109, 3906, 820, 3467, 793]
-    ids = ids.toJSON()
     let url = '/getTourPlants'
     $.ajax({
         url: url,
         type: "GET",
         contentType: "application/json",
-        data: {ids: ids},
+        data: {ids: JSON.stringify(ids)},
         success: function(data) {
             console.log(data)
             deleteMarkers()
@@ -104,7 +103,6 @@ const addMarkers = (plants) => {
 
         // add marker to array
         markers.push(marker)
-        console.log("added marker")
 
         google.maps.event.addListener(marker, 'click', (function(marker, i) {
             return function() {
@@ -127,7 +125,8 @@ const addMarkers = (plants) => {
                 infowindow.open(map, marker);
             }
         })(marker, i));
-}
+    }
+    console.log("added " + markers.length + " markers")
 }
   
 function initMap() {
