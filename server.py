@@ -165,12 +165,12 @@ def about():
 
 #endregion
 
-#region Tour
+#region GetTourPlants
 
-# Renders the tour page page.
+# Gets the tour plants
 @app.route('/')
-@app.route('/tour')
-def tour():
+@app.route('/getTourPlants')
+def getTourPlants():
 
     try:
         ids = request.args.get('ids')
