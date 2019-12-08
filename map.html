@@ -87,6 +87,7 @@ const addMarkers = (plants) => {
 
         // add marker to array
         markers.push(marker)
+        console.log("added marker")
 
         google.maps.event.addListener(marker, 'click', (function(marker, i) {
             return function() {
@@ -142,7 +143,7 @@ function initMap() {
     });
 
     google.maps.event.addListenerOnce(map, "bounds_changed", function(){
-        google.maps.event.addListener(map, "idle", function() { markers_in_bounds(0) });
+        google.maps.event.addListener(map, "idle", function() { markers_in_bounds(0)});
     });
 
 }

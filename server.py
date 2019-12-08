@@ -56,8 +56,6 @@ def index():
         
         dec_or_evg_vals = database.get_dec_or_evg_vals()
 
-        database.disconnect()
-
     except Exception as e:
         print("EXCEPTION")
         print(e)
@@ -72,6 +70,8 @@ def index():
         dec_or_evg = []
         all_species = []
         dec_or_evg_vals = []
+
+    database.disconnect()
 
     # Render the home page, passing in the list of plants.
     html = render_template('index.html',
@@ -100,8 +100,7 @@ def plantdetails():
         database = Database()
         database.connect()
         species_info = database.get_species_info(common_name)
-        count = database.get_species_count(common_name)
-        database.disconnect()
+        count = database.get_species_count(common_name
     except Exception as e:
         species_info = SpeciesInfo('','','','','')
         count = 0
