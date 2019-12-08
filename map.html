@@ -1,4 +1,5 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/seedrandom/3.0.5/seedrandom.min.js"></script>
 <script>
     // Based on various pages on Google Maps Javascript API documentation except where noted otherwise
 
@@ -207,7 +208,11 @@ const addMarkers = (plants) => {
     // place plants 
     var infowindow = new google.maps.InfoWindow();
     var contentString;
+    var pseudoRandom = new Math.seedrandom('pins')
     for (var i = 0; i < plants.length; i++) {
+        if (plants.length > 40) {
+            console.log(pseudoRandom)
+        }
         // console.log(plants[i])
         var lat = parseFloat(plants[i].lat);
         // console.log("lat: ", lat)
