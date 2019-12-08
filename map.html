@@ -207,26 +207,32 @@ const tour = () => {
 }
 
 const addMarkers = (plants) => {
+    var MAX_PINS = 40
     console.log("received " + plants.length + " plants")
     // place plants 
     var infowindow = new google.maps.InfoWindow();
     var contentString;
-    var pseudoRandom = new Math.seedrandom('pins')
+
+    // Use pseudorandom number generator to deterministically select which
+    // trees to display on zoom out (to control density)
+    var generateRandom = new Math.seedrandom('pins')
+    var selectedIndices = []
+    for (var i = 0; i < MAX_PINS; i++) {
+        selectedIndices.push(generateRandom() * plants.length)
+    }
+
+    // Place pins on the map
     for (var i = 0; i < plants.length; i++) {
-        if (plants.length > 40) {
-            console.log(pseudoRandom())
+        // For large numbers of plants, is this one of the randomly selected indices?
+        if (plants.length > MAX_PINS) {
+            if (!selectedIndices.includes(i)) continue
         }
-        // console.log(plants[i])
+        print(i)
+
         var lat = parseFloat(plants[i].lat);
-        // console.log("lat: ", lat)
-        // console.log("lng: ", lng)
         var lng = parseFloat(plants[i].lng);
         var title = plants[i].title;
         var titleURL = encodeURIComponent(title.trim());
-        // console.log("title: " + title)
-        // console.log(i, lat, lng);
-        // console.log(titleURL)
-        // console.log(plants[i].title)
 
         if (state === "tour") {
             var marker = new google.maps.Marker({
