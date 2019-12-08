@@ -187,7 +187,12 @@ def getTourPlants():
 
         database.disconnect()
     
-    except:
+    except Exception as e:
+        print(e)
+        plants = []
+
+    except Error as e:
+        print(e)
         plants = []
 
     return json.jsonify(plants = plants)
