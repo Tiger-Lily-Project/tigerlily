@@ -247,7 +247,7 @@ class Database:
         cursor.execute(stmt, [common_name])
 
         row = cursor.fetchone()
-        blurb = str(row[1])
+        blurb = str(row[0])
 
         return blurb
 
