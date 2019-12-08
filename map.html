@@ -125,11 +125,7 @@ var coords = [
     {lat: 40.349203, lng: -74.659539},
     {lat: 40.349503, lng: -74.659356}
 ]
-var tourPath = new google.maps.Polyline({
-    path: coords,
-    strokeColor: '#0080FF',
-    strokeWeight: 3
-});
+var tour = []
 
 
 const deleteMarkers = () => {
@@ -166,7 +162,8 @@ const markers_in_bounds = (reset, changeState) => {
             console.log(data)
             if (changeState == 1) {
                 deleteMarkers()
-                tourPath.setMap(null)
+                tours[0].setMap(null)
+                tours = []
             }
             addMarkers(data.plants)
         }
@@ -197,6 +194,7 @@ const tour = () => {
                 strokeColor: '#0080FF',
                 strokeWeight: 3
             });
+            tours.push(tourPath)
             tourPath.setMap(map);
         }
     })
