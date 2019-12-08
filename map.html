@@ -19,7 +19,7 @@ const trackLocation = ({ onSuccess, onError = () => { } }) => {
 };
 
 var markers = []
-var state = ""
+var state = "index"
 
 const deleteMarkers = () => {
     console.log("in delete markers")
@@ -32,7 +32,13 @@ const deleteMarkers = () => {
     markers = [];
 }
 
-const markers_in_bounds = (reset) => {
+const markers_in_bounds = (reset, changeState) => {
+    changeState = changeState || 0
+    if (changeState == 0 && state === "tour") {
+        tour()
+        return
+    }
+    state = "index"
     console.log("ran markers_in_bounds")
     // Get map bounds
     let bounds = map.getBounds()
@@ -82,7 +88,6 @@ const addMarkers = (plants) => {
     var infowindow = new google.maps.InfoWindow();
     var contentString;
     for (var i = 0; i < plants.length; i++) {
-        console.log(plants[i])
         // console.log(plants[i])
         var lat = parseFloat(plants[i].lat);
         // console.log("lat: ", lat)
