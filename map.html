@@ -215,7 +215,7 @@ const addMarkers = (plants) => {
 
     // Use pseudorandom number generator to deterministically select which
     // trees to display on zoom out (to control density)
-    var generateRandom = new Math.seedrandom('pins')
+    var generateRandom = new Math.seedrandom('put.pins')
     var selectedIndices = []
     for (var i = 0; i < MAX_PINS; i++) {
         selectedIndices.push(generateRandom() * plants.length)
