@@ -60,6 +60,7 @@ function handleResponse(response) {
 
 const tour = () => {
     let ids = [572, 152, 3389, 3376, 3331, 656, 181, 271, 3260, 3485, 407, 874, 3109, 3906, 820, 3467, 793]
+    ids = ids.toJSON()
     let url = '/getTourPlants'
     $.ajax({
         url: url,
