@@ -128,15 +128,28 @@ const addMarkers = (plants) => {
         // console.log(titleURL)
         // console.log(plants[i].title)
 
-        var marker = new google.maps.Marker({
-            map: map,
-            position: {
-                lat: lat,
-                lng: lng
-            },
-            title: title,
-            clickable: true
-        });
+        if (state === "tour") {
+            var marker = new google.maps.Marker({
+                map: map,
+                position: {
+                    lat: lat,
+                    lng: lng
+                },
+                title: title,
+                label: stringify(i),
+                clickable: true
+            });
+        } else {
+            var marker = new google.maps.Marker({
+                map: map,
+                position: {
+                    lat: lat,
+                    lng: lng
+                },
+                title: title,
+                clickable: true
+            });
+        }
 
         // add marker to array
         markers.push(marker)
