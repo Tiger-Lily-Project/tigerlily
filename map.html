@@ -18,23 +18,30 @@ const trackLocation = ({ onSuccess, onError = () => { } }) => {
     return navigator.geolocation.watchPosition(onSuccess, onError);
 };
 
-var markers = []
+//var markers = []
+var state = "index"
 
+/*
 const deleteMarkers = () => {
     console.log("in delete markers")
     // loop through markers, setting them to null on the map
     for (var i = 0; i < markers.length; i++) {
         markers[i].setMap(null);
     }
+    console.log("removed " + markers.length + " markers")
     // set markers to an empty array
     markers = [];
-}
+}*/
 
-const markers_in_bounds = (reset) => {
+const markers_in_bounds = (reset, changeState) => {
+    changeState = changeState || 0
+    if (changeState == 0 && state === "tour") {
+        return
+    }
+    state = "index"
     console.log("ran markers_in_bounds")
     // Get map bounds
     let bounds = map.getBounds()
-    bounds = bounds.toJSON()
     console.log("bounds: ", bounds)
     console.log("reset: ", reset)
 
@@ -47,7 +54,7 @@ const markers_in_bounds = (reset) => {
         data: {bounds: JSON.stringify(bounds), reset: reset},
         success: function(data){
             console.log(data)
-            deleteMarkers()
+            // deleteMarkers()
             addMarkers(data.plants)
         }
     });
@@ -58,7 +65,137 @@ function handleResponse(response) {
     console.log("whatever")
 }
 
+const tour = () => {
+    state = "tour"
+    let ids = [572, 152, 3389, 3376, 3331, 656, 181, 271, 3260, 3485, 407, 874, 199, 3906, 820, 3467, 793]
+    let url = '/getTourPlants'
+    $.ajax({
+        url: url,
+        type: "GET",
+        contentType: "application/json",
+        data: {ids: JSON.stringify(ids)},
+        success: function(data) {
+            console.log(data)
+            deleteMarkers()
+            addMarkers(data.plants)
+            var coords = [
+                {lat: 40.3494921, lng: -74.6602896},
+                {lat: 40.3494185, lng: -74.6606088},
+                {lat: 40.3485230, lng: -74.6602369},
+                {lat: 40.348139, lng: -74.660083},
+                {lat: 40.348133, lng: -74.660099},
+                {lat: 40.348116, lng: -74.660107},
+                {lat: 40.3477529, lng: -74.6606565},
+                {lat: 40.347691, lng: -74.660620},
+                {lat: 40.3477529, lng: -74.6606565},
+                {lat: 40.347837, lng: -74.661163},
+                {lat: 40.347643, lng: -74.661843},
+                {lat: 40.347837, lng: -74.661163},
+                {lat: 40.347715, lng: -74.660989},
+                {lat: 40.347665, lng: -74.660869},
+                {lat: 40.347368, lng: -74.661023},
+                {lat: 40.347350, lng: -74.661001},
+                {lat: 40.347327, lng: -74.660981},
+                {lat: 40.346989, lng: -74.660790},
+                {lat: 40.346740, lng: -74.660867},
+                {lat: 40.346718, lng: -74.660780},
+                {lat: 40.346692, lng: -74.660676},
+                {lat: 40.345487, lng: -74.660211},
+                {lat: 40.345530, lng: -74.660025},
+                {lat: 40.345554, lng: -74.659973},
+                {lat: 40.345921, lng: -74.659383},
+                {lat: 40.345963, lng: -74.659328},
+                {lat: 40.346004, lng: -74.659304},
+                {lat: 40.346035, lng: -74.659306},
+                {lat: 40.346095, lng: -74.659315},
+                {lat: 40.346112, lng: -74.659321},
+                {lat: 40.346128, lng: -74.659321},
+                {lat: 40.346141, lng:-74.659318},
+                {lat: 40.346376, lng: -74.659252},
+                {lat: 40.346469, lng: -74.658849},
+                {lat: 40.346433, lng: -74.658783},
+                {lat: 40.346390, lng: -74.658768},
+                {lat: 40.346383, lng: -74.658707},
+                {lat: 40.346084, lng: -74.658347},
+                {lat: 40.346059, lng: -74.658293},
+                {lat: 40.346049, lng: -74.658250},
+                {lat: 40.346045, lng: -74.658206},
+                {lat: 40.346045, lng: -74.658153},
+                {lat: 40.346053, lng: -74.658114},
+                {lat: 40.346224, lng: -74.657457},
+                {lat: 40.346347, lng: -74.657510},
+                {lat: 40.346690, lng: -74.657401},
+                {lat: 40.346719, lng: -74.657286},
+                {lat: 40.346732, lng: -74.657168},
+                {lat: 40.346719, lng: -74.657286},
+                {lat: 40.346882, lng: -74.657320},
+                {lat: 40.346996, lng: -74.657282},
+                {lat: 40.347193, lng: -74.657156},
+                {lat: 40.347240, lng: -74.657078},
+                {lat: 40.347236, lng: -74.657062},
+                {lat: 40.347230, lng: -74.657037},
+                {lat: 40.347230, lng: -74.657014},
+                {lat: 40.347232, lng: -74.656997},
+                {lat: 40.347330, lng: -74.656457},
+                {lat: 40.347337, lng: -74.656462},
+                {lat: 40.347344, lng: -74.656466},
+                {lat: 40.347354, lng: -74.656471},
+                {lat: 40.347366, lng: -74.656474},
+                {lat: 40.347376, lng: -74.656474},
+                {lat: 40.347381, lng: -74.656472},
+                {lat: 40.347397, lng: -74.656468},
+                {lat: 40.347408, lng: -74.656462},
+                {lat: 40.347420, lng: -74.656451},
+                {lat: 40.347427, lng: -74.656442},
+                {lat: 40.347433, lng: -74.656433},
+                {lat: 40.347438, lng: -74.656421},
+                {lat: 40.347443, lng: -74.656411},
+                {lat: 40.347445, lng: -74.656401},
+                {lat: 40.347447, lng: -74.656386},
+                {lat: 40.347448, lng: -74.656377},
+                {lat: 40.347447, lng: -74.656364},
+                {lat: 40.347445, lng: -74.656348},
+                {lat: 40.347442, lng: -74.656338},
+                {lat: 40.347439, lng: -74.656329},
+                {lat: 40.347433, lng: -74.656315},
+                {lat: 40.347424, lng: -74.656300},
+                {lat: 40.347562, lng: -74.655686},
+                {lat: 40.347610, lng: -74.655667},
+                {lat: 40.347649, lng: -74.655661},
+                {lat: 40.347676, lng: -74.655660},
+                {lat: 40.347715, lng: -74.655661},
+                {lat: 40.347787, lng: -74.655670},
+                {lat: 40.347868, lng: -74.655905},
+                {lat: 40.348240, lng: -74.656050},
+                {lat: 40.348149, lng: -74.656325},
+                {lat: 40.348134, lng: -74.656380},
+                {lat: 40.347552, lng: -74.658796},
+                {lat: 40.347959, lng: -74.658980},
+                {lat: 40.348078, lng: -74.658564},
+                {lat: 40.348563, lng: -74.658762},
+                {lat: 40.348945, lng: -74.658946},
+                {lat: 40.348921, lng: -74.659046},
+                {lat: 40.348931, lng: -74.659056},
+                {lat: 40.348972, lng: -74.659092},
+                {lat: 40.349037, lng: -74.659169},
+                {lat: 40.349076, lng: -74.659237},
+                {lat: 40.349123, lng: -74.659340},
+                {lat: 40.349203, lng: -74.659539},
+                {lat: 40.349503, lng: -74.659356}
+            ]
+            console.log(coords)
+            var tourPath = new google.maps.Polyline({
+                path: coords,
+                strokeColor: '#0080FF',
+                strokeWeight: 3
+            });
+            tourPath.setMap(map);
+        }
+    })
+}
+
 const addMarkers = (plants) => {
+    console.log("received " + plants.length + " plants")
     // place plants 
     var infowindow = new google.maps.InfoWindow();
     var contentString;
@@ -75,41 +212,76 @@ const addMarkers = (plants) => {
         // console.log(titleURL)
         // console.log(plants[i].title)
 
-        var marker = new google.maps.Marker({
-            map: map,
-            position: {
-                lat: lat,
-                lng: lng
-            },
-            title: title,
-            clickable: true
-        });
+        if (state === "tour") {
+            var marker = new google.maps.Marker({
+                map: map,
+                position: {
+                    lat: lat,
+                    lng: lng
+                },
+                title: title,
+                label: (i + 1).toString(),
+                clickable: true
+            });
+        } else {
+            var marker = new google.maps.Marker({
+                map: map,
+                position: {
+                    lat: lat,
+                    lng: lng
+                },
+                title: title,
+                clickable: true
+            });
+        }
 
         // add marker to array
-        markers.push(marker)
+        //markers.push(marker)
 
         google.maps.event.addListener(marker, 'click', (function(marker, i) {
             return function() {
 
-                contentString = '<div id="content">'+
-                '<div id="siteNotice">'+
-                '</div>'+
-                '<h1 id="firstHeading" class="firstHeading">'+
-                plants[i].title+
-                '</h1>'+
-                '<div id="bodyContent">'+
-                '<p><a href=plantdetails?common_name='+
-                encodeURIComponent(plants[i].title.trim())+
-                '>'+
-                'Click here for more details</a></p>'+
-                '</div>'+
-                '</div>';
-            
-                infowindow.setContent(contentString);
-                infowindow.open(map, marker);
+                if (state === "tour") {
+                    contentString = '<div id="content">'+
+                    '<div id="siteNotice">'+
+                    '</div>'+
+                    '<h1 id="firstHeading" class="firstHeading">'+
+                    plants[i].title+
+                    '</h1>'+
+                    '<div id="bodyContent">'+
+                    '<p><a href=tourdetails?common_name='+
+                    encodeURIComponent(plants[i].title.trim())+
+                    '>'+
+                    'Learn about this tree</a></p>'+
+                    '</div>'+
+                    '</div>';
+                
+                    infowindow.setContent(contentString);
+                    infowindow.open(map, marker);
+                }
+
+                else {
+                    contentString = '<div id="content">'+
+                    '<div id="siteNotice">'+
+                    '</div>'+
+                    '<h1 id="firstHeading" class="firstHeading">'+
+                    plants[i].title+
+                    '</h1>'+
+                    '<div id="bodyContent">'+
+                    '<p><a href=plantdetails?common_name='+
+                    encodeURIComponent(plants[i].title.trim())+
+                    '>'+
+                    'Click here for more details</a></p>'+
+                    '</div>'+
+                    '</div>';
+                
+                    infowindow.setContent(contentString);
+                    infowindow.open(map, marker);
+                }
             }
         })(marker, i));
-}
+    }
+    console.log("added " + markers.length + " markers")
 }
   
 function initMap() {
@@ -142,7 +314,7 @@ function initMap() {
     });
 
     google.maps.event.addListenerOnce(map, "bounds_changed", function(){
-        google.maps.event.addListener(map, "idle", function() { markers_in_bounds(0) });
+        google.maps.event.addListener(map, "idle", function() { markers_in_bounds(0)});
     });
 
 }
