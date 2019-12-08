@@ -127,7 +127,7 @@ def tourdetails():
     try:
         database = Database()
         database.connect()
-        species_info = database.get_species_by_name(common_name)
+        species_info = database.get_species_info(common_name)
         blurb = database.get_tour_blurb(common_name)
     except Exception as e:
         print(e)
