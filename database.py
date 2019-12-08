@@ -241,7 +241,7 @@ class Database:
 #region Tour searches
 
     # Gets a plant's blurb by its common name
-    def get_tour_blurb(common_name):
+    def get_tour_blurb(self, common_name):
         cursor = self._connection.cursor()
         stmt = "SELECT blurb FROM tour WHERE common_name = %s;"
         cursor.execute(stmt, [common_name])

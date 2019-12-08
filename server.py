@@ -130,11 +130,15 @@ def tourdetails():
         species_info = database.get_species_by_name(common_name)
         blurb = database.get_tour_blurb(common_name)
     except Exception as e:
+        print(e)
         species_info = SpeciesInfo('','','','','')
         blurb = ""
     except Error as e:
+        print(e)
         species_info = SpeciesInfo('','','','','')
         blurb = ""
+
+    database.disconnect()
 
     # Render the details page, passing in the plant.
     html = render_template('tourdetails.html', 
