@@ -78,6 +78,16 @@ const tour = () => {
             console.log(data)
             deleteMarkers()
             addMarkers(data.plants)
+            var coords = []
+            for (var i = 0; i < data.plants.length; i++) {
+                let coord_pair = {lat: data.plants[i].lat, lng: data.plants[i].lng}
+                coords.push(coord_pair)
+            }
+            console.log(coords)
+            var tourPath = new google.maps.Polyline({
+	            path: coords
+            });
+            tourPath.setMap(map);
         }
     })
 }
