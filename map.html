@@ -86,8 +86,6 @@ const tour = () => {
                 {lat: 40.348133, lng: -74.660099},
                 {lat: 40.348116, lng: -74.660107},
                 {lat: 40.3477529, lng: -74.6606565},
-                {lat: 40.347691, lng: -74.660620},
-                {lat: 40.3477529, lng: -74.6606565},
                 {lat: 40.347837, lng: -74.661163},
                 {lat: 40.347643, lng: -74.661843},
                 {lat: 40.347837, lng: -74.661163},
@@ -136,7 +134,7 @@ const addMarkers = (plants) => {
                     lng: lng
                 },
                 title: title,
-                label: stringify(i),
+                label: i.toString(),
                 clickable: true
             });
         } else {
