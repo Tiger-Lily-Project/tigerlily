@@ -219,6 +219,7 @@ const addMarkers = (plants, bounds) => {
     // Finds width and height of screen zones
     var zoneHeight = Math.abs((northEast["lat"] - southWest["lat"]) / ZONE_ROWS)
     var zoneWidth = Math.abs((northEast["lng"] - southWest["lng"]) / ZONE_COLS)
+    console.log("zoneHeight: ", zoneHeight, ", zoneWidth: ", zoneWidth)
 
     var MAX_PINS = 40
     console.log("received " + plants.length + " plants")
@@ -246,7 +247,9 @@ const addMarkers = (plants, bounds) => {
         var lat = parseFloat(plants[i].lat);
         var lng = parseFloat(plants[i].lng);
         var yIndex = Math.trunc(Math.abs(northEast["lat"] - lat) / zoneHeight)
+        console.log("yIndex: ", yIndex)
         var xIndex = Math.trunc(Math.abs(northEast["lng"] - lng) / zoneWidth)
+        console.log("xIndex: ", xIndex)
         var zone = (yIndex * ZONE_COLS) + (xIndex + 1)
         console.log(zone)
 
