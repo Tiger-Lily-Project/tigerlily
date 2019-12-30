@@ -348,7 +348,7 @@ function initMap() {
     trackLocation({
         onSuccess: ({ coords: { latitude: lat, longitude: lng } }) => {
             locationMarker.setPosition({ lat, lng });
-            map.panTo({ lat, lng });
+            //  map.panTo({ lat, lng });
         },
         onError: err =>
             alert(`Error: Failed to obtain location`)
