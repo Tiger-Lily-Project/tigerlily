@@ -217,8 +217,8 @@ const addMarkers = (plants, bounds) => {
     var southWest = bounds.getSouthWest()
 
     // Finds width and height of screen zones
-    var zoneHeight = Math.abs((northEast["lat"] - southWest["lat"]) / ZONE_ROWS)
-    var zoneWidth = Math.abs((northEast["lng"] - southWest["lng"]) / ZONE_COLS)
+    var zoneHeight = Math.abs((northEast.lat - southWest.lat()) / ZONE_ROWS)
+    var zoneWidth = Math.abs((northEast.lng - southWest.lng()) / ZONE_COLS)
     console.log("zoneHeight: ", zoneHeight, ", zoneWidth: ", zoneWidth)
 
     var MAX_PINS = 40
@@ -241,15 +241,15 @@ const addMarkers = (plants, bounds) => {
     // Place pins on the map
     for (var i = 0; i < plants.length; i++) {
         var idNum = plants[i].id_num
-        console.log(idNum)
+        // console.log(idNum)
 
         // What zone is this plant in? 
         var lat = parseFloat(plants[i].lat);
         var lng = parseFloat(plants[i].lng);
-        var yIndex = Math.trunc(Math.abs(northEast["lat"] - lat) / zoneHeight)
-        console.log("yIndex: ", yIndex)
-        var xIndex = Math.trunc(Math.abs(northEast["lng"] - lng) / zoneWidth)
-        console.log("xIndex: ", xIndex)
+        var yIndex = Math.trunc(Math.abs(northEast.lat() - lat) / zoneHeight)
+        // console.log("yIndex: ", yIndex)
+        var xIndex = Math.trunc(Math.abs(northEast.lng() - lng) / zoneWidth)
+        // console.log("xIndex: ", xIndex)
         var zone = (yIndex * ZONE_COLS) + (xIndex + 1)
         console.log(zone)
 
