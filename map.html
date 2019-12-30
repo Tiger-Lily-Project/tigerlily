@@ -209,7 +209,8 @@ const tour = () => {
 var assocMarkers = {}
 
 const addMarkers = (plants, bounds) => {
-    console.log(bounds)
+    console.log("northeast: ", bounds.getNorthEast())
+    console.log("southwest: ", bounds.getSouthWest())
     var hZoneDiv
     var vZoneDiv
 
