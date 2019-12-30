@@ -206,6 +206,8 @@ const tour = () => {
     })
 }
 
+var assocMarkers = {}
+
 const addMarkers = (plants) => {
 
     var MAX_PINS = 40
@@ -227,13 +229,22 @@ const addMarkers = (plants) => {
     // Place pins on the map
     for (var i = 0; i < plants.length; i++) {
         // console.log("checking index ", i)
-        console.log(plants[i])
-        // For large numbers of plants, is this one of the randomly selected indices?
+        var idNum = plants[i].id_num
+        console.log(idNum)
+
+        // For large numbers of plants, if this is not one of the pseudo-randomly
+        // selected indices to display
         if (plants.length > MAX_PINS) {
             if (!selectedIndices.includes(i)) {
-                continue
+                if (idNum in assocMarkers) {   // delete marker if it was previously displayed
+                    assocMarkers[idNum].setMap(null)
+                    delete assocMarkers[idNum]
+                    continue
+                } else continue
             }
         }
+
+        if (idNum in assocMarkers) continue
 
         var lat = parseFloat(plants[i].lat);
         var lng = parseFloat(plants[i].lng);
@@ -264,8 +275,8 @@ const addMarkers = (plants) => {
         }
 
         // add marker to array
-        markers.push(marker)
-        console.log(plants[i].id_num)
+        // markers.push(marker)
+        assocMarkers[idNum] = marker
          
 
         google.maps.event.addListener(marker, 'click', (function(marker, i) {
