@@ -172,7 +172,7 @@ const markers_in_bounds = (reset, changeState) => {
                 deleteMarkers()
                 tourPath.setMap(null)
             }
-            addMarkers(data.plants)
+            addMarkers(data.plants, bounds)
         }
     });
     // (server updates plants array with plants in range)
@@ -208,7 +208,10 @@ const tour = () => {
 
 var assocMarkers = {}
 
-const addMarkers = (plants) => {
+const addMarkers = (plants, bounds) => {
+    console.log(bounds)
+    var hZoneDiv
+    var vZoneDiv
 
     var MAX_PINS = 40
     console.log("received " + plants.length + " plants")
