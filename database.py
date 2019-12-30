@@ -50,6 +50,8 @@ class Database:
         while row is not None:
             plant = Plant(str(row[0]), str(row[1]), str(row[2]), str(row[3]), str(row[4]))
             plant = Plant.getDict(plant)
+            print(plant)
+            print()
             plants.append(plant)
             row = cursor.fetchone()
         cursor.close()
