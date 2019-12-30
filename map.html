@@ -217,8 +217,8 @@ const addMarkers = (plants, bounds) => {
     var southWest = bounds.getSouthWest()
 
     // Finds width and height of screen zones
-    var zoneHeight = Math.abs((northEast.lat - southWest.lat()) / ZONE_ROWS)
-    var zoneWidth = Math.abs((northEast.lng - southWest.lng()) / ZONE_COLS)
+    var zoneHeight = Math.abs((northEast.lat() - southWest.lat()) / ZONE_ROWS)
+    var zoneWidth = Math.abs((northEast.lng() - southWest.lng()) / ZONE_COLS)
     console.log("zoneHeight: ", zoneHeight, ", zoneWidth: ", zoneWidth)
 
     var MAX_PINS = 40
