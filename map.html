@@ -207,6 +207,7 @@ const tour = () => {
 }
 
 const addMarkers = (plants) => {
+
     var MAX_PINS = 40
     console.log("received " + plants.length + " plants")
     // place plants 
@@ -228,7 +229,9 @@ const addMarkers = (plants) => {
         console.log("checking index ", i)
         // For large numbers of plants, is this one of the randomly selected indices?
         if (plants.length > MAX_PINS) {
-            if (!selectedIndices.includes(i)) continue
+            if (!selectedIndices.includes(i)) {
+                continue
+            }
         }
 
         var lat = parseFloat(plants[i].lat);
@@ -261,6 +264,8 @@ const addMarkers = (plants) => {
 
         // add marker to array
         markers.push(marker)
+        console.log(plants[i].id_num)
+         
 
         google.maps.event.addListener(marker, 'click', (function(marker, i) {
             return function() {
