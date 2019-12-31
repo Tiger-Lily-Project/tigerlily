@@ -179,7 +179,7 @@ const makeMarker = (plant) => {
             });
         }
 
-        google.maps.event.addListener(marker, 'click', (function(marker, i) {
+        google.maps.event.addListener(marker, 'click', (function(marker) {
             return function() {
 
                 if (state === "tour") {
@@ -220,7 +220,7 @@ const makeMarker = (plant) => {
                     infowindow.open(map, marker);
                 }
             }
-        })(marker, i));
+        })(marker));
 
         // Add to associative array of pins
         assocMarkers[plant.id_num] = marker;
