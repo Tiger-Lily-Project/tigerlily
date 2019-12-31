@@ -330,7 +330,7 @@ const markersByDensity = (plants, bounds) => {
         if (idNum in assocMarkers) {    // Leave pin if already displayed
             zoneDensities[zone]++
         } else {
-            zoneStacks[i].push(plants[i])   // If not add to stack for this zone
+            (zoneStacks[i]).push(plants[i])   // If not add to stack for this zone
         }
 
     }
