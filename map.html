@@ -147,6 +147,85 @@ const deleteMarkers = () => {
     markers = [];
 }
 
+const makeMarker = (plant) => {
+    var infowindow = new google.maps.InfoWindow();
+    var contentString;
+
+    var lat = parseFloat(plant.lat);
+    var lng = parseFloat(plant.lng);
+    var title = plants.title;
+    var titleURL = encodeURIComponent(title.trim());
+
+    if (state === "tour") {
+            var marker = new google.maps.Marker({
+                map: map,
+                position: {
+                    lat: lat,
+                    lng: lng
+                },
+                title: title,
+                label: (i + 1).toString(),
+                clickable: true
+            });
+        } else {
+            var marker = new google.maps.Marker({
+                map: map,
+                position: {
+                    lat: lat,
+                    lng: lng
+                },
+                title: title,
+                clickable: true
+            });
+        }
+
+        google.maps.event.addListener(marker, 'click', (function(marker, i) {
+            return function() {
+
+                if (state === "tour") {
+                    contentString = '<div id="content">'+
+                    '<div id="siteNotice">'+
+                    '</div>'+
+                    '<h1 id="firstHeading" class="firstHeading">'+
+                    plant.title+
+                    '</h1>'+
+                    '<div id="bodyContent">'+
+                    '<p><a href=tourdetails?common_name='+
+                    encodeURIComponent(plant.title.trim())+
+                    '>'+
+                    'Learn about this tree</a></p>'+
+                    '</div>'+
+                    '</div>';
+                
+                    infowindow.setContent(contentString);
+                    infowindow.open(map, marker);
+                }
+
+                else {
+                    contentString = '<div id="content">'+
+                    '<div id="siteNotice">'+
+                    '</div>'+
+                    '<h1 id="firstHeading" class="firstHeading">'+
+                    plant.title+
+                    '</h1>'+
+                    '<div id="bodyContent">'+
+                    '<p><a href=plantdetails?common_name='+
+                    encodeURIComponent(plant.title.trim())+
+                    '>'+
+                    'Click here for more details</a></p>'+
+                    '</div>'+
+                    '</div>';
+                
+                    infowindow.setContent(contentString);
+                    infowindow.open(map, marker);
+                }
+            }
+        })(marker, i));
+
+        // Add to associative array of pins
+        assocMarkers[plant.id_num] = marker;
+}
+
 const markers_in_bounds = (reset, changeState) => {
     changeState = changeState || 0
     if (changeState == 0 && state === "tour") {
@@ -172,15 +251,11 @@ const markers_in_bounds = (reset, changeState) => {
                 deleteMarkers()
                 tourPath.setMap(null)
             }
-            addMarkers(data.plants, bounds)
+            markersByDensity(data.plants, bounds)
         }
     });
-    // (server updates plants array with plants in range)
 }
 
-function handleResponse(response) {
-    console.log("whatever")
-}
 
 const tour = () => {
     state = "tour"
@@ -208,7 +283,7 @@ const tour = () => {
 
 var assocMarkers = {}
 
-const addMarkers = (plants, bounds) => {
+const markersByDensity = (plants, bounds) => {
     var ZONE_ROWS = 6
     var ZONE_COLS = 5
     var MAX_PINS_PER_ZONE = 2
@@ -221,126 +296,55 @@ const addMarkers = (plants, bounds) => {
     var zoneWidth = Math.abs((northEast.lng() - southWest.lng()) / ZONE_COLS)
     console.log("zoneHeight: ", zoneHeight, ", zoneWidth: ", zoneWidth)
 
-    var MAX_PINS = 40
     console.log("received " + plants.length + " plants")
-    // place plants 
-    var infowindow = new google.maps.InfoWindow();
-    var contentString;
-    var zoneStacks = {}
-
-    // Use pseudorandom number generator to deterministically select which
-    // trees to display on zoom out (to control density)
-    var generateRandom = new Math.seedrandom('put.pins')
-    var selectedIndices = []
-    for (var i = 0; i < MAX_PINS; i++) {
-        randomIndex = Math.trunc(generateRandom() * plants.length)
-        selectedIndices.push(randomIndex)
-        console.log(selectedIndices[i])
+ 
+    var zoneDensities = []
+    var zoneStacks = []
+    for (var i = 1; i <=30; i++) {
+        zoneDensities[i] = 0;
+        zoneStacks[i] = []
     }
 
-    // Place pins on the map
+    // Iterate through plant array to remove pins from overly-dense areas
     for (var i = 0; i < plants.length; i++) {
         var idNum = plants[i].id_num
-        // console.log(idNum)
 
         // What zone is this plant in? 
         var lat = parseFloat(plants[i].lat);
         var lng = parseFloat(plants[i].lng);
         var yIndex = Math.trunc(Math.abs(northEast.lat() - lat) / zoneHeight)
-        // console.log("yIndex: ", yIndex)
         var xIndex = Math.trunc(Math.abs(northEast.lng() - lng) / zoneWidth)
-        // console.log("xIndex: ", xIndex)
         var zone = (yIndex * ZONE_COLS) + (xIndex + 1)
-        console.log(zone)
+        console.log("plant ", idNum, "is in zone ", zone)
 
-        // For large numbers of plants, if this is not one of the pseudo-randomly
-        // selected indices to display
-        if (plants.length > MAX_PINS) {
-            if (!selectedIndices.includes(i)) {
-                if (idNum in assocMarkers) {   // delete marker if it was previously displayed
-                    assocMarkers[idNum].setMap(null)
-                    delete assocMarkers[idNum]
-                    continue
-                } else continue
+        // If zone at max density
+        if (zoneDensities[zone] >= MAX_PINS_PER_ZONE) {
+            if (idNum in assocMarkers) {    // Remove pin if already displayed
+                assocMarkers[idNum].setMap(null)
+                delete assocMarkers[idNum]
             }
+            continue
         }
 
-        if (idNum in assocMarkers) continue
-
-        var title = plants[i].title;
-        var titleURL = encodeURIComponent(title.trim());
-
-        if (state === "tour") {
-            var marker = new google.maps.Marker({
-                map: map,
-                position: {
-                    lat: lat,
-                    lng: lng
-                },
-                title: title,
-                label: (i + 1).toString(),
-                clickable: true
-            });
+        // If zone not at max density
+        if (idNum in assocMarkers) {    // Leave pin if already displayed
+            zoneDensities[zone]++
         } else {
-            var marker = new google.maps.Marker({
-                map: map,
-                position: {
-                    lat: lat,
-                    lng: lng
-                },
-                title: title,
-                clickable: true
-            });
+            zoneStacks[i].push(plants[i])   // If not add to stack for this zone
         }
 
-        // add marker to array
-        // markers.push(marker)
-        assocMarkers[idNum] = marker
-         
-
-        google.maps.event.addListener(marker, 'click', (function(marker, i) {
-            return function() {
-
-                if (state === "tour") {
-                    contentString = '<div id="content">'+
-                    '<div id="siteNotice">'+
-                    '</div>'+
-                    '<h1 id="firstHeading" class="firstHeading">'+
-                    plants[i].title+
-                    '</h1>'+
-                    '<div id="bodyContent">'+
-                    '<p><a href=tourdetails?common_name='+
-                    encodeURIComponent(plants[i].title.trim())+
-                    '>'+
-                    'Learn about this tree</a></p>'+
-                    '</div>'+
-                    '</div>';
-                
-                    infowindow.setContent(contentString);
-                    infowindow.open(map, marker);
-                }
-
-                else {
-                    contentString = '<div id="content">'+
-                    '<div id="siteNotice">'+
-                    '</div>'+
-                    '<h1 id="firstHeading" class="firstHeading">'+
-                    plants[i].title+
-                    '</h1>'+
-                    '<div id="bodyContent">'+
-                    '<p><a href=plantdetails?common_name='+
-                    encodeURIComponent(plants[i].title.trim())+
-                    '>'+
-                    'Click here for more details</a></p>'+
-                    '</div>'+
-                    '</div>';
-                
-                    infowindow.setContent(contentString);
-                    infowindow.open(map, marker);
-                }
-            }
-        })(marker, i));
     }
+
+    // Iterate through zone stacks to add new pins by zone
+    for (var i = 1; i <= (ZONE_COLS * ZONE_ROWS); i++) {
+        if (zoneDensities[i] <= MAX_PINS_PER_ZONE) {
+            if (zoneStacks[i].length >= 1) {    // If array is not empty
+                newPlant = zoneStacks[i].pop()
+                makeMarker(newPlant)
+            }
+        }
+    }
+
     console.log("added " + markers.length + " markers")
 }
   
