@@ -153,7 +153,7 @@ const makeMarker = (plant) => {
 
     var lat = parseFloat(plant.lat);
     var lng = parseFloat(plant.lng);
-    var title = plants.title;
+    var title = plant.title;
     var titleURL = encodeURIComponent(title.trim());
 
     if (state === "tour") {
