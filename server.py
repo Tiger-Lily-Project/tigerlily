@@ -286,11 +286,11 @@ def getPins():
 #-----------------------------------------------------------------------
 # Renders the "about us" page.
 @app.route('/')
-@app.route('/test')
-def test():
+@app.route('/tour')
+def tour():
 
     # Render the catalog page, passing in the list of species.
-    html = render_template('test.html')
+    html = render_template('tour.html')
     response = make_response(html)
 
     return response
