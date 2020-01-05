@@ -308,13 +308,18 @@ function initMap() {
         url: "/static/my_location.svg"
         }
     });
+
+    var initializing = true
   
       // Call trackLocation
       // From https://medium.com/risan/track-users-location-and-display-it-on-google-maps-41d1f850786e
     trackLocation({
         onSuccess: ({ coords: { latitude: lat, longitude: lng } }) => {
             locationMarker.setPosition({ lat, lng });
-            map.panTo({ lat, lng });
+            if (initializing == true) {
+                map.panTo({ lat, lng });
+                initializing = false;
+            }
         },
         onError: err =>
             alert(`Error: Failed to obtain location`)
