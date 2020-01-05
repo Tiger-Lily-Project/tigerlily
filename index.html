@@ -82,7 +82,7 @@
             Filter By:
         </button>
 
-        <form  method="GET">
+        <form id="filter" method="GET">
           <div class="collapse" id="collapseExample">
             <div class="well">
                 <h4>Hold control to select more than one</h4>
@@ -107,7 +107,9 @@
                   </div>
                   <div class="col-sm-3">
                       <br>
-                      <button type="button" class="btn btn-primary" onclick="deleteMarkers()">Apply Filter</button></a>
+                      <button type="button" class="btn btn-primary" onclick="setFilter(1)">Apply Filter</button></a>
+                      <br>
+                      <button type="button" class="btn btn-primary" onclick="setFilter(0)">Clear Filter</button></a>
                   </div>
                 </div>
               </div>   

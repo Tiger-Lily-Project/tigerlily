@@ -19,7 +19,6 @@ const trackLocation = ({ onSuccess, onError = () => { } }) => {
 };
 
 var markers = []
-var state = "index"
 
 const deleteMarkers = () => {
     console.log("in delete markers")
@@ -55,6 +54,28 @@ const markers_in_bounds = () => {
 
 function handleResponse(response) {
     console.log("whatever")
+}
+
+const setFilter = (clear) => {
+    var frm = $('#filter');
+    frm.submit(function (ev) {
+        species = frm.attr('species');
+        dec_or_evg = frm.attr('dec_or_evg');
+        console.log("species: " + species);
+        console.log("doe: " + dec_or_evg);
+        /*
+        $.ajax({
+            type: frm.attr('method'),
+            url: frm.attr('action'),
+            data: frm.serialize(),
+            success: function (data) {
+                alert('ok');
+            }
+        });
+        */
+        deleteMarkers();
+        ev.preventDefault();
+    });
 }
 
 
