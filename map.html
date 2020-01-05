@@ -60,9 +60,9 @@ $('#filter').submit(function(event) {
     event.preventDefault();
     var form = $(this);
     console.log(form.serialize());
-    species = form.attr('species')
+    species = form.attr('species').valueOf()
     console.log("species: " + species)
-    dec_or_evg = form.attr('dec_or_evg')
+    dec_or_evg = form.attr('dec_or_evg').valueOf()
     console.log("doe: " + dec_or_evg)
     /*
     let url = "/getPins"
