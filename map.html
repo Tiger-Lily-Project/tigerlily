@@ -287,6 +287,15 @@ const markersByDensity = (plants, bounds) => {
     var ZONE_ROWS = 6
     var ZONE_COLS = 5
     var MAX_PINS_PER_ZONE = 2
+    var TOTAL_MAX_PINS = ZONE_COLS * ZONE_ROWS * MAX_PINS_PER_ZONE
+
+    // If total pins in viewport is less than max total, show all regardless of zone
+    if (plants.length < TOTAL_MAX_PINS) {
+        for (var i = 0; i < plants.length; i++) {
+            makeMarker(plants[i])
+        }
+        continue
+    }
 
     var northEast = bounds.getNorthEast()
     var southWest = bounds.getSouthWest()
