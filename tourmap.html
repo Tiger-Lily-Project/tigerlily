@@ -211,28 +211,16 @@ const addMarkers = (plants) => {
         // console.log(titleURL)
         // console.log(plants[i].title)
 
-        if (state === "tour") {
-            var marker = new google.maps.Marker({
-                map: map,
-                position: {
-                    lat: lat,
-                    lng: lng
-                },
-                title: title,
-                label: (i + 1).toString(),
-                clickable: true
-            });
-        } else {
-            var marker = new google.maps.Marker({
-                map: map,
-                position: {
-                    lat: lat,
-                    lng: lng
-                },
-                title: title,
-                clickable: true
-            });
-        }
+        var marker = new google.maps.Marker({
+            map: map,
+            position: {
+                lat: lat,
+                lng: lng
+            },
+            title: title,
+            label: (i + 1).toString(),
+            clickable: true
+        });
 
         // add marker to array
         markers.push(marker)
@@ -240,43 +228,23 @@ const addMarkers = (plants) => {
         google.maps.event.addListener(marker, 'click', (function(marker, i) {
             return function() {
 
-                if (state === "tour") {
-                    contentString = '<div id="content">'+
-                    '<div id="siteNotice">'+
-                    '</div>'+
-                    '<h1 id="firstHeading" class="firstHeading">'+
-                    plants[i].title+
-                    '</h1>'+
-                    '<div id="bodyContent">'+
-                    '<p><a href=tourdetails?common_name='+
-                    encodeURIComponent(plants[i].title.trim())+
-                    '>'+
-                    'Learn about this tree</a></p>'+
-                    '</div>'+
-                    '</div>';
-                
-                    infowindow.setContent(contentString);
-                    infowindow.open(map, marker);
-                }
+                contentString = '<div id="content">'+
+                '<div id="siteNotice">'+
+                '</div>'+
+                '<h1 id="firstHeading" class="firstHeading">'+
+                plants[i].title+
+                '</h1>'+
+                '<div id="bodyContent">'+
+                '<p><a href=tourdetails?common_name='+
+                encodeURIComponent(plants[i].title.trim())+
+                '>'+
+                'Learn about this tree</a></p>'+
+                '</div>'+
+                '</div>';
+            
+                infowindow.setContent(contentString);
+                infowindow.open(map, marker);
 
-                else {
-                    contentString = '<div id="content">'+
-                    '<div id="siteNotice">'+
-                    '</div>'+
-                    '<h1 id="firstHeading" class="firstHeading">'+
-                    plants[i].title+
-                    '</h1>'+
-                    '<div id="bodyContent">'+
-                    '<p><a href=plantdetails?common_name='+
-                    encodeURIComponent(plants[i].title.trim())+
-                    '>'+
-                    'Click here for more details</a></p>'+
-                    '</div>'+
-                    '</div>';
-                
-                    infowindow.setContent(contentString);
-                    infowindow.open(map, marker);
-                }
             }
         })(marker, i));
     }
@@ -310,10 +278,6 @@ function initMap() {
         },
         onError: err =>
             alert(`Error: Failed to obtain location`)
-    });
-
-    google.maps.event.addListenerOnce(map, "bounds_changed", function(){
-        google.maps.event.addListener(map, "idle", function() { markers_in_bounds(0)});
     });
 
 }
