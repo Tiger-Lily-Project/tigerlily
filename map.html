@@ -310,12 +310,14 @@ function initMap() {
     });
 
     var initializing = true
+    console.log("initializing: ", initializing)
   
       // Call trackLocation
       // From https://medium.com/risan/track-users-location-and-display-it-on-google-maps-41d1f850786e
     trackLocation({
         onSuccess: ({ coords: { latitude: lat, longitude: lng } }) => {
             locationMarker.setPosition({ lat, lng });
+            console.log("initializing in onSuccess: ", initializing)
             if (initializing == true) {
                 map.panTo({ lat, lng });
                 initializing = false;
