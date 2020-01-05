@@ -56,29 +56,23 @@ function handleResponse(response) {
     console.log("whatever")
 }
 
-const setFilter = (clear) => {
-    var frm = $('#filter');
-    frm.submit(function (ev) {
-        console.log("I'M IN HEREEEEEEEE");
-        species = frm.attr('species');
-        dec_or_evg = frm.attr('dec_or_evg');
-        console.log("species: " + species);
-        console.log("doe: " + dec_or_evg);
-        console.log(form.serialize());
-        /*
-        $.ajax({
-            type: frm.attr('method'),
-            url: frm.attr('action'),
-            data: frm.serialize(),
-            success: function (data) {
-                alert('ok');
-            }
-        });
-        */
-        deleteMarkers();
-        ev.preventDefault();
+$('#filter').submit(function(event) {
+    event.preventDefault();
+    var form = $(this);
+    console.log(form.serialize());
+    species = form.attr('species')
+    console.log("species: " + species)
+    dec_or_evg = form.attr('dec_or_evg')
+    console.log("doe: " + dec_or_evg)
+    /*
+    let url = "/getPins"
+    $.ajax({
+      type: "GET",
+      url: ,
+      data: form.serialize()
     });
-}
+    */
+});
 
 
 const addMarkers = (plants) => {
