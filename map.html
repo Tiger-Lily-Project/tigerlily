@@ -323,7 +323,7 @@ const markersByDensity = (plants, bounds) => {
     if (plants.length < TOTAL_MAX_PINS) {
         for (var i = 0; i < plants.length; i++) {
             makeMarker(plants[i])
-            console.log("fewer than total max: ", assocMarkers[plants[i].id_num])
+            console.log("less than total max: ", plants[i].id_num)
         }
         return
     }
@@ -332,15 +332,8 @@ const markersByDensity = (plants, bounds) => {
     for (var i = 0; i < plants.length; i++) {
         var idNum = plants[i].id_num
 
-        // What zone is this plant in? 
-        // var lat = parseFloat(plants[i].lat);
-        // var lng = parseFloat(plants[i].lng);
-        // var yIndex = Math.trunc(Math.abs(northEast.lat() - lat) / zoneHeight)
-        // var xIndex = Math.trunc(Math.abs(northEast.lng() - lng) / zoneWidth)
-        // var zone = (yIndex * ZONE_COLS) + (xIndex + 1)
         var zone = calculateZone(plants[i], zoneHeight, zoneWidth, northEast)
-        console.log("plant ", idNum, "is in zone ", zone)
-
+    
         // If zone at max density
         if (zoneDensities[zone] >= MAX_PINS_PER_ZONE) {
             if (idNum in assocMarkers) {    // Remove pin if already displayed
