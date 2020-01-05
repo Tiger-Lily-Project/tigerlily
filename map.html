@@ -292,8 +292,8 @@ var TOTAL_MAX_PINS = ZONE_COLS * ZONE_ROWS * MAX_PINS_PER_ZONE
 // What zone is plant in given the zoneHeight and zoneWidth and the coordinates
 // of the northEast corner of the viewport?
 const calculateZone = (plant, zoneHeight, zoneWidth, northEast) => {
-    var lat = parseFloat(plants.lat);
-    var lng = parseFloat(plants.lng);
+    var lat = parseFloat(plant.lat);
+    var lng = parseFloat(plant.lng);
     var yIndex = Math.trunc(Math.abs(northEast.lat() - lat) / zoneHeight)
     var xIndex = Math.trunc(Math.abs(northEast.lng() - lng) / zoneWidth)
     var zone = (yIndex * ZONE_COLS) + (xIndex + 1)
