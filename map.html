@@ -254,6 +254,8 @@ const markers_in_bounds = (reset, changeState) => {
             markersByDensity(data.plants, bounds)
         }
     });
+
+    console.log(assocMarkers)
 }
 
 
@@ -294,7 +296,6 @@ const markersByDensity = (plants, bounds) => {
         for (var i = 0; i < plants.length; i++) {
             makeMarker(plants[i])
         }
-        console.log("assocMarkers: ", assocMarkers)
         return
     }
 
@@ -354,8 +355,6 @@ const markersByDensity = (plants, bounds) => {
             }
         }
     }
-
-    console.log("assocMarkers: ", assocMarkers)
 }
   
 function initMap() {
