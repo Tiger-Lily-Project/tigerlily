@@ -284,20 +284,23 @@ const tour = () => {
 }
 
 var assocMarkers = {}
+var ZONE_ROWS = 6
+var ZONE_COLS = 5
+var MAX_PINS_PER_ZONE = 2
+var TOTAL_MAX_PINS = ZONE_COLS * ZONE_ROWS * MAX_PINS_PER_ZONE
+
+// What zone is plant in given the zoneHeight and zoneWidth and the coordinates
+// of the northEast corner of the viewport?
+const calculateZone = (plant, zoneHeight, zoneWidth, northEast) => {
+    var lat = parseFloat(plants.lat);
+    var lng = parseFloat(plants.lng);
+    var yIndex = Math.trunc(Math.abs(northEast.lat() - lat) / zoneHeight)
+    var xIndex = Math.trunc(Math.abs(northEast.lng() - lng) / zoneWidth)
+    var zone = (yIndex * ZONE_COLS) + (xIndex + 1)
+    return zone
+}
 
 const markersByDensity = (plants, bounds) => {
-    var ZONE_ROWS = 6
-    var ZONE_COLS = 5
-    var MAX_PINS_PER_ZONE = 2
-    var TOTAL_MAX_PINS = ZONE_COLS * ZONE_ROWS * MAX_PINS_PER_ZONE
-
-    // If total pins in viewport is less than max total, show all regardless of zone
-    if (plants.length < TOTAL_MAX_PINS) {
-        for (var i = 0; i < plants.length; i++) {
-            makeMarker(plants[i])
-        }
-        return
-    }
 
     var northEast = bounds.getNorthEast()
     var southWest = bounds.getSouthWest()
@@ -316,21 +319,32 @@ const markersByDensity = (plants, bounds) => {
         zoneStacks[i] = []
     }
 
+    // If total pins in viewport is less than max total, show all regardless of zone
+    if (plants.length < TOTAL_MAX_PINS) {
+        for (var i = 0; i < plants.length; i++) {
+            makeMarker(plants[i])
+            console.log("fewer than total max: ", assocMarkers[plants[i].id_num])
+        }
+        return
+    }
+
     // Iterate through plant array to remove pins from overly-dense areas
     for (var i = 0; i < plants.length; i++) {
         var idNum = plants[i].id_num
 
         // What zone is this plant in? 
-        var lat = parseFloat(plants[i].lat);
-        var lng = parseFloat(plants[i].lng);
-        var yIndex = Math.trunc(Math.abs(northEast.lat() - lat) / zoneHeight)
-        var xIndex = Math.trunc(Math.abs(northEast.lng() - lng) / zoneWidth)
-        var zone = (yIndex * ZONE_COLS) + (xIndex + 1)
+        // var lat = parseFloat(plants[i].lat);
+        // var lng = parseFloat(plants[i].lng);
+        // var yIndex = Math.trunc(Math.abs(northEast.lat() - lat) / zoneHeight)
+        // var xIndex = Math.trunc(Math.abs(northEast.lng() - lng) / zoneWidth)
+        // var zone = (yIndex * ZONE_COLS) + (xIndex + 1)
+        var zone = calculateZone(plants[i], zoneHeight, zoneWidth, northEast)
         console.log("plant ", idNum, "is in zone ", zone)
 
         // If zone at max density
         if (zoneDensities[zone] >= MAX_PINS_PER_ZONE) {
             if (idNum in assocMarkers) {    // Remove pin if already displayed
+                console.log("delete plant ", idNum)
                 assocMarkers[idNum].setMap(null)
                 delete assocMarkers[idNum]
             }
