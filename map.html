@@ -294,7 +294,7 @@ const markersByDensity = (plants, bounds) => {
         for (var i = 0; i < plants.length; i++) {
             makeMarker(plants[i])
         }
-        continue
+        return
     }
 
     var northEast = bounds.getNorthEast()
