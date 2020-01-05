@@ -306,9 +306,10 @@ function initMap() {
         icon: {
         //   url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
         url: "/static/my_location.svg",
-        zIndex: MAX_ZINDEX + 1 
+        zIndex: google.maps.Marker.MAX_ZINDEX + 1 
         }
     });
+    locationMarker.setZIndex(google.maps.Marker.MAX_ZINDEX + 1)
 
     var initializing = true
     console.log("initializing: ", initializing)
