@@ -123,12 +123,13 @@ def plantdetails():
 def tourdetails():
 
     common_name = request.args.get("common_name")
+    tour_name = request.args.get("tour_name")
     # Gets a the information on the requested species.
     try:
         database = Database()
         database.connect()
         species_info = database.get_species_info(common_name)
-        blurb = database.get_tour_blurb(common_name)
+        blurb = database.get_tour_blurb(common_name, tour_name)
     except Exception as e:
         print(e)
         species_info = SpeciesInfo('','','','','')
@@ -247,13 +248,10 @@ def getPins():
         west = bounds["west"]
 
         
-        reset = int(request.args.get('reset'))
-        if reset == 1:
-            species = []
-            dec_or_evg = []
-        else:
-            species = json.loads(request.cookies.get('species'))
-            dec_or_evg = json.loads(request.cookies.get('dec_or_evg'))
+        species = request.args.get('species')
+        species = json.loads(species)
+        dec_or_evg = request.args.get('dec_or_evg')
+        dec_or_evg = json.loads(dec_or_evg)
 
         print("SPECIES FROM REQUEST")
         print(species)
@@ -286,11 +284,11 @@ def getPins():
 #-----------------------------------------------------------------------
 # Renders the "about us" page.
 @app.route('/')
-@app.route('/test')
-def test():
+@app.route('/tour')
+def tour():
 
     # Render the catalog page, passing in the list of species.
-    html = render_template('test.html')
+    html = render_template('tour.html')
     response = make_response(html)
 
     return response

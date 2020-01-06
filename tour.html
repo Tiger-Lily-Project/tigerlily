@@ -70,20 +70,25 @@
       <br>
       <ul class="nav nav-pills nav-stacked">
         <li><a href="/index">Home</a></li>
-        <li class="active"> <a href="/tour">Guided Tour</a></li>
+        <li class="active"><a href="/tour">Guided Tour</a></li>
         <li><a href="/catalog">Catalog</a></li>
         <li><a href="/about">About Us</a></li>
       </ul><br>
+    </div>
+    <div class="col-sm-9">
+      <br>
+        <h4>Select a tour to get started:</h4>
+        <button type="button" class="btn btn-primary" onclick="javascript:tour('pton')">Trees of Princeton</button></a>
+        <button type="button" class="btn btn-primary" onclick="javascript:tour('winter')">Winter Trees</button></a>
+      <div id="map"> 
+      </div>
     </div>
     <br>
   </div>
 </div>
 
-<div class="col-sm-9">
-  Welcome to the tour page :)
-</div>
 
-{% include 'map.html' %}
+{% include 'tourmap.html' %}
 </body>
 
 </html>
