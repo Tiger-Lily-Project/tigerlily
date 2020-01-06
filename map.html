@@ -69,14 +69,14 @@ $('#filter').submit(function(event) {
         species = $.makeArray(species)
         console.log("species: ")
         for (var i = 0; i < species.length; i++) {
-            species[i] = species[i].val()
+            species[i] = species[i].value
             console.log(species[i])
         }
         dec_or_evg = $("#sel2 option:checked")
         dec_or_evg = $.makeArray(dec_or_evg)
         console.log("doe: ")
         for (var i = 0; i < dec_or_evg.length; i++) {
-            dec_or_evg[i] = dec_or_evg[i].val()
+            dec_or_evg[i] = dec_or_evg[i].value
             console.log(dec_or_evg[i])
         }
     }
