@@ -65,13 +65,13 @@ $('#filter').submit(function(event) {
         dec_or_evg = []
     }
     else {
-        species = $("#sel1")
+        species = $("#sel1 option:checked")
         species = $.makeArray(species)
         console.log("species: ")
         for (var i = 0; i < species.length; i++) {
             console.log(species[i])
         }
-        dec_or_evg = $("#sel2")
+        dec_or_evg = $("#sel2 option:checked")
         dec_or_evg = $.makeArray(dec_or_evg)
         for (var i = 0; i < dec_or_evg.length; i++) {
             console.log(dec_or_evg[i])
