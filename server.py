@@ -123,12 +123,13 @@ def plantdetails():
 def tourdetails():
 
     common_name = request.args.get("common_name")
+    tour_name = request.args.get("tour_name")
     # Gets a the information on the requested species.
     try:
         database = Database()
         database.connect()
         species_info = database.get_species_info(common_name)
-        blurb = database.get_tour_blurb(common_name)
+        blurb = database.get_tour_blurb(common_name, tour_name)
     except Exception as e:
         print(e)
         species_info = SpeciesInfo('','','','','')
