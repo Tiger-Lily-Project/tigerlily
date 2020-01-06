@@ -58,11 +58,15 @@ function handleResponse(response) {
 
 $('#filter').submit(function(event) {
     event.preventDefault();
+    var clicked
+    console.log(clicked)
     var form = $(this);
+    buttonClicked = document.activeElement.getAttribute('value')
+    console.log(buttonClicked)
     console.log(form.serialize());
-    species = form.attr('species').valueOf()
+    species = form.attr('species')
     console.log("species: " + species)
-    dec_or_evg = form.attr('dec_or_evg').valueOf()
+    dec_or_evg = form.attr('dec_or_evg')
     console.log("doe: " + dec_or_evg)
     /*
     let url = "/getPins"
