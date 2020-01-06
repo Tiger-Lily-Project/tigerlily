@@ -45,7 +45,7 @@ const markers_in_bounds = () => {
         url: url,
         type: "GET",
         contentType: "application/json",
-        data: {bounds: JSON.stringify(bounds), species: species, dec_or_evg: dec_or_evg},
+        data: {bounds: JSON.stringify(bounds), species: JSON.stringify(species), dec_or_evg: JSON.stringify(dec_or_evg)},
         success: function(data){
             console.log(data)
             deleteMarkers()
