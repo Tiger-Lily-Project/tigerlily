@@ -66,6 +66,7 @@
     <br>
     
     <div class="col-sm-9">
+      <div class="well">
       <a href="#A">A</a>
       <a href="#B">B</a>
       <a href="#C">C</a>
@@ -93,7 +94,6 @@
       <a href="#Y">Y</a>
       <a href="#Z">Z</a>
       {% for first_char in species: %}
-      <div class="well">
         <a id={{first_char}}><h2>{{first_char}}</h2></a>
           {% for species_info in species[first_char]: %}
           <br>
