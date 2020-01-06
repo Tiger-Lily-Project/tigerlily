@@ -20,6 +20,8 @@ const trackLocation = ({ onSuccess, onError = () => { } }) => {
 
 var markers = []
 var clicked;
+var species = []
+var dec_or_evg = []
 
 const deleteMarkers = () => {
     console.log("in delete markers")
@@ -43,7 +45,7 @@ const markers_in_bounds = () => {
         url: url,
         type: "GET",
         contentType: "application/json",
-        data: {bounds: JSON.stringify(bounds)},
+        data: {bounds: JSON.stringify(bounds), species: species, dec_or_evg: dec_or_evg},
         success: function(data){
             console.log(data)
             deleteMarkers()
@@ -88,14 +90,7 @@ $('#filter').submit(function(event) {
             console.log(dec_or_evg[i])
         }
     }
-    /*
-    let url = "/getPins"
-    $.ajax({
-      type: "GET",
-      url: ,
-      data: form.serialize()
-    });
-    */
+    markers_in_bounds()
 });
 
 
