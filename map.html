@@ -48,7 +48,11 @@ const markers_in_bounds = () => {
         data: {bounds: JSON.stringify(bounds), species: JSON.stringify(species), dec_or_evg: JSON.stringify(dec_or_evg)},
         success: function(data){
             console.log(data)
-            deleteMarkers()
+            if (changeState == 1) {
+                deleteMarkers()
+                tours[0].setMap(null)
+                tours = []
+            }
             addMarkers(data.plants)
         }
     });
@@ -159,7 +163,8 @@ function initMap() {
 
     map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: 40.3471, lng: -74.6566},
-        zoom: 17
+        zoom: 19,
+        gestureHandling: "greedy"
     });
     locationMarker = new google.maps.Marker({
         map: map,
