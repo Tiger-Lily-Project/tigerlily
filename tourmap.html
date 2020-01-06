@@ -212,9 +212,10 @@ const addMarkers = (plants) => {
                 plants[i].title+
                 '</h1>'+
                 '<div id="bodyContent">'+
-                '<p><a href=tourdetails?common_name=&tour_name={{tour_name}}'+
+                '<p><a href=tourdetails?common_name='+
                 encodeURIComponent(plants[i].title.trim())+
                 '>'+
+                '&tour_name={{tour_name}}'+
                 'Learn about this tree</a></p>'+
                 '</div>'+
                 '</div>';
