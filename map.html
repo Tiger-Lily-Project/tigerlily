@@ -60,19 +60,30 @@ function handleResponse(response) {
 $('#filter').submit(function(event) {
     event.preventDefault();
 
+    // clear out previous filter regardless
+    species = []
+    dec_or_evg = []
+
+    // uncheck all options if clear was clicked
     if (clicked === "Clear") {
-        species = []
-        dec_or_evg = []
+        $("#sel1 option:selected").each(function(){
+            $(this).removeAttr("selected");
+        });
+        $("#sel2 option:selected").each(function(){
+            $(this).removeAttr("selected");
+        });
     }
-    else {
-        species = $("#sel1 option:checked")
+
+    // only check for new values if apply was clicked
+    if (clicked === "Apply") {
+        species = $("#sel1 option:selected")
         species = $.makeArray(species)
         console.log("species: ")
         for (var i = 0; i < species.length; i++) {
             species[i] = species[i].value
             console.log(species[i])
         }
-        dec_or_evg = $("#sel2 option:checked")
+        dec_or_evg = $("#sel2 option:selected")
         dec_or_evg = $.makeArray(dec_or_evg)
         console.log("doe: ")
         for (var i = 0; i < dec_or_evg.length; i++) {
