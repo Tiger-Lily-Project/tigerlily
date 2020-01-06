@@ -19,66 +19,8 @@ const trackLocation = ({ onSuccess, onError = () => { } }) => {
 };
 
 var markers = []
-var state = "index"
-
-const deleteMarkers = () => {
-    console.log("in delete markers")
-    // loop through markers, setting them to null on the map
-    for (var i = 0; i < markers.length; i++) {
-        markers[i].setMap(null);
-    }
-    console.log("removed " + markers.length + " markers")
-    // set markers to an empty array
-    markers = [];
-}
-
-const markers_in_bounds = (reset, changeState) => {
-    changeState = changeState || 0
-    if (changeState == 0 && state === "tour") {
-        return
-    }
-    state = "index"
-    console.log("ran markers_in_bounds")
-    // Get map bounds
-    let bounds = map.getBounds()
-    console.log("bounds: ", bounds)
-    console.log("reset: ", reset)
-
-    // Send AJAX request to server
-    let url = '/getPins'
-    $.ajax({
-        url: url,
-        type: "GET",
-        contentType: "application/json",
-        data: {bounds: JSON.stringify(bounds), reset: reset},
-        success: function(data){
-            console.log(data)
-            deleteMarkers()
-            addMarkers(data.plants)
-        }
-    });
-    // (server updates plants array with plants in range)
-}
-
-function handleResponse(response) {
-    console.log("whatever")
-}
-
-const tour = () => {
-    state = "tour"
-    let ids = [572, 152, 3389, 3376, 3331, 656, 181, 271, 3260, 3485, 407, 874, 199, 3906, 820, 3467, 793]
-    let url = '/getTourPlants'
-    $.ajax({
-        url: url,
-        type: "GET",
-        contentType: "application/json",
-        data: {ids: JSON.stringify(ids)},
-        success: function(data) {
-            console.log(data)
-            deleteMarkers()
-            addMarkers(data.plants)
-            var coords = [
-                {lat: 40.3494921, lng: -74.6602896},
+var ptonTreesCoords = [
+{lat: 40.3494921, lng: -74.6602896},
                 {lat: 40.3494185, lng: -74.6606088},
                 {lat: 40.3485230, lng: -74.6602369},
                 {lat: 40.348139, lng: -74.660083},
@@ -124,8 +66,6 @@ const tour = () => {
                 {lat: 40.346224, lng: -74.657457},
                 {lat: 40.346347, lng: -74.657510},
                 {lat: 40.346690, lng: -74.657401},
-                {lat: 40.346719, lng: -74.657286},
-                {lat: 40.346732, lng: -74.657168},
                 {lat: 40.346719, lng: -74.657286},
                 {lat: 40.346882, lng: -74.657320},
                 {lat: 40.346996, lng: -74.657282},
@@ -182,7 +122,42 @@ const tour = () => {
                 {lat: 40.349203, lng: -74.659539},
                 {lat: 40.349503, lng: -74.659356}
             ]
-            console.log(coords)
+var winterCoords = []
+
+const deleteMarkers = () => {
+    console.log("in delete markers")
+    // loop through markers, setting them to null on the map
+    for (var i = 0; i < markers.length; i++) {
+        markers[i].setMap(null);
+    }
+    console.log("removed " + markers.length + " markers")
+    // set markers to an empty array
+    markers = [];
+}
+
+function handleResponse(response) {
+    console.log("whatever")
+}
+
+const tour = (tourName) => {
+    let ids = [572, 152, 3389, 3376, 3331, 656, 181, 3260, 3485, 407, 874, 199, 3906, 820, 3467, 793]
+    let url = '/getTourPlants'
+    var coords;
+    if (tourName === 'pton') {
+        coords = ptonTreesCoords;
+    }
+    if (tourName === 'winter') {
+        coords = winterCoords;
+    }
+    $.ajax({
+        url: url,
+        type: "GET",
+        contentType: "application/json",
+        data: {ids: JSON.stringify(ids)},
+        success: function(data) {
+            console.log(data)
+            deleteMarkers()
+            addMarkers(data.plants)
             var tourPath = new google.maps.Polyline({
                 path: coords,
                 strokeColor: '#0080FF',
