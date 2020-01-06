@@ -145,10 +145,10 @@ const tour = (tourName) => {
     let ids = [572, 152, 3389, 3376, 3331, 656, 181, 3260, 3485, 407, 874, 199, 3906, 820, 3467, 793]
     let url = '/getTourPlants'
     var coords;
-    if (tourName === 'pton') {
+    if (tour_name === 'pton') {
         coords = ptonTreesCoords;
     }
-    if (tourName === 'winter') {
+    if (tour_name === 'winter') {
         coords = winterCoords;
     }
     $.ajax({
@@ -168,6 +168,16 @@ const tour = (tourName) => {
             tourPath.setMap(map);
         }
     })
+    if (tour_name === 'pton') {
+        ptonTreesTour();
+    }
+    if (tour_name === 'winter') {
+        winterTour();
+    }
+}
+
+const ptonTreesTour = () => {
+
 }
 
 const addMarkers = (plants) => {
@@ -214,8 +224,8 @@ const addMarkers = (plants) => {
                 '<div id="bodyContent">'+
                 '<p><a href=tourdetails?common_name='+
                 encodeURIComponent(plants[i].title.trim())+
-                '>'+
                 '&tour_name={{tour_name}}'+
+                '>'+
                 'Learn about this tree</a></p>'+
                 '</div>'+
                 '</div>';
