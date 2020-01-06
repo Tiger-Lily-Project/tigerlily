@@ -67,14 +67,8 @@ $('#filter').submit(function(event) {
     // uncheck all options if clear was clicked
     if (clicked === "Clear") {
         console.log("im here")
-        $("#sel1 option:selected").each(function(){
-            console.log(this)
-            $(this).removeAttr("selected");
-        });
-        $("#sel2 option:selected").each(function(){
-            console.log(this)
-            $(this).removeAttr("selected");
-        });
+        $("#sel1 option:selected").prop("selected", false);
+        $("#sel2 option:selected").prop("selected", false);
     }
 
     // only check for new values if apply was clicked
