@@ -59,12 +59,12 @@ function handleResponse(response) {
 
 $('#filter').submit(function(event) {
     event.preventDefault();
-    console.log(clicked);
+
     var form = $(this);
     console.log(form.serialize());
-    species = form.attr('species')
+    species = $("#sel1").val()
     console.log("species: " + species)
-    dec_or_evg = form.attr('dec_or_evg')
+    dec_or_evg = $("#sel2").val()
     console.log("doe: " + dec_or_evg)
     /*
     let url = "/getPins"
