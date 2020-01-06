@@ -66,10 +66,13 @@ $('#filter').submit(function(event) {
 
     // uncheck all options if clear was clicked
     if (clicked === "Clear") {
+        console.log("im here")
         $("#sel1 option:selected").each(function(){
+            console.log("yo")
             $(this).removeAttr("selected");
         });
         $("#sel2 option:selected").each(function(){
+            console.log("wassup")
             $(this).removeAttr("selected");
         });
     }
