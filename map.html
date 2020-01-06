@@ -65,18 +65,20 @@ $('#filter').submit(function(event) {
         dec_or_evg = []
     }
     else {
-        species = $("#sel1 option:checked").val()
+        species = $("#sel1 option:checked")
         species = $.makeArray(species)
         console.log("species: ")
         for (var i = 0; i < species.length; i++) {
+            species[i] = species[i].val()
             console.log(species[i])
         }
-        dec_or_evg = $("#sel2 option:checked").val()
+        dec_or_evg = $("#sel2 option:checked")
         dec_or_evg = $.makeArray(dec_or_evg)
+        console.log("doe: ")
         for (var i = 0; i < dec_or_evg.length; i++) {
+            dec_or_evg[i] = dec_or_evg[i].val()
             console.log(dec_or_evg[i])
         }
-        console.log("doe: " + dec_or_evg)
     }
     /*
     let url = "/getPins"
