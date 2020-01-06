@@ -19,6 +19,7 @@ const trackLocation = ({ onSuccess, onError = () => { } }) => {
 };
 
 var markers = []
+var clicked;
 
 const deleteMarkers = () => {
     console.log("in delete markers")
@@ -58,11 +59,8 @@ function handleResponse(response) {
 
 $('#filter').submit(function(event) {
     event.preventDefault();
-    var clicked
-    console.log(clicked)
+    console.log(clicked);
     var form = $(this);
-    buttonClicked = document.activeElement.getAttribute('value')
-    console.log(buttonClicked)
     console.log(form.serialize());
     species = form.attr('species')
     console.log("species: " + species)
