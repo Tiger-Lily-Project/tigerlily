@@ -67,9 +67,15 @@ $('#filter').submit(function(event) {
     else {
         species = $("#sel1")
         species = $.makeArray(species)
-        console.log("species: " + species)
+        console.log("species: ")
+        for (var i = 0; i < species.length; i++) {
+            console.log(species[i])
+        }
         dec_or_evg = $("#sel2")
         dec_or_evg = $.makeArray(dec_or_evg)
+        for (var i = 0; i < dec_or_evg.length; i++) {
+            console.log(dec_or_evg[i])
+        }
         console.log("doe: " + dec_or_evg)
     }
     /*
