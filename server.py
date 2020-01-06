@@ -248,9 +248,7 @@ def getPins():
 
         
         species = request.args.get('species')
-        species = json.loads(species)
         dec_or_evg = request.args.get('dec_or_evg')
-        dec_or_evg = json.loads(dec_or_evg)
 
         print("SPECIES FROM REQUEST")
         print(species)
