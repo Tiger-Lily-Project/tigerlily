@@ -60,10 +60,18 @@ function handleResponse(response) {
 $('#filter').submit(function(event) {
     event.preventDefault();
 
-    species = $("#sel1")
-    console.log("species: " + species)
-    dec_or_evg = $("#sel2")
-    console.log("doe: " + dec_or_evg)
+    if (clicked === "Clear") {
+        species = []
+        dec_or_evg = []
+    }
+    else {
+        species = $("#sel1")
+        species = $.makeArray(species)
+        console.log("species: " + species)
+        dec_or_evg = $("#sel2")
+        dec_or_evg = $.makeArray(dec_or_evg)
+        console.log("doe: " + dec_or_evg)
+    }
     /*
     let url = "/getPins"
     $.ajax({
