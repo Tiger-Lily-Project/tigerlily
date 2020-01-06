@@ -68,11 +68,11 @@ $('#filter').submit(function(event) {
     if (clicked === "Clear") {
         console.log("im here")
         $("#sel1 option:selected").each(function(){
-            console.log("yo")
+            console.log(this)
             $(this).removeAttr("selected");
         });
         $("#sel2 option:selected").each(function(){
-            console.log("wassup")
+            console.log(this)
             $(this).removeAttr("selected");
         });
     }
