@@ -48,6 +48,7 @@ const markers_in_bounds = () => {
         data: {bounds: JSON.stringify(bounds), species: JSON.stringify(species), dec_or_evg: JSON.stringify(dec_or_evg)},
         success: function(data){
             console.log(data)
+            deleteMarkers()
             addMarkers(data.plants)
         }
     });
