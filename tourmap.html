@@ -19,6 +19,7 @@ const trackLocation = ({ onSuccess, onError = () => { } }) => {
 };
 
 var markers = []
+var tour_name;
 var ptonTreesCoords = [
 {lat: 40.3494921, lng: -74.6602896},
                 {lat: 40.3494185, lng: -74.6606088},
@@ -140,6 +141,7 @@ function handleResponse(response) {
 }
 
 const tour = (tourName) => {
+    tour_name = tourName;
     let ids = [572, 152, 3389, 3376, 3331, 656, 181, 3260, 3485, 407, 874, 199, 3906, 820, 3467, 793]
     let url = '/getTourPlants'
     var coords;
@@ -210,7 +212,7 @@ const addMarkers = (plants) => {
                 plants[i].title+
                 '</h1>'+
                 '<div id="bodyContent">'+
-                '<p><a href=tourdetails?common_name='+
+                '<p><a href=tourdetails?common_name=&tour_name={{tour_name}}'+
                 encodeURIComponent(plants[i].title.trim())+
                 '>'+
                 'Learn about this tree</a></p>'+
