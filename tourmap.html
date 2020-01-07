@@ -19,6 +19,7 @@ const trackLocation = ({ onSuccess, onError = () => { } }) => {
 };
 
 var markers = []
+var lines = []
 var tour_name;
 var ptonTreesIds = [572, 152, 3389, 3376, 3331, 656, 181, 3260, 3485, 407, 874, 199, 3906, 820, 3467, 793];
 var winterIds = [];
@@ -145,6 +146,12 @@ function handleResponse(response) {
 const tour = (tourName) => {
     tour_name = tourName;
 
+    // remove tour from map if applicable
+    if (lines.length > 0) {
+        lines[0].setMap(null)
+        deleteMarkers()
+    }
+
     let url = '/getTourPlants'
     var coords;
     var ids;
@@ -171,6 +178,7 @@ const tour = (tourName) => {
                 strokeWeight: 3
             });
             tourPath.setMap(map);
+            lines.push(tourPath)
         }
     })
     if (tour_name === 'pton') {
