@@ -23,9 +23,12 @@
     @media screen and (max-width: 767px) {
       .row.content {height: auto;} 
     }
+    h4 {
+      display: inline;
+    }
   </style>
 </head>
-<body>
+<body onLoad="searchCatalog()">
 
 <nav class="navbar navbar-inverse visible-xs">
   <div class="container-fluid">
@@ -64,49 +67,102 @@
       </ul><br>
     </div>
     <br>
-    
+
     <div class="col-sm-9">
       <div class="well">
-      <a href="#A">A</a>
-      <a href="#B">B</a>
-      <a href="#C">C</a>
-      <a href="#D">D</a>
-      <a href="#E">E</a>
-      <a href="#F">F</a>
-      <a href="#G">G</a>
-      <a href="#H">H</a>
-      <a href="#I">I</a>
-      <a href="#J">J</a>
-      <a href="#K">K</a>
-      <a href="#L">L</a>
-      <a href="#M">M</a>
-      <a href="#N">N</a>
-      <a href="#O">O</a>
-      <a href="#P">P</a>
-      <a href="#Q">Q</a>
-      <a href="#R">R</a>
-      <a href="#S">S</a>
-      <a href="#T">T</a>
-      <a href="#U">U</a>
-      <a href="#V">V</a>
-      <a href="#W">W</a>
-      <a href="#X">X</a>
-      <a href="#Y">Y</a>
-      <a href="#Z">Z</a>
-      {% for first_char in species: %}
-        <a id={{first_char}}><h2>{{first_char}}</h2></a>
-          {% for species_info in species[first_char]: %}
-          <br>
-          <a href="plantdetails?common_name={{species_info.getEncodedCommonName()}}">{{species_info.getCommonName()}}</a>
-          <br>
-          <img src="/static/images/{{species_info.getImg()}}" alt="test" width = "150">
-          <br>
-          {% endfor %}
-      {% endfor %}
+      <input type="text" class="form-control" id="search" oninput="javascript:searchCatalog()" name="search" placeholder="Search by common name">
+      <br>
+      <div class="container">
+          <p id="resultsParagraph">(None)</p>
+      </div>
+
       </div>
     </div>
   </div>
 </div>
+
+<script>
+  function createAjaxRequest() {
+    console.log("creating request")
+            let req;
+                       
+            try  // Some browser other than Internet Explorer
+            {
+               req = new XMLHttpRequest();
+            }
+            catch (e1) 
+            {    
+               try  // Internet Explorer 6+
+               {
+                  req = new ActiveXObject("Msxml2.XMLHTTP");
+               }
+               catch (e2) 
+               {  
+                  try  // Internet Explorer 5
+                  { 
+                     req = new ActiveXObject("Microsoft.XMLHTTP"); 
+                  }
+                  catch (e3)
+                  {  
+                     req = false;
+                  }
+               }
+            }
+            return req;
+         }
+
+         function processReadyStateChange()
+         {
+           console.log("process state change")
+            const STATE_UNINITIALIZED = 0;
+            const STATE_LOADING       = 1;
+            const STATE_LOADED        = 2;
+            const STATE_INTERACTIVE   = 3;
+            const STATE_COMPLETED     = 4;
+            
+            if (this.readyState != STATE_COMPLETED)
+               return;
+            
+            if (this.status != 200)  // Request succeeded?
+            {  
+               //alert(
+               //   "AJAX error: Request failed: " + this.statusText);
+               return;
+            }
+            
+            if (this.responseText == null)  // Data received?
+            {  
+               alert("AJAX error: No data received");
+               return;
+            }
+
+            let resultsParagraph = 
+               document.getElementById("resultsParagraph");
+            resultsParagraph.innerHTML = this.responseText;
+            console.log(this.responseText)
+         }
+
+         let request = null;
+         
+         function searchCatalog()
+         {
+           console.log("im here!")
+            let search = document.getElementById('search').value;
+
+            console.log(search);
+
+            search = encodeURIComponent(search);
+               
+            if (request != null)
+               request.abort();
+            
+            request = createAjaxRequest();
+            if (request == null) return;
+            request.onreadystatechange = processReadyStateChange;
+            request.open("GET", "/catalogsearch?search=" + search);
+            request.send(null);
+         }
+</script>
 
 </body>
 </html>
