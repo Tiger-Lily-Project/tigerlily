@@ -175,10 +175,17 @@ def catalog():
         species = []
 
     # Render the catalog page, passing in the list of species.
-    html = render_template('catalog.html', 
-    species = species)
-    response = make_response(html)
+    html = ""
+    for first_char in species:
+        html += "<a id=" + first_char + "><h2>" + first_char + "</h2></a>"
+        for species_info in species[first_char]:
+            html += "<br>"
+            html += '<a href="plantdetails?common_name=' + species_info.getEncodedCommonName() + '">' + species_info.getEncodedCommonName() + '</a>'
+            html += '<br>'
+            html += '<img src="/static/images/' + species_info.getImg() + '" alt="test" width = "150">'
+            html += <br>
 
+    response = make_response(html)
     return response
 
 #endregion
