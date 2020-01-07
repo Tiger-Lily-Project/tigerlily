@@ -10,11 +10,11 @@
 // Handle location updates
 const trackLocation = ({ onSuccess, onError = () => { } }) => {
     if ('geolocation' in navigator === false) {
-      return onError(new Error('Geolocation is not supported by your browser.'));
+      return onError(new Error('Sorry, geolocation is not supported by your browser :('));
     }
   
     // Use watchPosition for live updates
-    return navigator.geolocation.watchPosition(onSuccess, onError );
+    return navigator.geolocation.watchPosition(onSuccess, onError);
 };
 
 var markers = []
@@ -325,8 +325,10 @@ function initMap() {
                 initializing = false;
             }
         },
-        onError: err =>
+        onError: err => {
+            console.log(err)
             alert('Error: ', err.message)
+        }
     });
 
     google.maps.event.addListenerOnce(map, "bounds_changed", function(){
