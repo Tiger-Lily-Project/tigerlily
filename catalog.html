@@ -106,6 +106,7 @@
 
 <script>
   function createAjaxRequest() {
+    console.log("creating request")
             let req;
                        
             try  // Some browser other than Internet Explorer
@@ -135,6 +136,7 @@
 
          function processReadyStateChange()
          {
+           console.log("process state change")
             const STATE_UNINITIALIZED = 0;
             const STATE_LOADING       = 1;
             const STATE_LOADED        = 2;
@@ -160,7 +162,7 @@
             let resultsParagraph = 
                document.getElementById("resultsParagraph");
             resultsParagraph.innerHTML = this.responseText;
-            console.log(resultsParagraph)
+            console.log(this.responseText)
          }
 
          let request = null;
