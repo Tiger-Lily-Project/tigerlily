@@ -327,8 +327,10 @@ function initMap() {
         },
         onError: err => {
             console.log(err.message)
-            if (!(err.code == err.PERMISSION_DENIED))
-                alert(err.message)
+            if (err.code == err.PERMISSION_DENIED) {
+                var showLocationButton = document.getElementById("showLocationButton");
+                showLocationButton.classList.remove("hidden");
+            } else { alert(err.message) }
         }
     });
 
