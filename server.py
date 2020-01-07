@@ -203,7 +203,7 @@ def catalogSearch():
     # Render the catalog page, passing in the list of species.
     html = ""
     for first_char in species:
-        html += '<a href="#' + first_char + '">' + first_char + "</a>"
+        html += '<a href="#' + first_char + '"><h4>' + first_char + "</h4></a>"
     for first_char in species:
         html += "<a id=" + first_char + "><h2>" + first_char + "</h2></a>"
         for species_info in species[first_char]:
