@@ -77,6 +77,10 @@ $('#filter').submit(function(event) {
     if (clicked === "Apply") {
         species = $("#sel1 option:selected")
         species = $.makeArray(species)
+        if (species.length > 50) {
+            window.alert("Please select less than 50 species.");
+            return;
+        }
         console.log("species: ")
         for (var i = 0; i < species.length; i++) {
             species[i] = species[i].value
@@ -182,7 +186,7 @@ function initMap() {
     });
 
     google.maps.event.addListenerOnce(map, "bounds_changed", function(){
-        google.maps.event.addListener(map, "idle", function() { markers_in_bounds(0)});
+        google.maps.event.addListener(map, "idle", function() { markers_in_bounds()});
     });
 
 }
