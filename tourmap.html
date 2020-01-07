@@ -150,6 +150,7 @@ const tour = (tourName) => {
     if (lines.length > 0) {
         lines[0].setMap(null)
         deleteMarkers()
+        lines = []
     }
 
     let url = '/getTourPlants'
