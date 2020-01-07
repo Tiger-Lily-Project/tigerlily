@@ -182,7 +182,7 @@
             request = createAjaxRequest();
             if (request == null) return;
             request.onreadystatechange = processReadyStateChange;
-            request.open("GET", "/catalog?search=" + search);
+            request.open("GET", "/catalogsearch?search=" + search);
             request.send(null);
          }
 </script>

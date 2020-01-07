@@ -175,6 +175,32 @@ def catalog():
         species = []
 
     # Render the catalog page, passing in the list of species.
+    html = render_template('catalog.html', 
+    species = species)
+    response = make_response(html)
+
+    return response
+
+@app.route('/')
+@app.route('/catalogsearch')
+def catalogSearch():
+
+    search = request.args.get('search')
+    if search is None:
+        search = ''
+
+    # Gets a list of all species available in the database.
+    try:
+        database = Database()
+        database.connect()
+        species = database.get_species_by_name(search)
+        database.disconnect()
+    except Exception as e:
+        species = []
+    except Error as e:
+        species = []
+
+    # Render the catalog page, passing in the list of species.
     html = ""
     for first_char in species:
         html += '<a href="#' + first_char + '">' + first_char + "</a>"
