@@ -67,8 +67,7 @@
 
     <div class="col-sm-9">
       <div class="well">
-      <input type="text" class="form-control" id="search" oninput="javascript:searchCatalog()" 
-        name="search" value="{{dept}}" placeholder="Search by common name">
+      <input type="text" class="form-control" id="search" oninput="javascript:searchCatalog()" name="search" placeholder="Search by common name">
       <a href="#A">A</a>
       <a href="#B">B</a>
       <a href="#C">C</a>
@@ -167,6 +166,7 @@
          
          function searchCatalog()
          {
+           console.log("im here!")
             let search = document.getElementById('search').value;
 
             console.log(search);
