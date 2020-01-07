@@ -187,6 +187,7 @@ def catalog():
             html += '<br>'
             html += '<img src="/static/images/' + species_info.getImg() + '" alt="test" width = "150">'
             html += '<br>'
+    html += '</div></div>'
 
     response = make_response(html)
     return response
