@@ -183,7 +183,7 @@ def catalog():
             html += '<a href="plantdetails?common_name=' + species_info.getEncodedCommonName() + '">' + species_info.getEncodedCommonName() + '</a>'
             html += '<br>'
             html += '<img src="/static/images/' + species_info.getImg() + '" alt="test" width = "150">'
-            html += <br>
+            html += '<br>'
 
     response = make_response(html)
     return response
