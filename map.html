@@ -89,8 +89,9 @@ $('#filter').submit(function(event) {
             dec_or_evg[i] = dec_or_evg[i].value
             console.log(dec_or_evg[i])
         }
-        markers_in_bounds()
+       
     }
+    markers_in_bounds()
     
 });
 
@@ -182,9 +183,9 @@ function initMap() {
             alert(`Error: Failed to obtain location`)
     });
 
-    google.maps.event.addListenerOnce(map, "bounds_changed", function(){
-        google.maps.event.addListener(map, "idle", function() { markers_in_bounds(0)});
-    });
+    // google.maps.event.addListenerOnce(map, "bounds_changed", function(){
+    //     google.maps.event.addListener(map, "idle", function() { markers_in_bounds(0)});
+    // });
 
 }
 </script>
