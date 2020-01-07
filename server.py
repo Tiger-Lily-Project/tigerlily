@@ -175,8 +175,7 @@ def catalog():
         species = []
 
     # Render the catalog page, passing in the list of species.
-    html = '<div class="col-sm-9"><div class="well"><input type="text" class="form-control" id="search" oninput="javascript:searchCatalog()" name="search" \
-        placeholder="Search by common name">'
+    html = ""
     for first_char in species:
         html += '<a href="#' + first_char + '">' + first_char + "</a>"
     for first_char in species:
@@ -187,7 +186,6 @@ def catalog():
             html += '<br>'
             html += '<img src="/static/images/' + species_info.getImg() + '" alt="test" width = "150">'
             html += '<br>'
-    html += '</div></div>'
 
     response = make_response(html)
     return response
