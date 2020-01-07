@@ -42,7 +42,7 @@
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
         <li><a href="/index">Home</a></li>
-        <li><a href="#">Guided Tour</a></li>
+        <li><a href="/tour">Guided Tour</a></li>
         <li class="active"><a href="/catalog">Catalog</a></li>
         <li><a href="/about">About Us</a></li>
       </ul>
@@ -58,7 +58,7 @@
       <br>
       <ul class="nav nav-pills nav-stacked">
         <li><a href="/index">Home</a></li>
-        <li><a href="/index">Guided Tour</a></li>
+        <li><a href="/tour">Guided Tour</a></li>
         <li class="active"><a href="/catalog">Catalog</a></li>
         <li><a href="/about">About Us</a></li>
       </ul><br>
@@ -66,9 +66,35 @@
     <br>
     
     <div class="col-sm-9">
-      {% for first_char in species: %}
       <div class="well">
-        <h2>{{first_char}}</h2>
+      <a href="#A">A</a>
+      <a href="#B">B</a>
+      <a href="#C">C</a>
+      <a href="#D">D</a>
+      <a href="#E">E</a>
+      <a href="#F">F</a>
+      <a href="#G">G</a>
+      <a href="#H">H</a>
+      <a href="#I">I</a>
+      <a href="#J">J</a>
+      <a href="#K">K</a>
+      <a href="#L">L</a>
+      <a href="#M">M</a>
+      <a href="#N">N</a>
+      <a href="#O">O</a>
+      <a href="#P">P</a>
+      <a href="#Q">Q</a>
+      <a href="#R">R</a>
+      <a href="#S">S</a>
+      <a href="#T">T</a>
+      <a href="#U">U</a>
+      <a href="#V">V</a>
+      <a href="#W">W</a>
+      <a href="#X">X</a>
+      <a href="#Y">Y</a>
+      <a href="#Z">Z</a>
+      {% for first_char in species: %}
+        <a id={{first_char}}><h2>{{first_char}}</h2></a>
           {% for species_info in species[first_char]: %}
           <br>
           <a href="plantdetails?common_name={{species_info.getEncodedCommonName()}}">{{species_info.getCommonName()}}</a>
@@ -76,8 +102,8 @@
           <img src="/static/images/{{species_info.getImg()}}" alt="test" width = "150">
           <br>
           {% endfor %}
-      </div>
       {% endfor %}
+      </div>
     </div>
   </div>
 </div>

@@ -241,10 +241,10 @@ class Database:
 #region Tour searches
 
     # Gets a plant's blurb by its common name
-    def get_tour_blurb(self, common_name):
+    def get_tour_blurb(self, common_name, tour_name):
         cursor = self._connection.cursor()
-        stmt = "SELECT blurb FROM tour WHERE common_name = %s;"
-        cursor.execute(stmt, [common_name])
+        stmt = "SELECT blurb FROM tour WHERE common_name = %s AND tour_name = %s;"
+        cursor.execute(stmt, [common_name, tour_name])
 
         row = cursor.fetchone()
         blurb = str(row[0])
@@ -285,21 +285,23 @@ class Database:
         # Append WHERE for names
         for i in range(0, len(species)):
             if i == 0:
-                stmtStr += " common_name = %s"
+                stmtStr += " (common_name = %s"
             else:
                 stmtStr += " OR common_name = %s"
             
         # Append AND if necessary
         if len(species) > 0 and len(dec_or_evg) > 0:
-            stmtStr += " AND"
+            stmtStr += ") AND"
 
         # Append WHERE for dec_or_evg
         for i in range(0, len(dec_or_evg)):
             if i == 0:
-                stmtStr += " dec_or_evg = %s"
+                stmtStr += " (dec_or_evg = %s"
             else:
                 stmtStr += " OR dec_or_evg = %s"
 
+        if len(dec_or_evg) > 0:
+            stmtStr += ')'
         stmtStr += ";"
 
         # Create list of prepared values
