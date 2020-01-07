@@ -183,9 +183,9 @@ function initMap() {
             alert(`Error: Failed to obtain location`)
     });
 
-    // google.maps.event.addListenerOnce(map, "bounds_changed", function(){
-    //     google.maps.event.addListener(map, "idle", function() { markers_in_bounds(0)});
-    // });
+    google.maps.event.addListenerOnce(map, "bounds_changed", function(){
+        google.maps.event.addListener(map, "idle", function() { markers_in_bounds(0)});
+    });
 
 }
 </script>
