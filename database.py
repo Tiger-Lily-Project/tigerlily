@@ -289,9 +289,12 @@ class Database:
             else:
                 stmtStr += " OR common_name = %s"
             
+        if len(species) > 0:
+            stmtStr += ")"
+            
         # Append AND if necessary
         if len(species) > 0 and len(dec_or_evg) > 0:
-            stmtStr += ") AND"
+            stmtStr += " AND"
 
         # Append WHERE for dec_or_evg
         for i in range(0, len(dec_or_evg)):
