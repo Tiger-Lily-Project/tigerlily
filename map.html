@@ -147,7 +147,6 @@ const markers_in_bounds = () => {
         success: function(data){
             console.log(data)
             markersByDensity(data.plants, bounds)
-            addMarkers(data.plants)
         }
     });
 
