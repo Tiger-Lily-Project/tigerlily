@@ -301,12 +301,15 @@ const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
 
             var isClosed = false
             infowindow.open(map)
-            wait(100)
 
             google.maps.event.addListener(infowindow, 'closeclick', function() {  
                isClosed = true
             });  
 
+            for (var i = 0; i < 10000; i++) {
+
+            }
+            /*
             var check = function(){
                 if (isClosed){
                     // run when condition is met
