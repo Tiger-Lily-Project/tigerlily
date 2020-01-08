@@ -238,31 +238,42 @@ const tour = (tourName, isDir = true, lastWindInd = 0, lastPinInd = 0) => {
         ids = winterIds;
         coords = winterCoords;
     }
-    $.ajax({
-        url: url,
-        type: "GET",
-        contentType: "application/json",
-        data: {ids: JSON.stringify(ids)},
-        success: function(data) {
-            console.log(data)
-            deleteMarkers()
-            addMarkers(data.plants)
-            console.log(markers.length)
-            var tourPath = new google.maps.Polyline({
-                path: coords,
-                strokeColor: '#0080FF',
-                strokeWeight: 3
-            });
-            tourPath.setMap(map);
-            lines.push(tourPath)
-            console.log("pushed tour")
+
+    $.when(ajaxTour()).done(function(a1){
+        // the code here will be executed when all four ajax requests resolve.
+        // a1, a2, a3 and a4 are lists of length 3 containing the response text,
+        // status, and jqXHR object for each of the four ajax calls respectively.
+        if (tour_name === 'pton') {
+            ptonTreesTour(isDir, lastWindInd, lastPinInd);
         }
-    })
-    if (tour_name === 'pton') {
-        ptonTreesTour(isDir, lastWindInd, lastPinInd);
-    }
-    if (tour_name === 'winter') {
-        winterTour(isDir, lastWindInd, lastPinInd);
+        if (tour_name === 'winter') {
+            winterTour(isDir, lastWindInd, lastPinInd);
+        }
+    });
+
+    function ajaxTour() {
+        // NOTE:  This function must return the value 
+        //        from calling the $.ajax() method.
+        return $.ajax({
+            url: url,
+            type: "GET",
+            contentType: "application/json",
+            data: {ids: JSON.stringify(ids)},
+            success: function(data) {
+                console.log(data)
+                deleteMarkers()
+                addMarkers(data.plants)
+                console.log(markers.length)
+                var tourPath = new google.maps.Polyline({
+                    path: coords,
+                    strokeColor: '#0080FF',
+                    strokeWeight: 3
+                });
+                tourPath.setMap(map);
+                lines.push(tourPath)
+                console.log("pushed tour")
+            }
+        });
     }
     
 }
@@ -282,12 +293,8 @@ const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
         if (isDir === true) {
 
             console.log("direction")
-            if (markers.length < ptonTreesIds.length) {
-                isDir = false;
-                document.cookie = "isDir=" + isDir;
-            }
-            else {
-                var contentString = '<div id="content">'+
+
+            var contentString = '<div id="content">'+
                 '<div id="siteNotice">'+
                 '</div>'+
                 '<h4>' +
@@ -298,44 +305,43 @@ const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
                 '</div>' +
                 '</div>';
 
-                var infowindow = new google.maps.InfoWindow({
-                    content: contentString,
-                    position: ptonDirCoords[lastWindInd]
-                });
+            var infowindow = new google.maps.InfoWindow({
+                content: contentString,
+                position: ptonDirCoords[lastWindInd]
+            });
 
-                var isClosed = false
-                infowindow.open(map)
+            var isClosed = false
+            infowindow.open(map)
 
-                google.maps.event.addListener(infowindow, 'closeclick', function() {  
-                isClosed = true
-                });  
+            google.maps.event.addListener(infowindow, 'closeclick', function() {  
+               isClosed = true
+            });  
 
-                for (var i = 0; i < 10000; i++) {
+            for (var i = 0; i < 10000; i++) {
 
-                }
-                /*
-                var check = function(){
-                    if (isClosed){
-                        // run when condition is met
-                        lastWindInd++
-                        document.cookie = "lastWindInd=" + lastWindInd;
-                        isDir = false;
-                        document.cookie = "isDir=" + isDir;
-                    }
-                    else {
-                        console.log("looping")
-                        wait(50);
-                        check()
-                    }
-                }
-
-                check()
-                */
-                lastWindInd++
-                document.cookie = "lastWindInd=" + lastWindInd;
-                isDir = false;
-                document.cookie = "isDir=" + isDir;
             }
+            /*
+            var check = function(){
+                if (isClosed){
+                    // run when condition is met
+                    lastWindInd++
+                    document.cookie = "lastWindInd=" + lastWindInd;
+                    isDir = false;
+                    document.cookie = "isDir=" + isDir;
+                }
+                else {
+                    console.log("looping")
+                    wait(50);
+                    check()
+                }
+            }
+
+            check()
+            */
+            lastWindInd++
+            document.cookie = "lastWindInd=" + lastWindInd;
+            isDir = false;
+            document.cookie = "isDir=" + isDir;
         }
         else {
             console.log(markers)
@@ -343,12 +349,8 @@ const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
             var marker = markers[lastPinInd]
 
             console.log("pin")
-            if (markers.length < ptonTreesIds.length) {
-                isDir = true;
-                document.cookie = "isDir=" + isDir;
-            }
-            else {
-                contentString = '<div id="content">'+
+
+            contentString = '<div id="content">'+
                 '<div id="siteNotice">'+
                 '</div>'+
                 '<h1 id="firstHeading" class="firstHeading">'+
@@ -365,49 +367,48 @@ const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
                 '</div>'+
                 '</div>';
             
-                var infoWindow = new google.maps.InfoWindow({
-                    content: contentString
-                });
-                
-                var isClosed = false
-                infoWindow.open(map, marker);
+            var infoWindow = new google.maps.InfoWindow({
+                content: contentString
+            });
+            
+            var isClosed = false
+            infoWindow.open(map, marker);
 
-                google.maps.event.addListener(infowindow, 'closeclick', function() {  
-                isClosed = true
-                }); 
+            google.maps.event.addListener(infowindow, 'closeclick', function() {  
+               isClosed = true
+            }); 
 
-                /*
-                var check = function(){
-                    if (isClosed){
-                        // run when condition is met
-                        lastPinInd++
-                        document.cookie = "lastPinInd=" + lastPinInd;
-                        isDir = true;
-                        document.cookie = "isDir=" + isDir;
-                    }
-                    else {
-                        console.log("looping")
-                        wait(50);
-                        check()
-                    }
-                }
-
-                check()
-                */
-                /*
-                google.maps.event.addListener(infowindow, 'closeclick', function() {  
+            /*
+            var check = function(){
+                if (isClosed){
+                    // run when condition is met
                     lastPinInd++
                     document.cookie = "lastPinInd=" + lastPinInd;
                     isDir = true;
                     document.cookie = "isDir=" + isDir;
-                });  
-                */
+                }
+                else {
+                    console.log("looping")
+                    wait(50);
+                    check()
+                }
+            }
 
+            check()
+            */
+            /*
+            google.maps.event.addListener(infowindow, 'closeclick', function() {  
                 lastPinInd++
                 document.cookie = "lastPinInd=" + lastPinInd;
                 isDir = true;
                 document.cookie = "isDir=" + isDir;
-            }
+            });  
+            */
+
+            lastPinInd++
+            document.cookie = "lastPinInd=" + lastPinInd;
+            isDir = true;
+            document.cookie = "isDir=" + isDir;
         }
     }
     tour_name = ""
