@@ -265,8 +265,11 @@ const tour = (tourName, isDir = true, lastWindInd = 0, lastPinInd = 0) => {
 }
 
 const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
+    console.log("in tour")
     while (lastWindInd < ptonDirs.length) {
         if (isDir === "true") {
+
+            console.log("direction")
 
             var contentString = '<div id="content">'+
                 '<div id="siteNotice">'+
@@ -298,15 +301,17 @@ const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
             
             var marker = markers[lastPinInd]
 
+            console.log("pin")
+
             contentString = '<div id="content">'+
                 '<div id="siteNotice">'+
                 '</div>'+
                 '<h1 id="firstHeading" class="firstHeading">'+
-                markers[i].title+
+                markers[lastPinInd].title+
                 '</h1>'+
                 '<div id="bodyContent">'+
                 '<p><h5><a href=tourdetails?common_name='+
-                encodeURIComponent(markers[i].title.trim())+
+                encodeURIComponent(markers[lastPinInd].title.trim())+
                 '&tour_name='+
                 encodeURIComponent(tour_name.trim())+
                 '>'+
@@ -434,8 +439,8 @@ function initMap() {
     if (isDir === "") {
         isDir = "true"
     }
-    lastWindInd = getCookie("lastWindInd").parseInt()
-    lastPinInd = getCookie("lastPinInd").parseInt()
+    lastWindInd = parseInt(getCookie("lastWindInd"))
+    lastPinInd = parseInt(getCookie("lastPinInd"))
 
     if (tour_name !== "") {
         tour(tour_name, isDir, lastWindInd, lastPinInd)
