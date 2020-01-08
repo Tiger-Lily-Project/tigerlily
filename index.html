@@ -77,11 +77,37 @@
       </ul><br>
     </div>
     <br>
-    
+
     <div class="col-sm-9">
+      
+        <div class="hidden panel panel-primary" style="position: absolute; top: 50%; z-index: 10;" id="useLocationPanel">
+            <div class="panel-heading">Welcome to Princeton Plants!</div>
+            <div class="panel-body">To get the best possible experience, please allow us to access your location. That way, we can show you some trees in your area and help you get the most out of our guided tour. </div>
+            <div class="panel-footer">
+              <button class="btn btn-primary" type="button" onclick="requestLocation()">Use my location</button>
+              <button class="btn btn-default" type="button" onclick="noLocationRequest()">No, thanks</button>
+            </div>
+        </div>
+
+        <div class="hidden panel panel-primary" style="position: absolute; top: 50%; z-index: 10;" id="instructionPanel">
+            <div class="panel-heading">How to let us use your location</div>
+            <div class="panel-body">
+              <h3>You’re seeing this message because you previously chose not to offer us access to your location. Unfortunately, we cannot ask you again, so you will have to manually reverse this setting in your browser. Here are some instructions that may be helpful:</h3>
+              <strong>If you are on a Chrome on a computer:</strong>
+              <p>In the upper right-hand corner of your browser’s search bar, there will be a small location icon. Click on it, then select “Clear these settings for future visits” then reload the page. </p>
+              <strong>If you are on Safari on a computer: </strong>
+              <strong>If you are on Firefox on a computer:</strong>
+              <strong>If you are on a Chrome on a phone:</strong>
+              <strong>If you are on Safari on a phone: </strong>
+              <strong>If you are on Firefox on a phone:</strong>
+            </div>
+        </div>
+      
         <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
             Filter By:
         </button>
+        <button class="hidden btn btn-primary" type="button" id="locationInstructions" onclick="showInstructions()">Use my location</button>
+        <button class="hidden btn btn-primary" type="button" id="useLocationButton" onclick="requestLocation()">Use my location</button>
 
         <form id="filter" method="GET">
           <div class="collapse" id="collapseExample">
