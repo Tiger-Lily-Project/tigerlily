@@ -267,14 +267,6 @@ const tour = (tourName, isDir = true, lastWindInd = 0, lastPinInd = 0) => {
     
 }
 
-function wait(ms){
-   var start = new Date().getTime();
-   var end = start;
-   while(end < start + ms) {
-     end = new Date().getTime();
-  }
-}
-
 const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
     console.log("in tour")
     
@@ -305,9 +297,6 @@ const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
                isClosed = true
             });  
 
-            wait(1000)
-
-            /*
             var check = function(){
                 if (isClosed){
                     // run when condition is met
@@ -323,13 +312,11 @@ const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
             }
 
             check()
-            */
-
-
+            /*
             lastWindInd++
             document.cookie = "lastWindInd=" + lastWindInd;
             isDir = false;
-            document.cookie = "isDir=" + isDir;
+            document.cookie = "isDir=" + isDir;*/
         }
         else {
             console.log(markers)
@@ -359,12 +346,14 @@ const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
                 content: contentString
             });
             
+            var isClosed = false
             infoWindow.open(map, marker);
-            wait(1000)
-            /*
+            google.maps.event.addListener(infowindow, 'closeclick', function() {  
+               isClosed = true
+            }); 
 
             var check = function(){
-                if (!infowindow.getMap()){
+                if (isClosed){
                     // run when condition is met
                     lastPinInd++
                     document.cookie = "lastPinInd=" + lastPinInd;
@@ -378,7 +367,6 @@ const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
             }
 
             check()
-            */
 
             /*
             google.maps.event.addListener(infowindow, 'closeclick', function() {  
@@ -389,10 +377,11 @@ const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
             });  
             */
 
+            /*
             lastPinInd++
             document.cookie = "lastPinInd=" + lastPinInd;
             isDir = true;
-            document.cookie = "isDir=" + isDir;
+            document.cookie = "isDir=" + isDir;*/
         }
     }
     tour_name = ""
