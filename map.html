@@ -75,6 +75,7 @@
     var clicked;
     var species = []
     var dec_or_evg = []
+    var selectedTree;
 
     const deleteMarkers = () => {
         console.log("in delete markers")
@@ -125,6 +126,7 @@
 
                 infowindow.setContent(contentString);
                 infowindow.open(map, marker);
+                selectedTree = marker;
 
                 google.maps.event.addListener(map, "click", function (event) {
                     infowindow.close();
@@ -249,7 +251,7 @@
 
             // If zone at max density
             if (zoneDensities[zone] >= MAX_PINS_PER_ZONE) {
-                if (idNum in assocMarkers) {    // Remove pin if already displayed
+                if ((idNum in assocMarkers) && (selectedTree != assocMarkers[idNum])) {    // Remove pin if already displayed
                     console.log("delete plant ", idNum)
                     assocMarkers[idNum].setMap(null)
                     delete assocMarkers[idNum]
