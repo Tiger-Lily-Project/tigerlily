@@ -87,6 +87,7 @@ function getCookie(key) {
     if (c.indexOf(name) == 0) {
       result = c.substring(name.length, c.length)
       if (result === '"[]"') {
+          console.log("im here")
           return "[]"
       }
       return result;
