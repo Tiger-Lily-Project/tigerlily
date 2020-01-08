@@ -314,7 +314,7 @@ const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
                     encodeURIComponent(marker.getTitle().trim())+
                     '&tour_name='+
                     encodeURIComponent(tour_name.trim())+
-                    '>'+
+                    ' onclick="lastPinInd++; document.cookie = "lastPinInd=" + lastPinInd;">'+
                     'Learn about this tree</a></h5></p>'+
                     '<p>Close out of this window when you\'re ready to move on!</p>'
                     '</div>'+
