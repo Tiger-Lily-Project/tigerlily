@@ -291,12 +291,17 @@ const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
                 position: ptonDirCoords[lastWindInd]
             });
 
+            var isClosed = false
             infowindow.open(map)
-            setTimeout(console.log("waited"), 1000)
+            google.maps.event.addListener(infowindow, 'closeclick', function() {  
+               isClosed = true
+            });  
+
+            setTimeout(console.log("waited"), 3000)
 
             /*
             var check = function(){
-                if (!infowindow.getMap()){
+                if (isClosed){
                     // run when condition is met
                     lastWindInd++
                     document.cookie = "lastWindInd=" + lastWindInd;
@@ -312,14 +317,6 @@ const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
             check()
             */
 
-            /*
-            google.maps.event.addListener(infowindow, 'closeclick', function() {  
-                lastWindInd++
-                document.cookie = "lastWindInd=" + lastWindInd;
-                isDir = false;
-                document.cookie = "isDir=" + isDir;
-            });  
-            */
 
             lastWindInd++
             document.cookie = "lastWindInd=" + lastWindInd;
