@@ -240,6 +240,7 @@ const tour = (tourName, isDir = true, lastWindInd = 0, lastPinInd = 0) => {
     }
     $.ajax({
         url: url,
+        async: false,
         type: "GET",
         contentType: "application/json",
         data: {ids: JSON.stringify(ids)},
