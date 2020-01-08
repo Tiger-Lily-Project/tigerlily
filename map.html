@@ -32,6 +32,8 @@ function requestLocation () {
                 initializing = false;
             }
             document.cookie = "geolocation=yes"
+            var useLocationButton = document.getElementById("useLocationButton");
+            useLocationButton.classList.add("hidden");
         },
         onError: err => {
             if (err.code == err.PERMISSION_DENIED) {
