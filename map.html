@@ -88,9 +88,7 @@
         markers = [];
     }
 
-    var infowindow = new google.maps.InfoWindow();
-
-    const makeMarker = (plant) => {
+    const makeMarker = (plant, infoWindow) => {
         var contentString;
 
         var lat = parseFloat(plant.lat);
@@ -139,7 +137,7 @@
         assocMarkers[plant.id_num] = marker;
     }
 
-    const markers_in_bounds = () => {
+    const markers_in_bounds = (infoWindow) => {
         console.log("ran markers_in_bounds")
         // Get map bounds
         let bounds = map.getBounds()
@@ -153,7 +151,7 @@
             data: { bounds: JSON.stringify(bounds), species: JSON.stringify(species), dec_or_evg: JSON.stringify(dec_or_evg) },
             success: function (data) {
                 console.log(data)
-                markersByDensity(data.plants, bounds)
+                markersByDensity(data.plants, bounds, infoWindow)
             }
         });
     }
@@ -275,7 +273,7 @@
             if (zoneDensities[i] <= MAX_PINS_PER_ZONE) {
                 if (zoneStacks[i].length >= 1) {    // If array is not empty
                     newPlant = zoneStacks[i].pop()
-                    makeMarker(newPlant)
+                    makeMarker(newPlant, infoWindow)
                     zoneDensities[i]++
                 }
             }
@@ -316,8 +314,10 @@
         });
         locationMarker.setZIndex(google.maps.Marker.MAX_ZINDEX + 1)
 
+        var infowindow = new google.maps.InfoWindow();
+
         google.maps.event.addListenerOnce(map, "bounds_changed", function () {
-            google.maps.event.addListener(map, "idle", function () { markers_in_bounds() });
+            google.maps.event.addListener(map, "idle", function () { markers_in_bounds(infoWindow) });
         });
 
         var geoCookie = getCookie("geolocation");
