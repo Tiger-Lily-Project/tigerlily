@@ -231,13 +231,12 @@
         }
 
         // If total pins in viewport is less than max total, show all regardless of zone
-        if (plants.length < TOTAL_MAX_PINS) {
-            for (var i = 0; i < plants.length; i++) {
-                makeMarker(plants[i])
-                console.log("idNum in less than total: ", plants[i].id_num)
-            }
-        }
-        else {
+        // if (plants.length < TOTAL_MAX_PINS) {
+        //     for (var i = 0; i < plants.length; i++) {
+        //         makeMarker(plants[i])
+        //         console.log("idNum in less than total: ", plants[i].id_num)
+        //     }
+        // }
             // Iterate through plant array to remove pins from overly-dense areas
             for (var i = 0; i < plants.length; i++) {
                 var idNum = plants[i].id_num
@@ -274,7 +273,6 @@
                     }
                 }
             }
-        }
         console.log(assocMarkers)
     }
 
