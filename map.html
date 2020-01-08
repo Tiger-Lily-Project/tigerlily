@@ -277,16 +277,15 @@ const markersByDensity = (plants, bounds) => {
     // Iterate through zone stacks to add new pins by zone (or add all pins if there were fewer than max total plants in the first place)
     for (var i = 1; i <= (ZONE_COLS * ZONE_ROWS); i++) {
         if (plants.length < TOTAL_MAX_PINS) {
-            if (zoneStacks[i] >= 1) {
+            while (zoneStacks[i] >= 1) {
                 newPlant = zoneStacks[i].pop()
                 makeMarker(newPlant)
             }
         }
-        else while ((zoneDensities[i] <= MAX_PINS_PER_ZONE)) {
+        else if (zoneDensities[i] <= MAX_PINS_PER_ZONE) {
             if (zoneStacks[i].length >= 1) {    // If array is not empty
                 newPlant = zoneStacks[i].pop()
                 makeMarker(newPlant)
-                zoneDensities[i]++
             } else continue
         }
     }
