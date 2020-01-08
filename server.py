@@ -309,7 +309,37 @@ def getPins():
         database = Database()
         database.connect()
 
-        plants = database.get_filtered_plants(species, dec_or_evg, south, north, east, west)
+        plants = database.get_filtered_plants_in_bounds(species, dec_or_evg, south, north, east, west)
+
+        database.disconnect()
+
+    except Exception as e:
+        plants = []
+        print(e)
+    
+    return json.jsonify(plants = plants)
+
+@app.route('/getPinsNoBounds')
+def getPinsNoBounds():
+    print("in getPinsNoBounds")
+
+    try:        
+        species = request.args.get('species')
+        species = json.loads(species)
+        dec_or_evg = request.args.get('dec_or_evg')
+        dec_or_evg = json.loads(dec_or_evg)
+
+        print("SPECIES FROM REQUEST")
+        print(species)
+        print(len(species))
+        print("DOE FROM REQUEST")
+        print(dec_or_evg)
+        print(len(dec_or_evg))
+
+        database = Database()
+        database.connect()
+
+        plants = database.get_filtered_plants(species, dec_or_evg)
 
         database.disconnect()
 

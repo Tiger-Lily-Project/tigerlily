@@ -207,8 +207,8 @@ class Database:
 
         return dec_or_evg_vals
 
-    # Gets filtered plants
-    def get_filtered_plants(self, species, dec_or_evg, south, north, east, west):
+    # Gets filtered plants in bounds
+    def get_filtered_plants_in_bounds(self, species, dec_or_evg, south, north, east, west):
 
         print("species is", len(species))
         print("doe is", len(dec_or_evg))
@@ -221,7 +221,36 @@ class Database:
 
         print("filtering")
 
-        stmtStr, vals = self.create_filter_stmt(species, dec_or_evg, south, north, east, west)
+        stmtStr, vals = self.create_filter_stmt_bounds(species, dec_or_evg, south, north, east, west)
+
+        cursor.execute(stmtStr, vals)
+
+        plants = []
+        row = cursor.fetchone()
+        while row is not None:
+            plant = Plant(str(row[0]), str(row[1]), str(row[2]), str(row[3]), str(row[4]))
+            plant = Plant.getDict(plant)
+           
+            plants.append(plant)
+            row = cursor.fetchone()
+        cursor.close()
+        return plants
+
+    # Gets filtered plants (no bounds)
+    def get_filtered_plants(self, species, dec_or_evg):
+
+        print("species is", len(species))
+        print("doe is", len(dec_or_evg))
+
+        if len(species) == 0 and len(dec_or_evg) == 0:
+            print("not filtering")
+            return self.get_all_plants()
+
+        cursor = self._connection.cursor()
+
+        print("filtering")
+
+        stmtStr, vals = self.create_filter_stmt(species, dec_or_evg)
 
         cursor.execute(stmtStr, vals)
 
@@ -284,7 +313,7 @@ class Database:
         return stmtStr, search_values
 
     # Create filtering SQL statement
-    def create_filter_stmt(self, species, dec_or_evg, south, north, east, west):
+    def create_filter_stmt_bounds(self, species, dec_or_evg, south, north, east, west):
 
         stmtStr = "SELECT common_name, lat, long, status, primary_id FROM ( \
                 SELECT plant_indiv.common_name, plant_indiv.lat, plant_indiv.long, \
@@ -323,6 +352,51 @@ class Database:
         vals.append(north)
         vals.append(east)
         vals.append(west)
+        for spec in species:
+            vals.append(spec)
+        for d_o_e in dec_or_evg:
+            vals.append(d_o_e)
+
+        print("stmtStr = ", stmtStr)
+
+        return stmtStr, vals
+
+    # Create filtering SQL statement
+    def create_filter_stmt(self, species, dec_or_evg):
+
+        stmtStr = "SELECT common_name, lat, long, status, primary_id FROM ( \
+                SELECT plant_indiv.common_name, plant_indiv.lat, plant_indiv.long, \
+                    plant_indiv.status, plant_indiv.primary_id, species_info.dec_or_evg \
+                FROM plant_indiv JOIN species_info ON plant_indiv.common_name = species_info.common_name \
+            ) tmp WHERE"
+
+        # Append WHERE for names
+        for i in range(0, len(species)):
+            if i == 0:
+                stmtStr += " (common_name = %s"
+            else:
+                stmtStr += " OR common_name = %s"
+            
+        if len(species) > 0:
+            stmtStr += ")"
+            
+        # Append AND if necessary
+        if len(species) > 0 and len(dec_or_evg) > 0:
+            stmtStr += " AND"
+
+        # Append WHERE for dec_or_evg
+        for i in range(0, len(dec_or_evg)):
+            if i == 0:
+                stmtStr += " (dec_or_evg = %s"
+            else:
+                stmtStr += " OR dec_or_evg = %s"
+
+        if len(dec_or_evg) > 0:
+            stmtStr += ')'
+        stmtStr += ";"
+
+        # Create list of prepared values
+        vals = []
         for spec in species:
             vals.append(spec)
         for d_o_e in dec_or_evg:

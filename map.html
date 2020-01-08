@@ -72,31 +72,6 @@ var clicked;
 var species = []
 var dec_or_evg = []
 
-// Taken from https://www.w3schools.com/js/js_cookies.asp
-function getCookie(key) {
-  var name = key + "=";
-  var decodedCookie = decodeURIComponent(document.cookie);
-  console.log("key is " + key)
-  console.log("cookie is " + decodedCookie)
-  var ca = decodedCookie.split(';');
-  for(var i = 0; i <ca.length; i++) {
-    var c = ca[i];
-    while (c.charAt(0) == ' ') {
-      c = c.substring(1);
-    }
-    if (c.indexOf(name) == 0) {
-      result = c.substring(name.length, c.length)
-      console.log(result)
-      if (result === '"[]"') {
-          console.log("im here")
-          return "[]"
-      }
-      return result;
-    }
-  }
-  return "";
-}
-
 const deleteMarkers = () => {
     console.log("in delete markers")
     // loop through markers, setting them to null on the map
@@ -126,6 +101,23 @@ const markers_in_bounds = () => {
         }
     });
     // (server updates plants array with plants in range)
+}
+
+const filtered_markers = () => {
+    console.log("ran filtered markers")
+    
+    // send AJAX request to server
+    let url = "/getPinsNoBounds"
+    $.ajax({
+        url: url,
+        type: "GET",
+        contentType: "application/json",
+        data: {species: JSON.stringify(species), dec_or_evg: JSON.stringify(dec_or_evg)},
+        success: function(data){
+            console.log(data)
+            addMarkers(data.plants)
+        }
+    })
 }
 
 function handleResponse(response) {
@@ -236,9 +228,9 @@ const addMarkers = (plants) => {
     console.log("added " + markers.length + " markers")
 }
 
-// from w3schools docs for cookies in javascript
-function getCookie(cname) {
-  var name = cname + "=";
+// Taken from https://www.w3schools.com/js/js_cookies.asp
+function getCookie(key) {
+  var name = key + "=";
   var decodedCookie = decodeURIComponent(document.cookie);
   var ca = decodedCookie.split(';');
   for(var i = 0; i <ca.length; i++) {
@@ -247,11 +239,11 @@ function getCookie(cname) {
       c = c.substring(1);
     }
     if (c.indexOf(name) == 0) {
-        result = c.substring(name.length, c.length)
-        if (result === '"[]"') {
+      result = c.substring(name.length, c.length)
+      if (result === '"[]"') {
           return "[]"
-        }
-        return result;
+      }
+      return result;
     }
   }
   return "";
