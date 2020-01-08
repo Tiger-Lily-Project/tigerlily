@@ -258,12 +258,14 @@ const tour = (tourName, isDir = true, lastWindInd = 0, lastPinInd = 0) => {
             console.log("pushed tour")
         }
     })
+    /*
     if (tour_name === 'pton') {
         ptonTreesTour(isDir, lastWindInd, lastPinInd);
     }
     if (tour_name === 'winter') {
         winterTour(isDir, lastWindInd, lastPinInd);
     }
+    */
 }
 
 const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
@@ -286,21 +288,17 @@ const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
                 '</div>' +
                 '</div>';
 
-            if (lastWindInd == 0) {
-                ptonDirCoords[lastWindInd] = locationMarker.getPosition()
-            }
-
-            var infoWindow = new google.maps.InfoWindow({
+            var infowindow = new google.maps.InfoWindow({
                 content: contentString,
                 position: ptonDirCoords[lastWindInd]
             });
 
-            console.log(infoWindow.getPosition())
+            console.log(infowindow.getPosition())
             
-            infoWindow.open(map)
-            console.log(infoWindow.getMap())
+            infowindow.open(map)
+            console.log(infowindow.getMap())
 
-            while (infoWindow.getMap() !== null && lastWindInd != ptonDirs.length - 1) {
+            while (infowindow.getMap() !== null && lastWindInd != ptonDirs.length - 1) {
 
             }
             
