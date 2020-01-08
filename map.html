@@ -282,12 +282,12 @@ const markersByDensity = (plants, bounds) => {
                 makeMarker(newPlant)
             }
         }
-        else while (zoneDensities[i] <= MAX_PINS_PER_ZONE) {
+        else if (zoneDensities[i] <= MAX_PINS_PER_ZONE) {
             if (zoneStacks[i].length >= 1) {    // If array is not empty
                 newPlant = zoneStacks[i].pop()
                 makeMarker(newPlant)
                 zoneDensities[i]++
-            } else continue
+            }
         }
     }
 }
