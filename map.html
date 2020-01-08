@@ -130,7 +130,6 @@
 
         // Add to associative array of pins
         assocMarkers[plant.id_num] = marker;
-        console.log(plant.id_num)
     }
 
     const markers_in_bounds = () => {
@@ -150,8 +149,6 @@
                 markersByDensity(data.plants, bounds)
             }
         });
-
-        console.log(assocMarkers)
     }
 
     // handles filter
@@ -278,6 +275,7 @@
                 }
             }
         }
+        console.log(assocMarkers)
     }
 
     // from w3schools docs for cookies in javascript
