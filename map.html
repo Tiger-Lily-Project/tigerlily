@@ -237,8 +237,7 @@
         if (plants.length < TOTAL_MAX_PINS) {
             for (var i = 0; i < plants.length; i++) {
                 makeMarker(plants[i])
-                console.log("idNum in markersByDensity: ", plants[i].id_num)
-                console.log(assocMarkers)
+                console.log("idNum in less than total: ", plants[i].id_num)
             }
         }
         else {
@@ -251,7 +250,7 @@
                 // If zone at max density
                 if (zoneDensities[zone] >= MAX_PINS_PER_ZONE) {
                     if (idNum in assocMarkers) {    // Remove pin if already displayed
-                        // console.log("delete plant ", idNum)
+                        console.log("delete plant ", idNum)
                         assocMarkers[idNum].setMap(null)
                         delete assocMarkers[idNum]
                         // console.log(assocMarkers)
