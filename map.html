@@ -37,6 +37,8 @@ function getCookie(key) {
     }
     if (c.indexOf(name) == 0) {
         console.log(JSON.parse(c.substring(name.length, c.length)).length)
+        console.log(JSON.parse('[]'))
+        console.log(JSON.parse("[]"))
       return c.substring(name.length, c.length);
     }
   }
