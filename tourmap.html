@@ -270,7 +270,7 @@ const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
     while (lastWindInd < ptonDirs.length) {
         console.log(isDir)
         console.log(isDir === "true")
-        if (isDir === "true") {
+        if (isDir === true) {
 
             console.log("direction")
 
@@ -297,7 +297,7 @@ const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
 
             lastWindInd++;
             document.cookie = "lastWindInd=" + lastWindInd;
-            isDir = "false";
+            isDir = false;
             document.cookie = "isDir=" + isDir;
         }
         else {
@@ -334,13 +334,13 @@ const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
 
             lastPinInd++;
             document.cookie = "lastPinInd=" + lastPinInd;
-            isDir = "true";
+            isDir = true;
             document.cookie = "isDir=" + isDir;
 
         }
         tour_name = ""
         document.cookie = "tour_name=" + tour_name;
-        isDir = "true"
+        isDir = true;
         document.cookie = "isDir=" + isDir;
         lastWindInd = 0;
         document.cookie = "lastWindInd=" + lastWindInd;
