@@ -335,11 +335,14 @@ const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
             document.cookie = "isDir=" + isDir;
 
         }
-
-        document.cookie = "tour_name= ";
-        document.cookie = "isDir=true";
-        document.cookie = "lastWindInd=0";
-        document.cookie = "lastPinInd=0";
+        tour_name = ""
+        document.cookie = "tour_name=" + tour_name;
+        isDir = "true"
+        document.cookie = "isDir=" + isDir;
+        lastWindInd = 0;
+        document.cookie = "lastWindInd=" + lastWindInd;
+        lastPinInd;
+        document.cookie = "lastPinInd=" + lastPinInd;
     }
 }
 
