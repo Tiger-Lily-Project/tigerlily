@@ -122,26 +122,6 @@ const makeMarker = (plant) => {
         google.maps.event.addListener(marker, 'click', (function(marker) {
             return function() {
 
-                if (state === "tour") {
-                    contentString = '<div id="content">'+
-                    '<div id="siteNotice">'+
-                    '</div>'+
-                    '<h1 id="firstHeading" class="firstHeading">'+
-                    plant.title+
-                    '</h1>'+
-                    '<div id="bodyContent">'+
-                    '<p><a href=tourdetails?common_name='+
-                    encodeURIComponent(plant.title.trim())+
-                    '>'+
-                    'Learn about this tree</a></p>'+
-                    '</div>'+
-                    '</div>';
-                
-                    infowindow.setContent(contentString);
-                    infowindow.open(map, marker);
-                }
-
-                else {
                     contentString = '<div id="content">'+
                     '<div id="siteNotice">'+
                     '</div>'+
@@ -158,7 +138,6 @@ const makeMarker = (plant) => {
                 
                     infowindow.setContent(contentString);
                     infowindow.open(map, marker);
-                }
             }
         })(marker));
 
