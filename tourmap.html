@@ -218,7 +218,7 @@ function handleResponse(response) {
 
 const tour = (tourName, isDir = true, lastWindInd = 0, lastPinInd = 0) => {
     tour_name = tourName;
-    document.cookie = "tour=" + tour_name
+    document.cookie = "tour_name=" + tour_name
 
     // remove tour from map if applicable
     if (lines.length > 0) {
