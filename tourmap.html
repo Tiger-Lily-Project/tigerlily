@@ -444,6 +444,10 @@ function initMap() {
     }
     lastWindInd = parseInt(getCookie("lastWindInd"))
     lastPinInd = parseInt(getCookie("lastPinInd"))
+    console.log(tour_name)
+    console.log(isDir)
+    console.log(lastWindInd)
+    console.log(lastPinInd)
 
     if (tour_name !== "") {
         tour(tour_name, isDir, lastWindInd, lastPinInd)
