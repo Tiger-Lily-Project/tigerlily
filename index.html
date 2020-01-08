@@ -76,13 +76,23 @@
       </ul><br>
     </div>
     <br>
-    
+
     <div class="col-sm-9">
+      
+        <div class="panel panel-primary" style="position: absolute; top: 50%; z-index: 10;" id="useLocationPanel">
+            <div class="panel-heading">Welcome to Princeton Plants!</div>
+            <div class="panel-body">To get the best possible experience, please allow us to access your location. That way, we can show you some trees in your area and help you get the most out of our guided tour. </div>
+            <div class="panel-footer">
+              <button class="btn btn-primary" type="button" onclick="requestLocation()">Use my location</button>
+              <button class="btn btn-default" type="button" onclick="noLocationRequest()">No, thanks</button>
+            </div>
+        </div>
+      
         <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
             Filter By:
         </button>
-
-        <button class="hidden btn btn-primary" type="button" id="showLocationButton">Use my location</button>
+        <button class="hidden btn btn-primary" type="button" id="locationInstructions">Use my location</button>
+        <button class="hidden btn btn-primary" type="button" id="useLocationButton" onclick="requestLocation()">Use my location</button>
 
         <form action="/index" method="GET">
           <div class="collapse" id="collapseExample">

@@ -1,21 +1,59 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 <script>
-    // Based on various pages on Google Maps Javascript API documentation except where noted otherwise
-
-// Note: This example requires that you consent to location sharing when
-// prompted by your browser. If you see the error "The Geolocation service
-// failed.", it means you probably did not give permission for the browser to
-// locate you.
 
 // Handle location updates
 const trackLocation = ({ onSuccess, onError = () => { } }) => {
+
     if ('geolocation' in navigator === false) {
-      return onError(new Error('Sorry, geolocation is not supported by your browser :('));
+        geolocation = false
+        return onError(new Error('Sorry, geolocation is not supported by your browser :('));
     }
   
     // Use watchPosition for live updates
     return navigator.geolocation.watchPosition(onSuccess, onError);
 };
+
+// If user allows us to ask for location
+function requestLocation () {
+    // Make sure panel and use location button are hidden
+    var useLocationPanel = document.getElementById("useLocationPanel");
+    useLocationPanel.classList.add("hidden");
+    var useLocationButton = document.getElementById("useLocationButton");
+    useLocationButton.classList.add("hidden");
+
+    // Is this the first time we've gotten user location?
+    var initializing = true
+    console.log("initializing: ", initializing)
+
+    trackLocation({
+        onSuccess: ({ coords: { latitude: lat, longitude: lng } }) => {
+            locationMarker.setPosition({ lat, lng });
+            console.log("lat: ", lat, )
+            console.log("initializing in onSuccess: ", initializing)
+            if (initializing == true) {
+                map.panTo({ lat, lng });
+                initializing = false;
+            }
+        },
+        onError: err => {
+            console.log(err.message)
+            if (err.code == err.PERMISSION_DENIED) {
+                var locationInstructions = document.getElementById("locationInstructions");
+                locationInstructions.classList.remove("hidden");
+            } else { alert(err.message) }
+        }
+    });
+}
+
+function noLocationRequest () {
+    // Remove panel
+    var useLocationPanel = document.getElementById("useLocationPanel");
+    useLocationPanel.classList.add("hidden");
+
+    // Display button for user to allow location request
+    var useLocationButton = document.getElementById("useLocationButton");
+    useLocationButton.classList.remove("hidden");
+}
 
 var markers = []
 var state = "index"
@@ -295,8 +333,8 @@ function initMap() {
     // console.log("plants in init: ", plants)
     // plants = JSON.parse(plants)
 
-    var initializing = true
-    console.log("initializing: ", initializing)
+    // var initializing = true
+    // console.log("initializing: ", initializing)
 
     map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: 40.3471, lng: -74.6566},
@@ -315,24 +353,24 @@ function initMap() {
   
       // Call trackLocation
       // From https://medium.com/risan/track-users-location-and-display-it-on-google-maps-41d1f850786e
-    trackLocation({
-        onSuccess: ({ coords: { latitude: lat, longitude: lng } }) => {
-            locationMarker.setPosition({ lat, lng });
-            console.log("lat: ", lat, )
-            console.log("initializing in onSuccess: ", initializing)
-            if (initializing == true) {
-                map.panTo({ lat, lng });
-                initializing = false;
-            }
-        },
-        onError: err => {
-            console.log(err.message)
-            if (err.code == err.PERMISSION_DENIED) {
-                var showLocationButton = document.getElementById("showLocationButton");
-                showLocationButton.classList.remove("hidden");
-            } else { alert(err.message) }
-        }
-    });
+    // trackLocation({
+    //     onSuccess: ({ coords: { latitude: lat, longitude: lng } }) => {
+    //         locationMarker.setPosition({ lat, lng });
+    //         console.log("lat: ", lat, )
+    //         console.log("initializing in onSuccess: ", initializing)
+    //         if (initializing == true) {
+    //             map.panTo({ lat, lng });
+    //             initializing = false;
+    //         }
+    //     },
+    //     onError: err => {
+    //         console.log(err.message)
+    //         if (err.code == err.PERMISSION_DENIED) {
+    //             var showLocationButton = document.getElementById("showLocationButton");
+    //             showLocationButton.classList.remove("hidden");
+    //         } else { alert(err.message) }
+    //     }
+    // });
 
     google.maps.event.addListenerOnce(map, "bounds_changed", function(){
         google.maps.event.addListener(map, "idle", function() { markers_in_bounds(0)});
