@@ -273,6 +273,12 @@ function initMap() {
     });
     locationMarker.setZIndex(google.maps.Marker.MAX_ZINDEX + 1)
 
+    var temp = ""
+    document.cookie = "tour_name=" + temp
+    document.cookie = "isDir=true"
+    document.cookie = "lastWindInd=0"
+    document.cookie = "lastPinInd=0"
+
     species = JSON.parse(getCookie('species'))
     dec_or_evg = JSON.parse(getCookie('dec_or_evg'))
     console.log(species.length)
