@@ -123,12 +123,13 @@ def plantdetails():
 def tourdetails():
 
     common_name = request.args.get("common_name")
+    tour_name = request.args.get("tour_name")
     # Gets a the information on the requested species.
     try:
         database = Database()
         database.connect()
         species_info = database.get_species_info(common_name)
-        blurb = database.get_tour_blurb(common_name)
+        blurb = database.get_tour_blurb(common_name, tour_name)
     except Exception as e:
         print(e)
         species_info = SpeciesInfo('','','','','')
@@ -178,6 +179,41 @@ def catalog():
     species = species)
     response = make_response(html)
 
+    return response
+
+@app.route('/')
+@app.route('/catalogsearch')
+def catalogSearch():
+
+    search = request.args.get('search')
+    if search is None:
+        search = ''
+
+    # Gets a list of all species available in the database.
+    try:
+        database = Database()
+        database.connect()
+        species = database.get_species_by_name(search)
+        database.disconnect()
+    except Exception as e:
+        species = []
+    except Error as e:
+        species = []
+
+    # Render the catalog page, passing in the list of species.
+    html = ""
+    for first_char in species:
+        html += '<a href="#' + first_char + '"><h4>' + first_char + " </h4></a>"
+    for first_char in species:
+        html += "<a id=" + first_char + "><h2>" + first_char + "</h2></a>"
+        for species_info in species[first_char]:
+            html += "<br>"
+            html += '<a href="plantdetails?common_name=' + species_info.getEncodedCommonName() + '">' + species_info.getCommonName() + '</a>'
+            html += '<br>'
+            html += '<img src="/static/images/' + species_info.getImg() + '" alt="test" width = "150">'
+            html += '<br>'
+
+    response = make_response(html)
     return response
 
 #endregion
@@ -247,13 +283,10 @@ def getPins():
         west = bounds["west"]
 
         
-        reset = int(request.args.get('reset'))
-        if reset == 1:
-            species = []
-            dec_or_evg = []
-        else:
-            species = json.loads(request.cookies.get('species'))
-            dec_or_evg = json.loads(request.cookies.get('dec_or_evg'))
+        species = request.args.get('species')
+        species = json.loads(species)
+        dec_or_evg = request.args.get('dec_or_evg')
+        dec_or_evg = json.loads(dec_or_evg)
 
         print("SPECIES FROM REQUEST")
         print(species)
@@ -286,11 +319,11 @@ def getPins():
 #-----------------------------------------------------------------------
 # Renders the "about us" page.
 @app.route('/')
-@app.route('/test')
-def test():
+@app.route('/tour')
+def tour():
 
     # Render the catalog page, passing in the list of species.
-    html = render_template('test.html')
+    html = render_template('tour.html')
     response = make_response(html)
 
     return response

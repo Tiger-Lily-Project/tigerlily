@@ -23,9 +23,12 @@
     @media screen and (max-width: 767px) {
       .row.content {height: auto;} 
     }
+    h4 {
+      display: inline;
+    }
   </style>
 </head>
-<body>
+<body onLoad="searchCatalog()">
 
 <nav class="navbar navbar-inverse visible-xs">
   <div class="container-fluid">
@@ -36,13 +39,13 @@
         <span class="icon-bar"></span>                        
       </button>
       <a class="navbar-brand" href="#">
-        <a href="/index"> <img src="/static/logo_with_text.png" height="45" class="d-inline-block align-top" alt="Princeton Plants"></a>
+        <a href="/index"> <img src="/static/logo_with_text_actual.png" height="45" class="d-inline-block align-top" alt="Princeton Plants"></a>
       </a>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
         <li><a href="/index">Home</a></li>
-        <li><a href="#">Guided Tour</a></li>
+        <li><a href="/tour">Guided Tour</a></li>
         <li class="active"><a href="/catalog">Catalog</a></li>
         <li><a href="/about">About Us</a></li>
       </ul>
@@ -54,33 +57,112 @@
   <div class="row content">
     <div class="col-sm-3 sidenav hidden-xs">
       <br>
-      <a href="/index"> <img src="/static/logo_with_text.png" height="50" class="d-inline-block align-top" alt="Princeton Plants"></a>
+      <a href="/index"> <img src="/static/logo_with_text_actual.png" height="50" class="d-inline-block align-top" alt="Princeton Plants"></a>
       <br>
       <ul class="nav nav-pills nav-stacked">
         <li><a href="/index">Home</a></li>
-        <li><a href="/index">Guided Tour</a></li>
+        <li><a href="/tour">Guided Tour</a></li>
         <li class="active"><a href="/catalog">Catalog</a></li>
         <li><a href="/about">About Us</a></li>
       </ul><br>
     </div>
     <br>
-    
+
     <div class="col-sm-9">
-      {% for first_char in species: %}
       <div class="well">
-        <h2>{{first_char}}</h2>
-          {% for species_info in species[first_char]: %}
-          <br>
-          <a href="plantdetails?common_name={{species_info.getEncodedCommonName()}}">{{species_info.getCommonName()}}</a>
-          <br>
-          <img src="/static/images/{{species_info.getImg()}}" alt="test" width = "150">
-          <br>
-          {% endfor %}
+      <input type="text" class="form-control" id="search" oninput="javascript:searchCatalog()" name="search" placeholder="Search by common name">
+      <br>
+      <div class="container">
+          <p id="resultsParagraph">(None)</p>
       </div>
-      {% endfor %}
+
+      </div>
     </div>
   </div>
 </div>
+
+<script>
+  function createAjaxRequest() {
+    console.log("creating request")
+            let req;
+                       
+            try  // Some browser other than Internet Explorer
+            {
+               req = new XMLHttpRequest();
+            }
+            catch (e1) 
+            {    
+               try  // Internet Explorer 6+
+               {
+                  req = new ActiveXObject("Msxml2.XMLHTTP");
+               }
+               catch (e2) 
+               {  
+                  try  // Internet Explorer 5
+                  { 
+                     req = new ActiveXObject("Microsoft.XMLHTTP"); 
+                  }
+                  catch (e3)
+                  {  
+                     req = false;
+                  }
+               }
+            }
+            return req;
+         }
+
+         function processReadyStateChange()
+         {
+           console.log("process state change")
+            const STATE_UNINITIALIZED = 0;
+            const STATE_LOADING       = 1;
+            const STATE_LOADED        = 2;
+            const STATE_INTERACTIVE   = 3;
+            const STATE_COMPLETED     = 4;
+            
+            if (this.readyState != STATE_COMPLETED)
+               return;
+            
+            if (this.status != 200)  // Request succeeded?
+            {  
+               //alert(
+               //   "AJAX error: Request failed: " + this.statusText);
+               return;
+            }
+            
+            if (this.responseText == null)  // Data received?
+            {  
+               alert("AJAX error: No data received");
+               return;
+            }
+
+            let resultsParagraph = 
+               document.getElementById("resultsParagraph");
+            resultsParagraph.innerHTML = this.responseText;
+            console.log(this.responseText)
+         }
+
+         let request = null;
+         
+         function searchCatalog()
+         {
+           console.log("im here!")
+            let search = document.getElementById('search').value;
+
+            console.log(search);
+
+            search = encodeURIComponent(search);
+               
+            if (request != null)
+               request.abort();
+            
+            request = createAjaxRequest();
+            if (request == null) return;
+            request.onreadystatechange = processReadyStateChange;
+            request.open("GET", "/catalogsearch?search=" + search);
+            request.send(null);
+         }
+</script>
 
 </body>
 </html>
