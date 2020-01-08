@@ -14,6 +14,7 @@ const trackLocation = ({ onSuccess, onError = () => { } }) => {
 
 // If user allows us to ask for location
 function requestLocation () {
+    console.log("requesting location")
     // Make sure panel and use location button are hidden
     var useLocationPanel = document.getElementById("useLocationPanel");
     useLocationPanel.classList.add("hidden");
@@ -24,9 +25,8 @@ function requestLocation () {
 
     trackLocation({
         onSuccess: ({ coords: { latitude: lat, longitude: lng } }) => {
+            console.log("successful")
             locationMarker.setPosition({ lat, lng });
-            console.log("lat: ", lat, )
-            console.log("initializing in onSuccess: ", initializing)
             if (initializing == true) {
                 map.panTo({ lat, lng });
                 initializing = false;
@@ -56,6 +56,13 @@ function noLocationRequest () {
     useLocationButton.classList.remove("hidden");
 
     document.cookie = "geolocation=maybe"
+}
+
+// Show instructions for users to give us location permissions after denying them
+function showInstructions () {
+    console.log("showing instructions")
+    var instructionPanel = document.getElementById("instructionPanel");
+    instructionPanel.classList.remove("hidden");
 }
 
 var markers = []
@@ -376,9 +383,8 @@ function initMap() {
     } else if (geoCookie == "maybe") {  // Show button that asks for permissio if user didn't let us ask before
         var useLocationButton = document.getElementById("useLocationButton");
         useLocationButton.classList.remove("hidden");
-    } else if (geoCookie == "no") {   // Show instructions button if user declined geolocation
-        var locationInstructions = document.getElementById("locationInstructions");
-        locationInstructions.classList.remove("hidden");
+    } else {    // Otherwise always request geolocation
+        requestLocation()
     }
 }
 </script>
