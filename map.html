@@ -23,6 +23,23 @@ var clicked;
 var species = []
 var dec_or_evg = []
 
+// Taken from https://www.w3schools.com/js/js_cookies.asp
+function getCookie(key) {
+  var name = key + "=";
+  var decodedCookie = decodeURIComponent(document.cookie);
+  var ca = decodedCookie.split(';');
+  for(var i = 0; i <ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
+
 const deleteMarkers = () => {
     console.log("in delete markers")
     // loop through markers, setting them to null on the map
@@ -94,6 +111,10 @@ $('#filter').submit(function(event) {
             console.log(dec_or_evg[i])
         }
     }
+
+    document.cookie = "species=" + JSON.stringify(species)
+    document.cookie = "dec_or_evg=" + JSON.stringify(dec_or_evg)
+
     markers_in_bounds()
 });
 
@@ -184,6 +205,11 @@ function initMap() {
         onError: err =>
             alert(`Error: Failed to obtain location`)
     });
+
+    species = json.loads(getCookie('species'))
+    dec_or_evg = json.loads(getCookie('dec_or_evg'))
+    console.log(species)
+    console.log(dec_or_evg)
 
     google.maps.event.addListenerOnce(map, "bounds_changed", function(){
         google.maps.event.addListener(map, "idle", function() { markers_in_bounds(0)});
