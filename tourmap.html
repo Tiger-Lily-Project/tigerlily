@@ -247,6 +247,7 @@ const tour = (tourName, isDir = true, lastWindInd = 0, lastPinInd = 0) => {
             console.log(data)
             deleteMarkers()
             addMarkers(data.plants)
+            console.log(markers.length)
             var tourPath = new google.maps.Polyline({
                 path: coords,
                 strokeColor: '#0080FF',
@@ -449,9 +450,9 @@ function initMap() {
     console.log(lastWindInd)
     console.log(lastPinInd)
 
-    //if (tour_name !== "") {
-      //  tour(tour_name, isDir, lastWindInd, lastPinInd)
-    //}
+    if (tour_name !== "") {
+        tour(tour_name, isDir, lastWindInd, lastPinInd)
+    }
 
 
 
