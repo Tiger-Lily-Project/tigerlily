@@ -301,7 +301,7 @@ const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
             }
             else {
                 console.log("pin")
-                var marker = markers[lastPinInd]
+                var marker = markers[lastPinInd - 1]
 
                 var contentString = '<div id="content">'+
                     '<div id="siteNotice">'+
@@ -338,7 +338,7 @@ const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
                     document.cookie = "isDir=" + isDir;
                     lastWindInd = 0;
                     document.cookie = "lastWindInd=" + lastWindInd;
-                    lastPinInd;
+                    lastPinInd = 0;
                     document.cookie = "lastPinInd=" + lastPinInd;
                 }
             } else {
