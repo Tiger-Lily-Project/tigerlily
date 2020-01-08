@@ -293,6 +293,22 @@ const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
 
             infowindow.open(map)
 
+            var check = function(){
+                if (!infowindow.getMap()){
+                    // run when condition is met
+                    lastWindInd++
+                    document.cookie = "lastWindInd=" + lastWindInd;
+                    isDir = false;
+                    document.cookie = "isDir=" + isDir;
+                }
+                else {
+                    console.log("looping")
+                    setTimeout(check, 1000); // check again in a second
+                }
+            }
+
+            check()
+
             /*
             google.maps.event.addListener(infowindow, 'closeclick', function() {  
                 lastWindInd++
@@ -301,10 +317,6 @@ const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
                 document.cookie = "isDir=" + isDir;
             });  
             */
-            lastWindInd++
-            document.cookie = "lastWindInd=" + lastWindInd;
-            isDir = false;
-            document.cookie = "isDir=" + isDir;
         }
         else {
             console.log(markers)
@@ -336,6 +348,22 @@ const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
             
             infoWindow.open(map, marker);
 
+            var check = function(){
+                if (!infowindow.getMap()){
+                    // run when condition is met
+                    lastPinInd++
+                    document.cookie = "lastPinInd=" + lastPinInd;
+                    isDir = true;
+                    document.cookie = "isDir=" + isDir;
+                }
+                else {
+                    console.log("looping")
+                    setTimeout(check, 1000); // check again in a second
+                }
+            }
+
+            check()
+
             /*
             google.maps.event.addListener(infowindow, 'closeclick', function() {  
                 lastPinInd++
@@ -344,10 +372,6 @@ const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
                 document.cookie = "isDir=" + isDir;
             });  
             */
-            lastPinInd++
-            document.cookie = "lastPinInd=" + lastPinInd;
-            isDir = true;
-            document.cookie = "isDir=" + isDir;
 
         }
     }
