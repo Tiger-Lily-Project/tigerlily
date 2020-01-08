@@ -20,11 +20,16 @@ const trackLocation = ({ onSuccess, onError = () => { } }) => {
 
 var markers = []
 var lines = []
-var tour_name;
+var tour_name = "";
+var isDir;
+var lastWindInd;
+var lastPinInd;
+
 var ptonTreesIds = [572, 152, 3389, 3376, 3331, 656, 181, 3260, 3485, 407, 874, 199, 3906, 820, 3467, 793];
 var winterIds = [];
+
 var ptonTreesCoords = [
-{lat: 40.3494921, lng: -74.6602896},
+                {lat: 40.3494921, lng: -74.6602896},
                 {lat: 40.3494185, lng: -74.6606088},
                 {lat: 40.3485230, lng: -74.6602369},
                 {lat: 40.348139, lng: -74.660083},
@@ -128,6 +133,74 @@ var ptonTreesCoords = [
             ]
 var winterCoords = []
 
+var ptonDirs = [
+    "1. Welcome to the Trees of Princeton tour! This tour begins in front of the Maclean House on Nassau Street. Make your way to pin #1 to begin the tour.",
+    "2. The next tree on our tour is located behind Stanhope Hall. Head west on Nassau Street and turn left onto Elm Drive until you reach the building standing behind the Maclean House.",
+    "3. Our next stop is in front of Buyers Hall, which stands to the left of the iconic Blair Arch.",
+    "4. Walk towards the hall on the other side of Blair Arch, Blair Hall. The next tree on our tour stands near the archway to University Place.",
+    "5. The next stop on our tour is Foulke Hall. Head down the steps of Blair Arch and continue south to pin #5.",
+    "6. Continue south to the courtyard between Henry, Foulke, Laughlin, and 1901 Halls and to the next stop, in front of 1901 Hall.",
+    "7. Head east past Dillon Gym to Cuyler Courtyard, located behind Brown Hall for the next stop on the tour.",
+    "8. To continue the tour, head upcampus past the Class of 1975 Walk in Prospect Garden and towards Prospect House. Though our tour doesn't stop in Prospect Garden, feel free to pop in on your way!",
+    "9. Continue towards Prospect House, where the next tree stands directly in front.",
+    "10. Head through the roundabout onto Streiker Walk and into the courtyard in front of Frist Campus Center for the next stop.",
+    "11. Continue upcampus, where the next tree stands at the intersection of McCosh Walk.",
+    "12. Head east on McCosh Walk to the next tree, which stands behind the architecture building on your right.",
+    "13. Keep walking on McCosh Walk to the Whig and Clio halls, marked by twin tiger statues. Walk up the stairs to see the next tree on our tour.",
+    "14. Continue staight through the Whig and Clio halls and turn left. Turning left again on the perimeter of Cannon Green, the next tree is located to your right in front of a cone-like statue.",
+    "15. Head straight to Nassau Hall, where the next tree stands just to the side of the building.",
+    "16. For the last stop on our tour, head towards FitzRandolph Gate, where the last tree looms on the right before you reach the gate.",
+    "Thank you for taking the Trees of Princeton tour! Select another tour above or navigate back to the home page to keep exploring."
+    ]
+var winterDirs = []
+
+var ptonDirCoords = [
+    {lat: 40.347647, lng: -74.659568},
+    {lat: 40.349704, lng: -74.660716},
+    {lat: 40.348754, lng: -74.660330},
+    {lat: 40.347946, lng: -74.660763},
+    {lat: 40.347785, lng: -74.662077},
+    {lat: 40.346995, lng: -74.660794},
+    {lat: 40.346369, lng: -74.659762},
+    {lat: 40.344866, lng: -74.656752},
+    {lat: 40.346197, lng: -74.656427},
+    {lat: 40.348176, lng: -74.656026},
+    {lat: 40.348369, lng: -74.656349},
+    {lat: 40.348660, lng: -74.656327},
+    {lat: 40.349051, lng: -74.658106},
+    {lat: 40.346379, lng: -74.658511},
+    {lat: 40.346975, lng: -74.658761},
+    {lat: 40.347553, lng: -74.658805},
+    {lat: 40.347647, lng: -74.659568}
+]
+var winterDirCoords = []
+
+// Taken from https://www.w3schools.com/js/js_cookies.asp
+function getCookie(key) {
+  var name = key + "=";
+  var decodedCookie = decodeURIComponent(document.cookie);
+  console.log("key is " + key)
+  console.log("cookie is " + decodedCookie)
+  var ca = decodedCookie.split(';');
+  for(var i = 0; i <ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      result = c.substring(name.length, c.length)
+      if (result === '"[]"') {
+          return "[]"
+      }
+      return result;
+    }
+  }
+  if (key === 'lastWindInd' || key === 'lastPinInd') {
+      return 0;
+  }
+  return "";
+}
+
 const deleteMarkers = () => {
     console.log("in delete markers")
     // loop through markers, setting them to null on the map
@@ -143,8 +216,9 @@ function handleResponse(response) {
     console.log("whatever")
 }
 
-const tour = (tourName) => {
+const tour = (tourName, isDir = true, lastWindInd = 0, lastPinInd = 0) => {
     tour_name = tourName;
+    document.cookie = "tour_name=" + tour_name
 
     // remove tour from map if applicable
     if (lines.length > 0) {
@@ -164,34 +238,136 @@ const tour = (tourName) => {
         ids = winterIds;
         coords = winterCoords;
     }
-    $.ajax({
-        url: url,
-        type: "GET",
-        contentType: "application/json",
-        data: {ids: JSON.stringify(ids)},
-        success: function(data) {
-            console.log(data)
-            deleteMarkers()
-            addMarkers(data.plants)
-            var tourPath = new google.maps.Polyline({
-                path: coords,
-                strokeColor: '#0080FF',
-                strokeWeight: 3
-            });
-            tourPath.setMap(map);
-            lines.push(tourPath)
+
+    $.when(ajaxTour()).done(function(a1){
+        // the code here will be executed when all four ajax requests resolve.
+        // a1, a2, a3 and a4 are lists of length 3 containing the response text,
+        // status, and jqXHR object for each of the four ajax calls respectively.
+        if (tour_name === 'pton') {
+            console.log("starting pton tour")
+            ptonTreesTour(isDir, lastWindInd, lastPinInd);
         }
-    })
-    if (tour_name === 'pton') {
-        ptonTreesTour();
+        if (tour_name === 'winter') {
+            console.log("starting winter tour")
+            winterTour(isDir, lastWindInd, lastPinInd);
+        }
+    });
+
+    function ajaxTour() {
+        // NOTE:  This function must return the value 
+        //        from calling the $.ajax() method.
+        return $.ajax({
+            url: url,
+            type: "GET",
+            contentType: "application/json",
+            data: {ids: JSON.stringify(ids)},
+            success: function(data) {
+                console.log(data)
+                deleteMarkers()
+                addMarkers(data.plants)
+                console.log(markers.length)
+                var tourPath = new google.maps.Polyline({
+                    path: coords,
+                    strokeColor: '#0080FF',
+                    strokeWeight: 3
+                });
+                tourPath.setMap(map);
+                lines.push(tourPath)
+                console.log("pushed tour")
+            }
+        });
     }
-    if (tour_name === 'winter') {
-        winterTour();
-    }
+    
 }
 
-const ptonTreesTour = () => {
+const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
+    console.log("in tour")
+    
+    //while (lastWindInd < ptonDirs.length) {
 
+        var loadWindow = function(){
+            if (isDir) {
+
+                console.log("direction")
+
+                var contentString = '<div id="content">'+
+                    '<div id="siteNotice">'+
+                    '</div>'+
+                    '<h4>' +
+                    ptonDirs[lastWindInd] +
+                    '</h4>' + 
+                    '<div id="bodyContent">' +
+                    '<p>Close out of this window when you\'re ready to move on!</p>' +
+                    '</div>' +
+                    '</div>';
+            }
+            else {
+                console.log("pin")
+                var marker = markers[lastPinInd - 1]
+
+                var contentString = '<div id="content">'+
+                    '<div id="siteNotice">'+
+                    '</div>'+
+                    '<h1 id="firstHeading" class="firstHeading">'+
+                    marker.getTitle()+
+                    '</h1>'+
+                    '<div id="bodyContent">'+
+                    '<p><h5><a href=tourdetails?common_name='+
+                    encodeURIComponent(marker.getTitle().trim())+
+                    '&tour_name='+
+                    encodeURIComponent(tour_name.trim())+
+                    '>'+
+                    'Learn about this tree</a></h5></p>'+
+                    '<p>Close out of this window when you\'re ready to move on!</p>'
+                    '</div>'+
+                    '</div>';
+            }
+            var infowindow = new google.maps.InfoWindow({
+                content: contentString
+            });
+
+            google.maps.event.addListener(infowindow, 'closeclick', function() {  
+               finishUp()
+            }); 
+
+            if (isDir) {
+                infowindow.setPosition(ptonDirCoords[lastWindInd])
+                infowindow.open(map)
+                if (lastWindInd == markers.length) {
+                    tour_name = ""
+                    document.cookie = "tour_name=" + tour_name;
+                    isDir = true;
+                    document.cookie = "isDir=" + isDir;
+                    lastWindInd = 0;
+                    document.cookie = "lastWindInd=" + lastWindInd;
+                    lastPinInd = 0;
+                    document.cookie = "lastPinInd=" + lastPinInd;
+                    lines[0].setMap(null)
+                    deleteMarkers()
+                    lines = []
+                }
+            } else {
+                infowindow.open(map, marker)
+            }
+
+        }
+
+        var finishUp = function(){
+            if (isDir) {
+                lastWindInd++
+                document.cookie = "lastWindInd=" + lastWindInd;
+                lastPinInd++
+                document.cookie = "lastPinInd=" + lastPinInd;
+            }
+            isDir = !isDir;
+            document.cookie = "isDir=" + isDir;
+            if (tour_name != "") {
+                loadWindow()
+            }
+        }
+
+        loadWindow()
+    
 }
 
 const addMarkers = (plants) => {
@@ -236,12 +412,13 @@ const addMarkers = (plants) => {
                 plants[i].title+
                 '</h1>'+
                 '<div id="bodyContent">'+
-                '<p><a href=tourdetails?common_name='+
+                '<p><h5><a href=tourdetails?common_name='+
                 encodeURIComponent(plants[i].title.trim())+
                 '&tour_name='+
                 encodeURIComponent(tour_name.trim())+
                 '>'+
-                'Learn about this tree</a></p>'+
+                'Learn about this tree</a></h5></p>'+
+                '<p>Close out of this window when you\'re ready to move on!</p>'
                 '</div>'+
                 '</div>';
             
@@ -283,6 +460,22 @@ function initMap() {
         onError: err =>
             alert(`Error: Failed to obtain location`)
     });
+
+    tour_name = getCookie("tour_name")
+    isDir = getCookie("isDir")
+    if (isDir === "") {
+        isDir = "true"
+    }
+    lastWindInd = parseInt(getCookie("lastWindInd"))
+    lastPinInd = parseInt(getCookie("lastPinInd"))
+    console.log(tour_name)
+    console.log(isDir)
+    console.log(lastWindInd)
+    console.log(lastPinInd)
+
+    if (tour_name !== "") {
+        tour(tour_name, isDir, lastWindInd, lastPinInd)
+    }
 
 }
 </script>

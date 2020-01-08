@@ -130,14 +130,17 @@ def tourdetails():
         database.connect()
         species_info = database.get_species_info(common_name)
         blurb = database.get_tour_blurb(common_name, tour_name)
+        img = database.get_tour_img(common_name, tour_name)
     except Exception as e:
         print(e)
         species_info = SpeciesInfo('','','','','')
         blurb = ""
+        img = ""
     except Error as e:
         print(e)
         species_info = SpeciesInfo('','','','','')
         blurb = ""
+        img = ""
 
     database.disconnect()
 
@@ -145,7 +148,10 @@ def tourdetails():
     html = render_template('tourdetails.html', 
     common_name = common_name,
     species_info = species_info,
-    blurb = blurb)
+    blurb = blurb,
+    tour_name = tour_name,
+    img = img
+    )
     response = make_response(html)
 
     return response
