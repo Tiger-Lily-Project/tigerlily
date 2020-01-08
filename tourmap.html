@@ -155,7 +155,7 @@ var ptonDirs = [
 var winterDirs = []
 
 var ptonDirCoords = [
-    {lat: 0, lng: 0},
+    {lat: 40.347647, lng: -74.659568},
     {lat: 40.349414, lng: -74.660612},
     {lat: 40.348302, lng: -74.660152},
     {lat: 40.347666, lng: -74.660875},
@@ -258,19 +258,18 @@ const tour = (tourName, isDir = true, lastWindInd = 0, lastPinInd = 0) => {
             console.log("pushed tour")
         }
     })
-    /*
+    
     if (tour_name === 'pton') {
         ptonTreesTour(isDir, lastWindInd, lastPinInd);
     }
     if (tour_name === 'winter') {
         winterTour(isDir, lastWindInd, lastPinInd);
     }
-    */
+    
 }
 
 const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
     console.log("in tour")
-    console.log(lines.length)
     
     while (lastWindInd < ptonDirs.length) {
         if (isDir === true) {
