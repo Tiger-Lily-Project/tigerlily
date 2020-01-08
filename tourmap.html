@@ -326,11 +326,11 @@ const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
             }
 
             check()
-            /*
+            */
             lastWindInd++
             document.cookie = "lastWindInd=" + lastWindInd;
             isDir = false;
-            document.cookie = "isDir=" + isDir;*/
+            document.cookie = "isDir=" + isDir;
         }
         else {
             console.log(markers)
@@ -362,11 +362,12 @@ const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
             
             var isClosed = false
             infoWindow.open(map, marker);
-            wait(100)
+
             google.maps.event.addListener(infowindow, 'closeclick', function() {  
                isClosed = true
             }); 
 
+            /*
             var check = function(){
                 if (isClosed){
                     // run when condition is met
@@ -383,7 +384,7 @@ const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
             }
 
             check()
-
+            */
             /*
             google.maps.event.addListener(infowindow, 'closeclick', function() {  
                 lastPinInd++
@@ -393,11 +394,10 @@ const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
             });  
             */
 
-            /*
             lastPinInd++
             document.cookie = "lastPinInd=" + lastPinInd;
             isDir = true;
-            document.cookie = "isDir=" + isDir;*/
+            document.cookie = "isDir=" + isDir;
         }
     }
     tour_name = ""
