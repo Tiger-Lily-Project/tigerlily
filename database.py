@@ -251,6 +251,16 @@ class Database:
 
         return blurb
 
+    def get_tour_img(self, common_name, tour_name):
+        cursor = self._connection.cursor()
+        stmt = "SELECT img FROM tour WHERE common_name = %s AND tour_name = %s;"
+        cursor.execute(stmt, [common_name, tour_name])
+
+        row = cursor.fetchone()
+        img = str(row[0])
+
+        return img
+
 #endregion
 
 #region Search helpers
