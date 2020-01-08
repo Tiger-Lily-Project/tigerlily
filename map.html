@@ -281,7 +281,7 @@ const markersByDensity = (plants, bounds) => {
                 newPlant = zoneStacks[i].pop()
                 makeMarker(newPlant)
                 zoneDensities[i]++
-            }
+            } else continue
         }
     }
 }
