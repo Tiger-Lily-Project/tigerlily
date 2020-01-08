@@ -25,6 +25,8 @@ var isDir;
 var lastWindInd;
 var lastPinInd;
 
+var infowindows = []
+
 var ptonTreesIds = [572, 152, 3389, 3376, 3331, 656, 181, 3260, 3485, 407, 874, 199, 3906, 820, 3467, 793];
 var winterIds = [];
 
@@ -220,6 +222,12 @@ const tour = (tourName, isDir = true, lastWindInd = 0, lastPinInd = 0) => {
     tour_name = tourName;
     document.cookie = "tour_name=" + tour_name
 
+    if (infowindows.length > 0) {
+        google.maps.event.clearListeners(map, 'closeclick')
+        for (var i = 0; i < infowindows.length; i++) {
+            infowindows[i].close()
+        }
+    }
     // remove tour from map if applicable
     if (lines.length > 0) {
         lines[0].setMap(null)
@@ -333,6 +341,7 @@ const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
             if (isDir) {
                 infowindow.setPosition(ptonDirCoords[lastWindInd])
                 infowindow.open(map)
+                infowindows.push(infowindow)
                 if (lastWindInd == markers.length) {
                     tour_name = ""
                     document.cookie = "tour_name=" + tour_name;
@@ -359,6 +368,7 @@ const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
                 lastPinInd++
                 document.cookie = "lastPinInd=" + lastPinInd;
             }
+            infowindows = []
             isDir = !isDir;
             document.cookie = "isDir=" + isDir;
             if (tour_name != "") {
