@@ -206,8 +206,8 @@ function initMap() {
             alert(`Error: Failed to obtain location`)
     });
 
-    species = json.loads(getCookie('species'))
-    dec_or_evg = json.loads(getCookie('dec_or_evg'))
+    species = JSON.parse(getCookie('species'))
+    dec_or_evg = JSON.parse(getCookie('dec_or_evg'))
     console.log(species)
     console.log(dec_or_evg)
 
