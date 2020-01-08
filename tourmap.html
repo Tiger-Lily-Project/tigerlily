@@ -270,7 +270,7 @@ const tour = (tourName, isDir = true, lastWindInd = 0, lastPinInd = 0) => {
 const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
     console.log("in tour")
     console.log(lines.length)
-    /*
+    
     while (lastWindInd < ptonDirs.length) {
         if (isDir === true) {
 
@@ -296,12 +296,13 @@ const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
                 position: ptonDirCoords[lastWindInd]
             });
 
+            /*
             infoWindow.open(map)
 
             while (infoWindow.getMap() !== null && lastWindInd != ptonDirs.length - 1) {
 
             }
-
+            */
             lastWindInd++;
             document.cookie = "lastWindInd=" + lastWindInd;
             isDir = false;
@@ -333,11 +334,13 @@ const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
             var infoWindow = new google.maps.InfoWindow({
                 content: contentString
             });
+            /*
             infoWindow.open(map, marker);
 
             while (infoWindow.getMap() !== null) {
 
             }
+            */
 
             lastPinInd++;
             document.cookie = "lastPinInd=" + lastPinInd;
