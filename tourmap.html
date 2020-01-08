@@ -335,21 +335,24 @@ const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
                 infowindow.open(map, marker)
             }
 
-            var finishUp = function(){
-                if (isDir) {
-                    lastWindInd++
-                    document.cookie = "lastWindInd=" + lastWindInd;
-                }
-                else {
-                    lastPinInd++
-                    document.cookie = "lastPinInd=" + lastPinInd;
-                }
-                isDir = !isDir;
-                document.cookie = "isDir=" + isDir;
-                loadWindow()
-            }
-
         }
+
+        var finishUp = function(){
+            if (isDir) {
+                lastWindInd++
+                document.cookie = "lastWindInd=" + lastWindInd;
+            }
+            else {
+                lastPinInd++
+                document.cookie = "lastPinInd=" + lastPinInd;
+            }
+            isDir = !isDir;
+            document.cookie = "isDir=" + isDir;
+            loadWindow()
+        }
+
+        loadWindow()
+        
         /*
         if (isDir === true) {
 
