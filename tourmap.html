@@ -143,7 +143,7 @@ var ptonDirs = [
     "Head east past Dillon Gym to Cuyler Courtyard, located behind Brown Hall for the next stop on the tour.",
     "To continue the tour, head upcampus past the Class of 1975 Walk in Prospect Garden and towards Prospect House. Though our tour doesn't stop in Prospect Garden, feel free to pop in on your way!",
     "Continue towards Prospect House, where the next tree stands directly in front.",
-    "Head through the roundabout onto Streiker Walk and into the courtyard standing in front of Frist Campus Center for the next stop.",
+    "Head through the roundabout onto Streiker Walk and into the courtyard in front of Frist Campus Center for the next stop.",
     "Continue upcampus, where the next tree stands at the intersection of McCosh Walk.",
     "Head east on McCosh Walk to the next tree, which stands behind the architecture building on your right.",
     "Keep walking on McCosh Walk to the Whig and Clio halls, marked by twin tiger statues. Walk up the stairs to see the next tree on our tour.",
@@ -159,18 +159,18 @@ var ptonDirCoords = [
     {lat: 40.349704, lng: -74.660716},
     {lat: 40.348754, lng: -74.660330},
     {lat: 40.347946, lng: -74.660763},
-    {lat: 40.347692, lng: -74.661919},
-    {lat: 40.346769, lng: -74.660902},
-    {lat: 40.346360, lng: -74.659326},
-    {lat: 40.345773, lng: -74.657420},
-    {lat: 40.346369, lng: -74.656269},
-    {lat: 40.348417, lng: -74.656126},
+    {lat: 40.347785, lng: -74.662077},
+    {lat: 40.346995, lng: -74.660794},
+    {lat: 40.346369, lng: -74.659762},
+    {lat: 40.345049, lng: -74.656965},
+    {lat: 40.346197, lng: -74.656427},
+    {lat: 40.348176, lng: -74.656026},
     {lat: 40.348369, lng: -74.656349},
-    {lat: 40.348275, lng: -74.657234},
-    {lat: 40.346895, lng: -74.658735},
-    {lat: 40.347107, lng: -74.658501},
-    {lat: 40.348133, lng: -74.658810},
-    {lat: 40.348239, lng: -74.658854},
+    {lat: 40.348660, lng: -74.656327},
+    {lat: 40.346675, lng: -74.658622},
+    {lat: 40.346675, lng: -74.658622},
+    {lat: 40.346975, lng: -74.658761},
+    {lat: 40.347553, lng: -74.658805},
     {lat: 40.347647, lng: -74.659568}
 ]
 var winterDirCoords = []
@@ -244,9 +244,11 @@ const tour = (tourName, isDir = true, lastWindInd = 0, lastPinInd = 0) => {
         // a1, a2, a3 and a4 are lists of length 3 containing the response text,
         // status, and jqXHR object for each of the four ajax calls respectively.
         if (tour_name === 'pton') {
+            console.log("starting pton tour")
             ptonTreesTour(isDir, lastWindInd, lastPinInd);
         }
         if (tour_name === 'winter') {
+            console.log("starting winter tour")
             winterTour(isDir, lastWindInd, lastPinInd);
         }
     });
@@ -331,7 +333,7 @@ const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
             if (isDir) {
                 infowindow.setPosition(ptonDirCoords[lastWindInd])
                 infowindow.open(map)
-                if (lastWindInd == markers.length - 1) {
+                if (lastWindInd == markers.length) {
                     tour_name = ""
                     document.cookie = "tour_name=" + tour_name;
                     isDir = true;
