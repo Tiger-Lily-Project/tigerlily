@@ -88,7 +88,7 @@
         markers = [];
     }
 
-    const makeMarker = (plant, infoWindow) => {
+    const makeMarker = (plant, infowindow) => {
         var contentString;
 
         var lat = parseFloat(plant.lat);
@@ -314,7 +314,7 @@
         });
         locationMarker.setZIndex(google.maps.Marker.MAX_ZINDEX + 1)
 
-        var infowindow = new google.maps.InfoWindow();
+        var infoWindow = new google.maps.InfoWindow();
 
         google.maps.event.addListenerOnce(map, "bounds_changed", function () {
             google.maps.event.addListener(map, "idle", function () { markers_in_bounds(infoWindow) });
