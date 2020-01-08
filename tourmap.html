@@ -285,7 +285,7 @@ const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
             });
 
             infoWindow.open(map)
-            while (infoWindow.getMap() !== null) {
+            while (infoWindow.getMap() !== null && lastWindInd != ptonDirs.length - 1) {
 
             }
 
@@ -330,7 +330,7 @@ const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
             document.cookie = "isDir=" + isDir;
 
         }
-        
+
         document.cookie = "tour_name= ";
         document.cookie = "isDir=true";
         document.cookie = "lastWindInd=0";
