@@ -256,14 +256,15 @@ const tour = (tourName, isDir = true, lastWindInd = 0, lastPinInd = 0) => {
             tourPath.setMap(map);
             lines.push(tourPath)
             console.log("pushed tour")
+            /*
+            if (tour_name === 'pton') {
+                ptonTreesTour(isDir, lastWindInd, lastPinInd);
+            }
+            if (tour_name === 'winter') {
+                winterTour(isDir, lastWindInd, lastPinInd);
+            }*/
         }
     })
-    if (tour_name === 'pton') {
-        ptonTreesTour(isDir, lastWindInd, lastPinInd);
-    }
-    if (tour_name === 'winter') {
-        winterTour(isDir, lastWindInd, lastPinInd);
-    }
 }
 
 const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
