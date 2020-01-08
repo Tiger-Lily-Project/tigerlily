@@ -314,7 +314,7 @@ const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
                finishUp()
             }); 
 
-            infoWindow.open(map);
+            infowindow.open(map);
             
             var finishUp = function(){
                 lastWindInd++
@@ -365,7 +365,7 @@ const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
                 '</div>'+
                 '</div>';
             
-            var infoWindow = new google.maps.InfoWindow({
+            var infowindow = new google.maps.InfoWindow({
                 content: contentString
             });
             
@@ -373,7 +373,7 @@ const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
                finishUp()
             }); 
 
-            infoWindow.open(map, marker);
+            infowindow.open(map, marker);
             
             var finishUp = function(){
                 lastPinInd++
