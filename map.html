@@ -20,8 +20,8 @@ const trackLocation = ({ onSuccess, onError = () => { } }) => {
 
 var markers = []
 var clicked;
-var species = '[]'
-var dec_or_evg = '[]'
+var species = []
+var dec_or_evg = []
 
 // Taken from https://www.w3schools.com/js/js_cookies.asp
 function getCookie(key) {
@@ -36,6 +36,9 @@ function getCookie(key) {
     if (c.indexOf(name) == 0) {
       return c.substring(name.length, c.length);
     }
+  }
+  if (key === 'species' || key === 'dec_or_evg') {
+      return '[]'
   }
   return "";
 }
