@@ -436,7 +436,7 @@ function initMap() {
         onError: err =>
             alert(`Error: Failed to obtain location`)
     });
-
+    document.cookie = "tour= ; expires = Thu, 01 Jan 1970 00:00:00 GMT"
     tour_name = getCookie("tour_name")
     isDir = getCookie("isDir")
     if (isDir === "") {
