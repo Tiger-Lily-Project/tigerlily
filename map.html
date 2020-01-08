@@ -96,28 +96,15 @@ const makeMarker = (plant) => {
     var title = plant.title;
     var titleURL = encodeURIComponent(title.trim());
 
-    if (state === "tour") {
-            var marker = new google.maps.Marker({
-                map: map,
-                position: {
-                    lat: lat,
-                    lng: lng
-                },
-                title: title,
-                label: (i + 1).toString(),
-                clickable: true
-            });
-        } else {
-            var marker = new google.maps.Marker({
-                map: map,
-                position: {
-                    lat: lat,
-                    lng: lng
-                },
-                title: title,
-                clickable: true
-            });
-        }
+    var marker = new google.maps.Marker({
+        map: map,
+        position: {
+            lat: lat,
+            lng: lng
+        },
+        title: title,
+        clickable: true
+    });
 
         google.maps.event.addListener(marker, 'click', (function(marker) {
             return function() {
