@@ -291,16 +291,15 @@ const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
                 content: contentString,
                 position: ptonDirCoords[lastWindInd]
             });
-
-            console.log(infowindow.getPosition())
             
             infowindow.open(map)
+            /*
             console.log(infowindow.getMap())
 
             while (infowindow.getMap() !== null && lastWindInd != ptonDirs.length - 1) {
 
             }
-            
+            */
             lastWindInd++
             console.log(lastWindInd)
             console.log(ptonDirs.length)
@@ -336,12 +335,13 @@ const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
             });
             
             infoWindow.open(map, marker);
+            /*
             console.log(infoWindow.getMap())
 
             while (infoWindow.getMap() !== null) {
 
             }
-            
+            */
 
             lastPinInd++
             document.cookie = "lastPinInd=" + lastPinInd;
