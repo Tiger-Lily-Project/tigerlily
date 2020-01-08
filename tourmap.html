@@ -256,13 +256,13 @@ const tour = (tourName, isDir = true, lastWindInd = 0, lastPinInd = 0) => {
             tourPath.setMap(map);
             lines.push(tourPath)
             console.log("pushed tour")
-            /*
-            if (tour_name === 'pton') {*/
-                ptonTreesTour(isDir, lastWindInd, lastPinInd);/*
+
+            if (tour_name === 'pton') {
+                ptonTreesTour(isDir, lastWindInd, lastPinInd);
             }
             if (tour_name === 'winter') {
                 winterTour(isDir, lastWindInd, lastPinInd);
-            }*/
+            }
         }
     })
 }
@@ -270,6 +270,7 @@ const tour = (tourName, isDir = true, lastWindInd = 0, lastPinInd = 0) => {
 const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
     console.log("in tour")
     console.log(lines.length)
+    /*
     while (lastWindInd < ptonDirs.length) {
         if (isDir === true) {
 
@@ -353,6 +354,7 @@ const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
         lastPinInd;
         document.cookie = "lastPinInd=" + lastPinInd;
     }
+    */
 }
 
 const addMarkers = (plants) => {
