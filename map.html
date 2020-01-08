@@ -88,8 +88,9 @@
         markers = [];
     }
 
+    var infowindow = new google.maps.InfoWindow();
+
     const makeMarker = (plant) => {
-        var infowindow = new google.maps.InfoWindow();
         var contentString;
 
         var lat = parseFloat(plant.lat);
