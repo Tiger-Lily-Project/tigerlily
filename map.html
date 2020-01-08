@@ -145,16 +145,10 @@
             contentType: "application/json",
             data: { bounds: JSON.stringify(bounds), species: JSON.stringify(species), dec_or_evg: JSON.stringify(dec_or_evg) },
             success: function (data) {
-                if (data.plants.length < TOTAL_MAX_PINS) displayAllPins(data.plants)
-                else markersByDensity(data.plants, bounds)
+                console.log(data)
+                markersByDensity(data.plants, bounds)
             }
         });
-    }
-
-    function displayAllPins(plants) {
-        for (var i = 0; i < plants.length; i++) {
-            makeMarker(plants[i])
-        }
     }
 
     // handles filter
