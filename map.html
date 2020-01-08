@@ -236,8 +236,10 @@ const markersByDensity = (plants, bounds) => {
     if (plants.length < TOTAL_MAX_PINS) {
         for (var i = 0; i < plants.length; i++) {
             makeMarker(plants[i])
-            console.log("less than total max: ", plants[i].id_num)
+            console.log("less than max total: ", plants[i].id_num)
         }
+        console.log("assocMarkers: ")
+        console.log(assocMarkers)
         return
     }
 
