@@ -301,6 +301,7 @@ const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
 
             var isClosed = false
             infowindow.open(map)
+            wait(100)
 
             google.maps.event.addListener(infowindow, 'closeclick', function() {  
                isClosed = true
@@ -358,6 +359,7 @@ const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
             
             var isClosed = false
             infoWindow.open(map, marker);
+            wait(100)
             google.maps.event.addListener(infowindow, 'closeclick', function() {  
                isClosed = true
             }); 
