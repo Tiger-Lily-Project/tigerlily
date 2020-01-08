@@ -283,7 +283,11 @@ const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
                 '<div id="bodyContent">' +
                 '<p>Close out of this window when you\'re ready to move on!</p>' +
                 '</div>' +
-                '</div>'
+                '</div>';
+
+            if (lastWindInd == 0) {
+                ptonDirCoords[lastWindInd] = locationMarker.getPosition()
+            }
 
             var infoWindow = new google.maps.InfoWindow({
                 content: contentString,
@@ -291,6 +295,7 @@ const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
             });
 
             infoWindow.open(map)
+
             while (infoWindow.getMap() !== null && lastWindInd != ptonDirs.length - 1) {
 
             }
