@@ -240,7 +240,6 @@ const tour = (tourName, isDir = true, lastWindInd = 0, lastPinInd = 0) => {
     }
     $.ajax({
         url: url,
-        async: false,
         type: "GET",
         contentType: "application/json",
         data: {ids: JSON.stringify(ids)},
@@ -256,14 +255,14 @@ const tour = (tourName, isDir = true, lastWindInd = 0, lastPinInd = 0) => {
             });
             tourPath.setMap(map);
             lines.push(tourPath)
+            if (tour_name === 'pton') {
+                ptonTreesTour(isDir, lastWindInd, lastPinInd);
+            }
+            if (tour_name === 'winter') {
+                winterTour(isDir, lastWindInd, lastPinInd);
+            }
         }
     })
-    if (tour_name === 'pton') {
-        ptonTreesTour(isDir, lastWindInd, lastPinInd);
-    }
-    if (tour_name === 'winter') {
-        winterTour(isDir, lastWindInd, lastPinInd);
-    }
 }
 
 const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
