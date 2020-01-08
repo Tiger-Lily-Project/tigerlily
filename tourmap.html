@@ -292,7 +292,9 @@ const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
             });
 
             infowindow.open(map)
+            setTimeout(console.log("waited"), 1000)
 
+            /*
             var check = function(){
                 if (!infowindow.getMap()){
                     // run when condition is met
@@ -308,6 +310,7 @@ const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
             }
 
             check()
+            */
 
             /*
             google.maps.event.addListener(infowindow, 'closeclick', function() {  
@@ -317,6 +320,11 @@ const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
                 document.cookie = "isDir=" + isDir;
             });  
             */
+
+            lastWindInd++
+            document.cookie = "lastWindInd=" + lastWindInd;
+            isDir = false;
+            document.cookie = "isDir=" + isDir;
         }
         else {
             console.log(markers)
@@ -347,6 +355,8 @@ const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
             });
             
             infoWindow.open(map, marker);
+            setTimeout(console.log("waited"), 1000)
+            /*
 
             var check = function(){
                 if (!infowindow.getMap()){
@@ -363,6 +373,7 @@ const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
             }
 
             check()
+            */
 
             /*
             google.maps.event.addListener(infowindow, 'closeclick', function() {  
@@ -373,6 +384,10 @@ const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
             });  
             */
 
+            lastPinInd++
+            document.cookie = "lastPinInd=" + lastPinInd;
+            isDir = true;
+            document.cookie = "isDir=" + isDir;
         }
     }
     tour_name = ""
