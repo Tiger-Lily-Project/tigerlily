@@ -303,7 +303,7 @@ const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
 
             }
             */
-            lastWindInd += 1;
+            lastWindInd = lastWindInd + 1
             console.log(lastWindInd)
             console.log(ptonDirs.length)
             document.cookie = "lastWindInd=" + lastWindInd;
@@ -344,7 +344,7 @@ const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
             }
             */
 
-            lastPinInd += 1
+            lastPinInd = lastPinInd + 1
             document.cookie = "lastPinInd=" + lastPinInd;
             isDir = true;
             document.cookie = "isDir=" + isDir;
