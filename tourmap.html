@@ -267,6 +267,14 @@ const tour = (tourName, isDir = true, lastWindInd = 0, lastPinInd = 0) => {
     
 }
 
+function wait(ms){
+   var start = new Date().getTime();
+   var end = start;
+   while(end < start + ms) {
+     end = new Date().getTime();
+  }
+}
+
 const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
     console.log("in tour")
     
@@ -293,6 +301,7 @@ const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
 
             var isClosed = false
             infowindow.open(map)
+
             google.maps.event.addListener(infowindow, 'closeclick', function() {  
                isClosed = true
             });  
@@ -307,7 +316,8 @@ const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
                 }
                 else {
                     console.log("looping")
-                    setTimeout(check, 1000); // check again in a second
+                    wait(50);
+                    check()
                 }
             }
 
@@ -362,7 +372,8 @@ const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
                 }
                 else {
                     console.log("looping")
-                    setTimeout(check, 1000); // check again in a second
+                    wait(50);
+                    check()
                 }
             }
 
