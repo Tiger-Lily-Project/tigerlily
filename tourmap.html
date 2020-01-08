@@ -307,11 +307,11 @@ const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
                 '<div id="siteNotice">'+
                 '</div>'+
                 '<h1 id="firstHeading" class="firstHeading">'+
-                markers[lastPinInd].title+
+                markers[lastPinInd].getTitle()+
                 '</h1>'+
                 '<div id="bodyContent">'+
                 '<p><h5><a href=tourdetails?common_name='+
-                encodeURIComponent(markers[lastPinInd].title.trim())+
+                encodeURIComponent(markers[lastPinInd].getTitle().trim())+
                 '&tour_name='+
                 encodeURIComponent(tour_name.trim())+
                 '>'+
