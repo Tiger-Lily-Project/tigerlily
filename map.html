@@ -214,6 +214,8 @@ const calculateZone = (plant, zoneHeight, zoneWidth, northEast) => {
 }
 
 const markersByDensity = (plants, bounds) => {
+    console.log("print at beginning:")
+    console.log(assocMarkers)
 
     var northEast = bounds.getNorthEast()
     var southWest = bounds.getSouthWest()
@@ -233,21 +235,22 @@ const markersByDensity = (plants, bounds) => {
     }
 
     // If total pins in viewport is less than max total, show all regardless of zone
-    // if (plants.length < TOTAL_MAX_PINS) {
-    //     for (var i = 0; i < plants.length; i++) {
-    //         makeMarker(plants[i])
-    //         console.log("less than max total: ", plants[i].id_num)
-    //     }
-    //     console.log("assocMarkers: ")
-    //     console.log(assocMarkers)
-    //     return
-    // }
+    if (plants.length < TOTAL_MAX_PINS) {
+        for (var i = 0; i < plants.length; i++) {
+            makeMarker(plants[i])
+        }
+        console.log(assocMarkers)
+        return
+    }
 
     // Iterate through plant array to remove pins from overly-dense areas
     for (var i = 0; i < plants.length; i++) {
         var idNum = plants[i].id_num
 
         var zone = calculateZone(plants[i], zoneHeight, zoneWidth, northEast)
+
+        console.log("in removal loop: ")
+        console.log("id ", idNum, "in zone ", zone, 'with density ', zoneDensities[zone])
     
         // If zone at max density
         if (zoneDensities[zone] >= MAX_PINS_PER_ZONE) {
@@ -268,9 +271,12 @@ const markersByDensity = (plants, bounds) => {
 
     }
 
+    console.log("assocMarkers after removal array")
+    console.log(assocMarkers)
+
     // Iterate through zone stacks to add new pins by zone (or add all pins if there were fewer than max total plants in the first place)
     for (var i = 1; i <= (ZONE_COLS * ZONE_ROWS); i++) {
-        if ((zoneDensities[i] <= MAX_PINS_PER_ZONE) || (plants.length < TOTAL_MAX_PINS)) {
+        if (zoneDensities[i] <= MAX_PINS_PER_ZONE) {
             if (zoneStacks[i].length >= 1) {    // If array is not empty
                 newPlant = zoneStacks[i].pop()
                 makeMarker(newPlant)
