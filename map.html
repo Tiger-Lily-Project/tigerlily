@@ -64,6 +64,70 @@
         document.cookie = "geolocation=maybe"
     }
 
+const markers_in_bounds = () => {
+    console.log("ran markers_in_bounds")
+    // Get map bounds
+    let bounds = map.getBounds()
+    console.log(species);
+    // Send AJAX request to server
+    let url = '/getPins'
+    $.ajax({
+        url: url,
+        type: "GET",
+        contentType: "application/json",
+        data: {bounds: JSON.stringify(bounds), species: JSON.stringify(species), dec_or_evg: JSON.stringify(dec_or_evg)},
+        success: function(data){
+            console.log(data)
+            addMarkers(data.plants)
+        }
+    });
+    // (server updates plants array with plants in range)
+}
+
+const filtered_markers = () => {
+    console.log("ran filtered markers")
+    
+    // send AJAX request to server
+    let url = "/getPinsNoBounds"
+    $.ajax({
+        url: url,
+        type: "GET",
+        contentType: "application/json",
+        data: {species: JSON.stringify(species), dec_or_evg: JSON.stringify(dec_or_evg)},
+        success: function(data){
+            console.log(data)
+            addMarkers(data.plants)
+        }
+    })
+}
+
+function handleResponse(response) {
+    console.log("whatever")
+}
+
+// handles filter
+$('#filter').submit(function(event) {
+    event.preventDefault();
+
+    // clear out previous filter regardless
+    species = []
+    dec_or_evg = []
+
+    // uncheck all options if clear was clicked
+    if (clicked === "Clear") {
+        console.log("im here")
+        $("#sel1 option:selected").prop("selected", false);
+        $("#sel2 option:selected").prop("selected", false);
+    }
+
+    document.cookie = "species=" + JSON.stringify(species)
+    document.cookie = "dec_or_evg=" + JSON.stringify(dec_or_evg)
+
+    deleteMarkers()
+    markers_in_bounds()
+    
+});
+
     // Show instructions for users to give us location permissions after denying them
     function showInstructions() {
         console.log("showing instructions")
@@ -151,49 +215,6 @@
         });
     }
 
-    // handles filter
-    $('#filter').submit(function (event) {
-        event.preventDefault();
-
-        // clear out previous filter regardless
-        species = []
-        dec_or_evg = []
-
-        // uncheck all options if clear was clicked
-        if (clicked === "Clear") {
-            console.log("im here")
-            $("#sel1 option:selected").prop("selected", false);
-            $("#sel2 option:selected").prop("selected", false);
-        }
-
-        // only check for new values if apply was clicked
-        if (clicked === "Apply") {
-            species = $("#sel1 option:selected")
-            species = $.makeArray(species)
-            if (species.length > 50) {
-                window.alert("Please select less than 50 species.");
-                return;
-            }
-            console.log("species: ")
-            for (var i = 0; i < species.length; i++) {
-                species[i] = species[i].value
-                console.log(species[i])
-            }
-            dec_or_evg = $("#sel2 option:selected")
-            dec_or_evg = $.makeArray(dec_or_evg)
-            console.log("doe: ")
-            for (var i = 0; i < dec_or_evg.length; i++) {
-                dec_or_evg[i] = dec_or_evg[i].value
-                console.log(dec_or_evg[i])
-            }
-
-        }
-        deleteMarkers()
-        markers_in_bounds()
-
-    });
-
-
     var assocMarkers = {}
     var ZONE_ROWS = 6
     var ZONE_COLS = 5
@@ -274,6 +295,25 @@
                 }
             }
         console.log(assocMarkers)
+    console.log("added " + markers.length + " markers")
+}
+
+// Taken from https://www.w3schools.com/js/js_cookies.asp
+function getCookie(key) {
+  var name = key + "=";
+  var decodedCookie = decodeURIComponent(document.cookie);
+  var ca = decodedCookie.split(';');
+  for(var i = 0; i <ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      result = c.substring(name.length, c.length)
+      if (result === '"[]"') {
+          return "[]"
+      }
+      return result;
     }
 
     // from w3schools docs for cookies in javascript
@@ -308,6 +348,17 @@
             }
         });
         locationMarker.setZIndex(google.maps.Marker.MAX_ZINDEX + 1)
+
+        var temp = ""
+    document.cookie = "tour_name=" + temp
+    document.cookie = "isDir=true"
+    document.cookie = "lastWindInd=0"
+    document.cookie = "lastPinInd=0"
+
+    species = JSON.parse(getCookie('species'))
+    dec_or_evg = JSON.parse(getCookie('dec_or_evg'))
+    console.log(species.length)
+    console.log(dec_or_evg.length)
 
         google.maps.event.addListenerOnce(map, "bounds_changed", function () {
             google.maps.event.addListener(map, "idle", function () { markers_in_bounds() });
