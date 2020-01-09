@@ -225,6 +225,10 @@ const addMarkers = (plants) => {
             }
         })(marker, i));
     }
+    // Add a marker clusterer to manage the markers.
+    var markerCluster = new MarkerClusterer(map, markers,
+            {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+
     console.log("added " + markers.length + " markers")
 }
 
@@ -265,10 +269,6 @@ function initMap() {
     });
     locationMarker.setZIndex(google.maps.Marker.MAX_ZINDEX + 1)
 
-    // Add a marker clusterer to manage the markers.
-    var markerCluster = new MarkerClusterer(map, markers,
-            {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
-
     var temp = ""
     document.cookie = "tour_name=" + temp
     document.cookie = "isDir=true"
@@ -299,7 +299,7 @@ function initMap() {
 }
 </script>
 <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
-</script>
+    </script>
 <script async defer
 src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDgPsCmJi55tXonvondJH9BCh7AOvDg3-8&callback=initMap">
 </script>
