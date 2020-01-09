@@ -18,7 +18,20 @@
       height: 100%;
       width: 300px;
     }
-        
+
+    /* https://www.w3schools.com/howto/howto_css_two_columns.asp */
+    .column {
+      float: left;
+    }
+
+    .left {
+      width: 70%;
+    }
+
+    .right {
+      width: 30%;
+    }
+
     /* On small screens, set height to 'auto' for the grid */
     @media screen and (max-width: 767px) {
       .row.content {height: auto;} 
@@ -68,32 +81,33 @@
     <div class="col-sm-9">
       <h3>About Us</h3>
       <br>
-      <img class="img-responsive" src="/static/images/devs.jpg" alt="test" width = "700">
-      <br>
-      <h4>The Team</h4>
-      <h5>Wendy Ho '21 COS (UI/UX, Team Lead)</h5>
-      <h5>Zoe Kahana '21 COS (Backend)</h5>
-      <h5>Hannah Smalley '21 SPO (Maps API)</h5>
-      (pictured left to right)
-      <br>
-      <br>
-      Princeton Plants is an web application designed and developed for <i>COS 333: Advanced Programming Techniques</i> during the Fall 2019 semester.
-      <br>
-      <br>
-      <h4>Acknowledgments</h4>
-      Many thanks to course faculty Dr. Robert Dondero and project mentor Paul Ellenbogen.
-      <br>
-      Special thanks to Mr. Devin Livi and the Princeton Facilities Operations team for all of their help.
-      <br>
-      <br>
-      Tree locations from Princeton Facilities Operations team.
-      <br>
-      Tree photos and descriptions from Wikipedia.
-      <br>
-      Trees of Princeton tour from Princeton University.
-      <br>
-      <br>
-      <br>
+      <div class="column">
+        <img class="img-responsive" src="/static/images/devs.jpg" alt="test" width = "700">
+      </div>
+      <div class="column">
+        <h4>The Team</h4>
+        <h5>Wendy Ho '21 COS (UI/UX, Team Lead)</h5>
+        <h5>Zoe Kahana '21 COS (Backend)</h5>
+        <h5>Hannah Smalley '21 SPO (Maps API)</h5>
+        (pictured left to right)
+        <br>
+        <br>
+        Princeton Plants is an web application designed and developed for <i>COS 333: Advanced Programming Techniques</i> during the Fall 2019 semester.
+        <br>
+        <br>
+        <h4>Acknowledgments</h4>
+        Many thanks to course faculty Dr. Robert Dondero and project mentor Paul Ellenbogen.
+        <br>
+        Special thanks to Mr. Devin Livi and the Princeton Facilities Operations team for all of their help.
+        <br>
+        <br>
+        Tree locations from Princeton Facilities Operations team.
+        <br>
+        Tree photos and descriptions from Wikipedia.
+        <br>
+        Trees of Princeton tour from Princeton University.
+        <br>
+      </div>
     </div>
   </div>
 </div>
