@@ -167,7 +167,19 @@
         document.cookie = "dec_or_evg=" + JSON.stringify(dec_or_evg)
 
         deleteMarkers()
-        markers_in_bounds()
+        // markers_in_bounds()
+        // Send AJAX request to server
+        let url = '/getPinsNoBounds'
+        $.ajax({
+            url: url,
+            type: "GET",
+            contentType: "application/json",
+            data: { species: JSON.stringify(species), dec_or_evg: JSON.stringify(dec_or_evg) },
+            success: function (data) {
+                console.log(data)
+                addMarkers(data.plants)
+            }
+        });
 
     });
 
