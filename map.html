@@ -178,7 +178,6 @@
         var infowindow = new google.maps.InfoWindow();
         var contentString;
         for (var i = 0; i < plants.length; i++) {
-            if (!(plants[i].id_num in markedPlantIds)) {
                 // console.log(plants[i])
                 var lat = parseFloat(plants[i].lat);
                 // console.log("lat: ", lat)
@@ -203,8 +202,7 @@
 
                 // add marker to array
                 markers.push(marker)
-                markedPlantIds.push(plants[i].id_num)
-
+            
                 google.maps.event.addListener(marker, 'click', (function (marker, i) {
                     return function () {
 
@@ -227,7 +225,6 @@
 
                     }
                 })(marker, i));
-            }
         }
         // Add a marker clusterer to manage the markers.
         var markerCluster = new MarkerClusterer(map, markers,
