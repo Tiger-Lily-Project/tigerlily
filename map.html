@@ -290,7 +290,7 @@
             url: url,
             type: "GET",
             contentType: "application/json",
-            data: {  },
+            data: { species: JSON.stringify(species), dec_or_evg: JSON.stringify(dec_or_evg) },
             success: function (data) {
                 console.log(data)
                 addMarkers(data.plants)
