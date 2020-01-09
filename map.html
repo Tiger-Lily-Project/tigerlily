@@ -178,58 +178,58 @@
         var infowindow = new google.maps.InfoWindow();
         var contentString;
         for (var i = 0; i < plants.length; i++) {
-                // console.log(plants[i])
-                var lat = parseFloat(plants[i].lat);
-                // console.log("lat: ", lat)
-                // console.log("lng: ", lng)
-                var lng = parseFloat(plants[i].lng);
-                var title = plants[i].title;
-                var titleURL = encodeURIComponent(title.trim());
-                // console.log("title: " + title)
-                // console.log(i, lat, lng);
-                // console.log(titleURL)
-                // console.log(plants[i].title)
+            // console.log(plants[i])
+            var lat = parseFloat(plants[i].lat);
+            // console.log("lat: ", lat)
+            // console.log("lng: ", lng)
+            var lng = parseFloat(plants[i].lng);
+            var title = plants[i].title;
+            var titleURL = encodeURIComponent(title.trim());
+            // console.log("title: " + title)
+            // console.log(i, lat, lng);
+            // console.log(titleURL)
+            // console.log(plants[i].title)
 
-                var marker = new google.maps.Marker({
-                    map: map,
-                    position: {
-                        lat: lat,
-                        lng: lng
-                    },
-                    title: title,
-                    clickable: true
-                });
+            var marker = new google.maps.Marker({
+                map: map,
+                position: {
+                    lat: lat,
+                    lng: lng
+                },
+                title: title,
+                clickable: true
+            });
 
-                // add marker to array
-                markers.push(marker)
-            
-                google.maps.event.addListener(marker, 'click', (function (marker, i) {
-                    return function () {
+            // add marker to array
+            markers.push(marker)
 
-                        contentString = '<div id="content">' +
-                            '<div id="siteNotice">' +
-                            '</div>' +
-                            '<h1 id="firstHeading" class="firstHeading">' +
-                            plants[i].title +
-                            '</h1>' +
-                            '<div id="bodyContent">' +
-                            '<p><a href=plantdetails?common_name=' +
-                            encodeURIComponent(plants[i].title.trim()) +
-                            '>' +
-                            'Click here for more details</a></p>' +
-                            '</div>' +
-                            '</div>';
+            google.maps.event.addListener(marker, 'click', (function (marker, i) {
+                return function () {
 
-                        infowindow.setContent(contentString);
-                        infowindow.open(map, marker);
+                    contentString = '<div id="content">' +
+                        '<div id="siteNotice">' +
+                        '</div>' +
+                        '<h1 id="firstHeading" class="firstHeading">' +
+                        plants[i].title +
+                        '</h1>' +
+                        '<div id="bodyContent">' +
+                        '<p><a href=plantdetails?common_name=' +
+                        encodeURIComponent(plants[i].title.trim()) +
+                        '>' +
+                        'Click here for more details</a></p>' +
+                        '</div>' +
+                        '</div>';
 
-                    }
-                })(marker, i));
+                    infowindow.setContent(contentString);
+                    infowindow.open(map, marker);
+
+                }
+            })(marker, i));
         }
         // Add a marker clusterer to manage the markers.
+        // Options to pass along to the marker clusterer
         var markerCluster = new MarkerClusterer(map, markers,
-            { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' });
-        markerCluster.SetMinMarkersPerCluster(50)
+            { minimumClusterSize: 5, imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' });
 
         console.log("added " + markers.length + " markers")
     }
@@ -294,7 +294,7 @@
                 addMarkers(data.plants)
             }
         });
-        
+
         // google.maps.event.addListenerOnce(map, "bounds_changed", function () {
         //     google.maps.event.addListener(map, "idle", function () { markers_in_bounds() });
         // });
