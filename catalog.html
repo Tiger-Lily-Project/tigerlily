@@ -146,6 +146,12 @@
          
          function searchCatalog()
          {
+           var temp = ""
+           document.cookie = "tour_name=" + temp
+           document.cookie = "isDir=true"
+           document.cookie = "lastWindInd=0"
+           document.cookie = "lastPinInd=0"
+
            console.log("im here!")
             let search = document.getElementById('search').value;
 
