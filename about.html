@@ -18,7 +18,15 @@
       height: 100%;
       width: 300px;
     }
-        
+
+    a {
+      color:black;
+      text-decoration: none;
+    }
+    a:visited {
+      color:black;
+    }
+
     /* On small screens, set height to 'auto' for the grid */
     @media screen and (max-width: 767px) {
       .row.content {height: auto;} 
@@ -65,24 +73,39 @@
     </div>
     <br>
     
-    <div class="col-sm-9">
-      <h4>About Us</h4>
+    <div class="col-sm-6">
+      <h3>About Us</h3>
+      <br>
+      <img class="img-responsive" src="/static/images/devs.jpg" alt="test" width = "700">
+    </div>
+    <div class="col-sm-3">
       <br>
       <br>
-      Wendy Ho '21 COS
-      <br>
-      Zoe Kahana '21 COS
-      <br>
-      Hannah Smalley '21 SPO
       <br>
       <br>
-      Many thanks to Mr. Devin Livi and the Princeton Facilities Operations team for their help!
+      <h4>The Team</h4>
+      <a href="mailto: wlho@princeton.edu"><h5>Wendy Ho '21 COS (UI/UX, Team Lead)</h5></a>
+      <a href="mailto: zkahana@princeton.edu"><h5>Zoe Kahana '21 COS (Backend)</h5></a>
+      <a href="mailto: hsmalley@princeton.edu"><h5>Hannah Smalley '21 SPO (Maps API)</h5></a>
+      (pictured left to right)
+      <br>
+      <br>
+      <h4>About</h4>
+      Princeton Plants is an web application designed and developed for <i>COS 333: Advanced Programming Techniques</i> during the Fall 2019 semester.
+      <br>
+      <br>
+      <h4>Acknowledgments</h4>
+      Many thanks to course faculty Dr. Robert Dondero and project mentor Paul Ellenbogen.
+      <br>
+      Special thanks to Mr. Devin Livi and the Princeton Facilities Operations team for all of their help.
       <br>
       <br>
       Tree locations from Princeton Facilities Operations team.
       <br>
-      <br>
       Tree photos and descriptions from Wikipedia.
+      <br>
+      Trees of Princeton tour from Princeton University.
+      <br>
     </div>
   </div>
 </div>
