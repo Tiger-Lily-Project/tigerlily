@@ -82,6 +82,7 @@
         console.log("removed " + markers.length + " markers")
         // set markers to an empty array
         markers = [];
+        markerCluster = null;
     }
 
     // const markers_in_bounds = () => {
@@ -183,6 +184,7 @@
 
     });
 
+    var markerCluster;
 
     const addMarkers = (plants) => {
         console.log("received " + plants.length + " plants")
@@ -240,7 +242,7 @@
         }
         // Add a marker clusterer to manage the markers.
         // Options to pass along to the marker clusterer
-        var markerCluster = new MarkerClusterer(map, markers,
+        markerCluster = new MarkerClusterer(map, markers,
             { minimumClusterSize: 5, imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' });
 
         console.log("added " + markers.length + " markers")
