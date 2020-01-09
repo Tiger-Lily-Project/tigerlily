@@ -73,17 +73,19 @@
     var dec_or_evg = []
     var markedPlantIds = []
 
-    const deleteMarkers = () => {
-        console.log("in delete markers")
-        // loop through markers, setting them to null on the map
-        for (var i = 0; i < markers.length; i++) {
-            markers[i].setMap(null);
-        }
-        console.log("removed " + markers.length + " markers")
-        // set markers to an empty array
-        markers = [];
-        markerCluster = null;
-    }
+    // const deleteMarkers = () => {
+    //     console.log("in delete markers")
+
+    //     markerCluster = null;
+
+    //     // loop through markers, setting them to null on the map
+    //     for (var i = 0; i < markers.length; i++) {
+    //         markers[i].setMap(null);
+    //     }
+    //     console.log("removed " + markers.length + " markers")
+    //     // set markers to an empty array
+    //     markers = [];
+    // }
 
     // const markers_in_bounds = () => {
     //     console.log("ran markers_in_bounds")
@@ -167,8 +169,10 @@
         document.cookie = "species=" + JSON.stringify(species)
         document.cookie = "dec_or_evg=" + JSON.stringify(dec_or_evg)
 
-        deleteMarkers()
+        // deleteMarkers()
         // markers_in_bounds()
+        markerCluster.clearMarkers();
+        markers = [];
         // Send AJAX request to server
         let url = '/getPinsNoBounds'
         $.ajax({
