@@ -160,7 +160,7 @@
     const addMarkers = (plants) => {
         console.log("received " + plants.length + " plants")
         // place plants 
-        
+
         var contentString;
         for (var i = 0; i < plants.length; i++) {
             // console.log(plants[i])
@@ -207,6 +207,10 @@
 
                     infowindow.setContent(contentString);
                     infowindow.open(map, marker);
+
+                    google.maps.event.addListener(map, "click", function (event) {
+                        infowindow.close();
+                    });
 
                 }
             })(marker, i));
