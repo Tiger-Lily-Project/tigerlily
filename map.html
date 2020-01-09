@@ -1,305 +1,309 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 <script>
 
-// Handle location updates
-const trackLocation = ({ onSuccess, onError = () => { } }) => {
+    // Handle location updates
+    const trackLocation = ({ onSuccess, onError = () => { } }) => {
 
-    if ('geolocation' in navigator === false) {
-        return onError(new Error('Sorry, geolocation is not supported by your browser :('));
-    }
-  
-    // Use watchPosition for live updates
-    return navigator.geolocation.watchPosition(onSuccess, onError);
-};
+        if ('geolocation' in navigator === false) {
+            return onError(new Error('Sorry, geolocation is not supported by your browser :('));
+        }
 
-// If user allows us to ask for location
-function requestLocation () {
-    console.log("requesting location")
-    // Make sure panel and use location button are hidden
-    var useLocationPanel = document.getElementById("useLocationPanel");
-    useLocationPanel.classList.add("hidden");
+        // Use watchPosition for live updates
+        return navigator.geolocation.watchPosition(onSuccess, onError);
+    };
 
-    // Did the user just open the window or give location for the first time?
-    var initializing = true
-    console.log("initializing: ", initializing)
+    // If user allows us to ask for location
+    function requestLocation() {
+        console.log("requesting location")
+        // Make sure panel and use location button are hidden
+        var useLocationPanel = document.getElementById("useLocationPanel");
+        useLocationPanel.classList.add("hidden");
 
-    trackLocation({
-        onSuccess: ({ coords: { latitude: lat, longitude: lng } }) => {
-            console.log("successful")
-            locationMarker.setPosition({ lat, lng });
-            if (initializing == true) {
-                map.panTo({ lat, lng });
-                initializing = false;
-            }
-            document.cookie = "geolocation=yes"
-            var useLocationButton = document.getElementById("useLocationButton");
-            useLocationButton.classList.add("hidden");
-        },
-        onError: err => {
-            if (err.code == err.PERMISSION_DENIED) {
+        // Did the user just open the window or give location for the first time?
+        var initializing = true
+        console.log("initializing: ", initializing)
+
+        trackLocation({
+            onSuccess: ({ coords: { latitude: lat, longitude: lng } }) => {
+                console.log("successful")
+                locationMarker.setPosition({ lat, lng });
+                if (initializing == true) {
+                    map.panTo({ lat, lng });
+                    initializing = false;
+                }
+                document.cookie = "geolocation=yes"
                 var useLocationButton = document.getElementById("useLocationButton");
                 useLocationButton.classList.add("hidden");
-                var locationInstructions = document.getElementById("locationInstructions");
-                locationInstructions.classList.remove("hidden");
-                console.log(err.message)
-            } else { alert(err.message) }
-            document.cookie = "geolocation=no"
-        }
-    });
-}
-
-function noLocationRequest () {
-    // Remove panel
-    var useLocationPanel = document.getElementById("useLocationPanel");
-    useLocationPanel.classList.add("hidden");
-
-    // Display button for user to allow location request
-    var useLocationButton = document.getElementById("useLocationButton");
-    useLocationButton.classList.remove("hidden");
-
-    document.cookie = "geolocation=maybe"
-}
-
-// Show instructions for users to give us location permissions after denying them
-function showInstructions () {
-    console.log("showing instructions")
-    var instructionPanel = document.getElementById("instructionPanel");
-    instructionPanel.classList.remove("hidden");
-}
-
-var markers = []
-var clicked;
-var species = []
-var dec_or_evg = []
-
-const deleteMarkers = () => {
-    console.log("in delete markers")
-    // loop through markers, setting them to null on the map
-    for (var i = 0; i < markers.length; i++) {
-        markers[i].setMap(null);
-    }
-    console.log("removed " + markers.length + " markers")
-    // set markers to an empty array
-    markers = [];
-}
-
-const markers_in_bounds = () => {
-    console.log("ran markers_in_bounds")
-    // Get map bounds
-    let bounds = map.getBounds()
-    console.log(species);
-    // Send AJAX request to server
-    let url = '/getPins'
-    $.ajax({
-        url: url,
-        type: "GET",
-        contentType: "application/json",
-        data: {bounds: JSON.stringify(bounds), species: JSON.stringify(species), dec_or_evg: JSON.stringify(dec_or_evg)},
-        success: function(data){
-            console.log(data)
-            addMarkers(data.plants)
-        }
-    });
-    // (server updates plants array with plants in range)
-}
-
-const filtered_markers = () => {
-    console.log("ran filtered markers")
-    
-    // send AJAX request to server
-    let url = "/getPinsNoBounds"
-    $.ajax({
-        url: url,
-        type: "GET",
-        contentType: "application/json",
-        data: {species: JSON.stringify(species), dec_or_evg: JSON.stringify(dec_or_evg)},
-        success: function(data){
-            console.log(data)
-            addMarkers(data.plants)
-        }
-    })
-}
-
-function handleResponse(response) {
-    console.log("whatever")
-}
-
-// handles filter
-$('#filter').submit(function(event) {
-    event.preventDefault();
-
-    // clear out previous filter regardless
-    species = []
-    dec_or_evg = []
-
-    // uncheck all options if clear was clicked
-    if (clicked === "Clear") {
-        console.log("im here")
-        $("#sel1 option:selected").prop("selected", false);
-        $("#sel2 option:selected").prop("selected", false);
-    }
-
-    // only check for new values if apply was clicked
-    if (clicked === "Apply") {
-        species = $("#sel1 option:selected")
-        species = $.makeArray(species)
-        if (species.length > 50) {
-            window.alert("Please select less than 50 species.");
-            return;
-        }
-        console.log("species: ")
-        for (var i = 0; i < species.length; i++) {
-            species[i] = species[i].value
-            console.log(species[i])
-        }
-        dec_or_evg = $("#sel2 option:selected")
-        dec_or_evg = $.makeArray(dec_or_evg)
-        console.log("doe: ")
-        for (var i = 0; i < dec_or_evg.length; i++) {
-            dec_or_evg[i] = dec_or_evg[i].value
-            console.log(dec_or_evg[i])
-        }
-       
-    }
-
-    document.cookie = "species=" + JSON.stringify(species)
-    document.cookie = "dec_or_evg=" + JSON.stringify(dec_or_evg)
-
-    deleteMarkers()
-    markers_in_bounds()
-    
-});
-
-
-const addMarkers = (plants) => {
-    console.log("received " + plants.length + " plants")
-    // place plants 
-    var infowindow = new google.maps.InfoWindow();
-    var contentString;
-    for (var i = 0; i < plants.length; i++) {
-        // console.log(plants[i])
-        var lat = parseFloat(plants[i].lat);
-        // console.log("lat: ", lat)
-        // console.log("lng: ", lng)
-        var lng = parseFloat(plants[i].lng);
-        var title = plants[i].title;
-        var titleURL = encodeURIComponent(title.trim());
-        // console.log("title: " + title)
-        // console.log(i, lat, lng);
-        // console.log(titleURL)
-        // console.log(plants[i].title)
-
-        var marker = new google.maps.Marker({
-            map: map,
-            position: {
-                lat: lat,
-                lng: lng
             },
-            title: title,
-            clickable: true
-        });
-
-        // add marker to array
-        markers.push(marker)
-
-        google.maps.event.addListener(marker, 'click', (function(marker, i) {
-            return function() {
-
-                contentString = '<div id="content">'+
-                '<div id="siteNotice">'+
-                '</div>'+
-                '<h1 id="firstHeading" class="firstHeading">'+
-                plants[i].title+
-                '</h1>'+
-                '<div id="bodyContent">'+
-                '<p><a href=plantdetails?common_name='+
-                encodeURIComponent(plants[i].title.trim())+
-                '>'+
-                'Click here for more details</a></p>'+
-                '</div>'+
-                '</div>';
-            
-                infowindow.setContent(contentString);
-                infowindow.open(map, marker);
-
+            onError: err => {
+                if (err.code == err.PERMISSION_DENIED) {
+                    var useLocationButton = document.getElementById("useLocationButton");
+                    useLocationButton.classList.add("hidden");
+                    var locationInstructions = document.getElementById("locationInstructions");
+                    locationInstructions.classList.remove("hidden");
+                    console.log(err.message)
+                } else { alert(err.message) }
+                document.cookie = "geolocation=no"
             }
-        })(marker, i));
+        });
     }
-    // Add a marker clusterer to manage the markers.
-    var markerCluster = new MarkerClusterer(map, markers,
-            {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
 
-    console.log("added " + markers.length + " markers")
-}
-
-// Taken from https://www.w3schools.com/js/js_cookies.asp
-function getCookie(key) {
-  var name = key + "=";
-  var decodedCookie = decodeURIComponent(document.cookie);
-  var ca = decodedCookie.split(';');
-  for(var i = 0; i <ca.length; i++) {
-    var c = ca[i];
-    while (c.charAt(0) == ' ') {
-      c = c.substring(1);
-    }
-    if (c.indexOf(name) == 0) {
-      result = c.substring(name.length, c.length)
-      if (result === '"[]"') {
-          return "[]"
-      }
-      return result;
-    }
-  }
-  return "";
-}
-  
-function initMap() {
-
-    map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: 40.3471, lng: -74.6566},
-        zoom: 19,
-        gestureHandling: "greedy"
-    });
-    locationMarker = new google.maps.Marker({
-        map: map,
-        icon: {
-        url: "/static/my_location.svg",
-        zIndex: google.maps.Marker.MAX_ZINDEX + 1 
-        }
-    });
-    locationMarker.setZIndex(google.maps.Marker.MAX_ZINDEX + 1)
-
-    var temp = ""
-    document.cookie = "tour_name=" + temp
-    document.cookie = "isDir=true"
-    document.cookie = "lastWindInd=0"
-    document.cookie = "lastPinInd=0"
-
-    species = JSON.parse(getCookie('species'))
-    dec_or_evg = JSON.parse(getCookie('dec_or_evg'))
-    console.log(species.length)
-    console.log(dec_or_evg.length)
-
-    google.maps.event.addListenerOnce(map, "bounds_changed", function(){
-        google.maps.event.addListener(map, "idle", function() { markers_in_bounds()});
-    });
-
-    var geoCookie = getCookie("geolocation");
-
-    // Different options based on geolocation status
-    if (geoCookie == "") {  // Show greeting panel if user hasn't made any decisions about geolocation
+    function noLocationRequest() {
+        // Remove panel
         var useLocationPanel = document.getElementById("useLocationPanel");
-        useLocationPanel.classList.remove("hidden");
-    } else if (geoCookie == "maybe") {  // Show button that asks for permissio if user didn't let us ask before
+        useLocationPanel.classList.add("hidden");
+
+        // Display button for user to allow location request
         var useLocationButton = document.getElementById("useLocationButton");
         useLocationButton.classList.remove("hidden");
-    } else {    // Otherwise always request geolocation
-        requestLocation()
+
+        document.cookie = "geolocation=maybe"
     }
-}
+
+    // Show instructions for users to give us location permissions after denying them
+    function showInstructions() {
+        console.log("showing instructions")
+        var instructionPanel = document.getElementById("instructionPanel");
+        instructionPanel.classList.remove("hidden");
+    }
+
+    var markers = []
+    var clicked;
+    var species = []
+    var dec_or_evg = []
+    var markedPlantIds = []
+
+    const deleteMarkers = () => {
+        console.log("in delete markers")
+        // loop through markers, setting them to null on the map
+        for (var i = 0; i < markers.length; i++) {
+            markers[i].setMap(null);
+        }
+        console.log("removed " + markers.length + " markers")
+        // set markers to an empty array
+        markers = [];
+    }
+
+    const markers_in_bounds = () => {
+        console.log("ran markers_in_bounds")
+        // Get map bounds
+        let bounds = map.getBounds()
+        console.log(species);
+        // Send AJAX request to server
+        let url = '/getPins'
+        $.ajax({
+            url: url,
+            type: "GET",
+            contentType: "application/json",
+            data: { bounds: JSON.stringify(bounds), species: JSON.stringify(species), dec_or_evg: JSON.stringify(dec_or_evg) },
+            success: function (data) {
+                console.log(data)
+                addMarkers(data.plants)
+            }
+        });
+        // (server updates plants array with plants in range)
+    }
+
+    const filtered_markers = () => {
+        console.log("ran filtered markers")
+
+        // send AJAX request to server
+        let url = "/getPinsNoBounds"
+        $.ajax({
+            url: url,
+            type: "GET",
+            contentType: "application/json",
+            data: { species: JSON.stringify(species), dec_or_evg: JSON.stringify(dec_or_evg) },
+            success: function (data) {
+                console.log(data)
+                addMarkers(data.plants)
+            }
+        })
+    }
+
+    function handleResponse(response) {
+        console.log("whatever")
+    }
+
+    // handles filter
+    $('#filter').submit(function (event) {
+        event.preventDefault();
+
+        // clear out previous filter regardless
+        species = []
+        dec_or_evg = []
+
+        // uncheck all options if clear was clicked
+        if (clicked === "Clear") {
+            console.log("im here")
+            $("#sel1 option:selected").prop("selected", false);
+            $("#sel2 option:selected").prop("selected", false);
+        }
+
+        // only check for new values if apply was clicked
+        if (clicked === "Apply") {
+            species = $("#sel1 option:selected")
+            species = $.makeArray(species)
+            if (species.length > 50) {
+                window.alert("Please select less than 50 species.");
+                return;
+            }
+            console.log("species: ")
+            for (var i = 0; i < species.length; i++) {
+                species[i] = species[i].value
+                console.log(species[i])
+            }
+            dec_or_evg = $("#sel2 option:selected")
+            dec_or_evg = $.makeArray(dec_or_evg)
+            console.log("doe: ")
+            for (var i = 0; i < dec_or_evg.length; i++) {
+                dec_or_evg[i] = dec_or_evg[i].value
+                console.log(dec_or_evg[i])
+            }
+
+        }
+
+        document.cookie = "species=" + JSON.stringify(species)
+        document.cookie = "dec_or_evg=" + JSON.stringify(dec_or_evg)
+
+        deleteMarkers()
+        markers_in_bounds()
+
+    });
+
+
+    const addMarkers = (plants) => {
+        console.log("received " + plants.length + " plants")
+        // place plants 
+        var infowindow = new google.maps.InfoWindow();
+        var contentString;
+        for (var i = 0; i < plants.length; i++) {
+            if (!(plants[i].id_num in markedPlantIds)) {
+                // console.log(plants[i])
+                var lat = parseFloat(plants[i].lat);
+                // console.log("lat: ", lat)
+                // console.log("lng: ", lng)
+                var lng = parseFloat(plants[i].lng);
+                var title = plants[i].title;
+                var titleURL = encodeURIComponent(title.trim());
+                // console.log("title: " + title)
+                // console.log(i, lat, lng);
+                // console.log(titleURL)
+                // console.log(plants[i].title)
+
+                var marker = new google.maps.Marker({
+                    map: map,
+                    position: {
+                        lat: lat,
+                        lng: lng
+                    },
+                    title: title,
+                    clickable: true
+                });
+
+                // add marker to array
+                markers.push(marker)
+                markedPlantIds.push(plants[i].id_num)
+
+                google.maps.event.addListener(marker, 'click', (function (marker, i) {
+                    return function () {
+
+                        contentString = '<div id="content">' +
+                            '<div id="siteNotice">' +
+                            '</div>' +
+                            '<h1 id="firstHeading" class="firstHeading">' +
+                            plants[i].title +
+                            '</h1>' +
+                            '<div id="bodyContent">' +
+                            '<p><a href=plantdetails?common_name=' +
+                            encodeURIComponent(plants[i].title.trim()) +
+                            '>' +
+                            'Click here for more details</a></p>' +
+                            '</div>' +
+                            '</div>';
+
+                        infowindow.setContent(contentString);
+                        infowindow.open(map, marker);
+
+                    }
+                })(marker, i));
+            }
+        }
+        // Add a marker clusterer to manage the markers.
+        var markerCluster = new MarkerClusterer(map, markers,
+            { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' });
+
+        console.log("added " + markers.length + " markers")
+    }
+
+    // Taken from https://www.w3schools.com/js/js_cookies.asp
+    function getCookie(key) {
+        var name = key + "=";
+        var decodedCookie = decodeURIComponent(document.cookie);
+        var ca = decodedCookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                result = c.substring(name.length, c.length)
+                if (result === '"[]"') {
+                    return "[]"
+                }
+                return result;
+            }
+        }
+        return "";
+    }
+
+    function initMap() {
+
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: { lat: 40.3471, lng: -74.6566 },
+            zoom: 19,
+            gestureHandling: "greedy"
+        });
+        locationMarker = new google.maps.Marker({
+            map: map,
+            icon: {
+                url: "/static/my_location.svg",
+                zIndex: google.maps.Marker.MAX_ZINDEX + 1
+            }
+        });
+        locationMarker.setZIndex(google.maps.Marker.MAX_ZINDEX + 1)
+
+        var temp = ""
+        document.cookie = "tour_name=" + temp
+        document.cookie = "isDir=true"
+        document.cookie = "lastWindInd=0"
+        document.cookie = "lastPinInd=0"
+
+        species = JSON.parse(getCookie('species'))
+        dec_or_evg = JSON.parse(getCookie('dec_or_evg'))
+        console.log(species.length)
+        console.log(dec_or_evg.length)
+
+        google.maps.event.addListenerOnce(map, "bounds_changed", function () {
+            google.maps.event.addListener(map, "idle", function () { markers_in_bounds() });
+        });
+
+        var geoCookie = getCookie("geolocation");
+
+        // Different options based on geolocation status
+        if (geoCookie == "") {  // Show greeting panel if user hasn't made any decisions about geolocation
+            var useLocationPanel = document.getElementById("useLocationPanel");
+            useLocationPanel.classList.remove("hidden");
+        } else if (geoCookie == "maybe") {  // Show button that asks for permissio if user didn't let us ask before
+            var useLocationButton = document.getElementById("useLocationButton");
+            useLocationButton.classList.remove("hidden");
+        } else {    // Otherwise always request geolocation
+            requestLocation()
+        }
+    }
 </script>
 <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
-    </script>
-<script async defer
-src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDgPsCmJi55tXonvondJH9BCh7AOvDg3-8&callback=initMap">
 </script>
+<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDgPsCmJi55tXonvondJH9BCh7AOvDg3-8&callback=initMap">
+    </script>
