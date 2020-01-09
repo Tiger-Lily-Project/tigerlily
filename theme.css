@@ -18,3 +18,5 @@ body {
 .theme-showcase .navbar .container {
   width: auto;
 }
+
+.navbar { margin-bottom: 0 }
