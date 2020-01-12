@@ -2,308 +2,374 @@
 <script>
     // Based on various pages on Google Maps Javascript API documentation except where noted otherwise
 
-// Note: This example requires that you consent to location sharing when
-// prompted by your browser. If you see the error "The Geolocation service
-// failed.", it means you probably did not give permission for the browser to
-// locate you.
+    // Note: This example requires that you consent to location sharing when
+    // prompted by your browser. If you see the error "The Geolocation service
+    // failed.", it means you probably did not give permission for the browser to
+    // locate you.
 
-// Handle location updates
-// From https://medium.com/risan/track-users-location-and-display-it-on-google-maps-41d1f850786e
-const trackLocation = ({ onSuccess, onError = () => { } }) => {
-    if ('geolocation' in navigator === false) {
-      return onError(new Error('Geolocation is not supported by your browser.'));
-    }
-  
-    // Use watchPosition for live updates
-    return navigator.geolocation.watchPosition(onSuccess, onError);
-};
+    // Handle location updates
+    // From https://medium.com/risan/track-users-location-and-display-it-on-google-maps-41d1f850786e
+    // const trackLocation = ({ onSuccess, onError = () => { } }) => {
+    //     if ('geolocation' in navigator === false) {
+    //         return onError(new Error('Geolocation is not supported by your browser.'));
+    //     }
 
-var markers = []
-var lines = []
-var tour_name = "";
-var isDir;
-var lastWindInd;
-var lastPinInd;
+    //     // Use watchPosition for live updates
+    //     return navigator.geolocation.watchPosition(onSuccess, onError);
+    // };
 
-var infowindows = []
+    // Handle location updates
+    const trackLocation = ({ onSuccess, onError = () => { } }) => {
 
-var ptonTreesIds = [572, 152, 3389, 3376, 3331, 656, 181, 3260, 3485, 407, 874, 199, 3906, 820, 3467, 793];
-var winterIds = [];
-
-var ptonTreesCoords = [
-                {lat: 40.3494921, lng: -74.6602896},
-                {lat: 40.3494185, lng: -74.6606088},
-                {lat: 40.3485230, lng: -74.6602369},
-                {lat: 40.348139, lng: -74.660083},
-                {lat: 40.348133, lng: -74.660099},
-                {lat: 40.348116, lng: -74.660107},
-                {lat: 40.3477529, lng: -74.6606565},
-                {lat: 40.347691, lng: -74.660620},
-                {lat: 40.3477529, lng: -74.6606565},
-                {lat: 40.347837, lng: -74.661163},
-                {lat: 40.347643, lng: -74.661843},
-                {lat: 40.347837, lng: -74.661163},
-                {lat: 40.347715, lng: -74.660989},
-                {lat: 40.347665, lng: -74.660869},
-                {lat: 40.347368, lng: -74.661023},
-                {lat: 40.347350, lng: -74.661001},
-                {lat: 40.347327, lng: -74.660981},
-                {lat: 40.346989, lng: -74.660790},
-                {lat: 40.346740, lng: -74.660867},
-                {lat: 40.346718, lng: -74.660780},
-                {lat: 40.346692, lng: -74.660676},
-                {lat: 40.345487, lng: -74.660211},
-                {lat: 40.345530, lng: -74.660025},
-                {lat: 40.345554, lng: -74.659973},
-                {lat: 40.345921, lng: -74.659383},
-                {lat: 40.345963, lng: -74.659328},
-                {lat: 40.346004, lng: -74.659304},
-                {lat: 40.346035, lng: -74.659306},
-                {lat: 40.346095, lng: -74.659315},
-                {lat: 40.346112, lng: -74.659321},
-                {lat: 40.346128, lng: -74.659321},
-                {lat: 40.346141, lng:-74.659318},
-                {lat: 40.346376, lng: -74.659252},
-                {lat: 40.346469, lng: -74.658849},
-                {lat: 40.346433, lng: -74.658783},
-                {lat: 40.346390, lng: -74.658768},
-                {lat: 40.346383, lng: -74.658707},
-                {lat: 40.346084, lng: -74.658347},
-                {lat: 40.346059, lng: -74.658293},
-                {lat: 40.346049, lng: -74.658250},
-                {lat: 40.346045, lng: -74.658206},
-                {lat: 40.346045, lng: -74.658153},
-                {lat: 40.346053, lng: -74.658114},
-                {lat: 40.346224, lng: -74.657457},
-                {lat: 40.346347, lng: -74.657510},
-                {lat: 40.346690, lng: -74.657401},
-                {lat: 40.346719, lng: -74.657286},
-                {lat: 40.346882, lng: -74.657320},
-                {lat: 40.346996, lng: -74.657282},
-                {lat: 40.347193, lng: -74.657156},
-                {lat: 40.347240, lng: -74.657078},
-                {lat: 40.347236, lng: -74.657062},
-                {lat: 40.347230, lng: -74.657037},
-                {lat: 40.347230, lng: -74.657014},
-                {lat: 40.347232, lng: -74.656997},
-                {lat: 40.347330, lng: -74.656457},
-                {lat: 40.347337, lng: -74.656462},
-                {lat: 40.347344, lng: -74.656466},
-                {lat: 40.347354, lng: -74.656471},
-                {lat: 40.347366, lng: -74.656474},
-                {lat: 40.347376, lng: -74.656474},
-                {lat: 40.347381, lng: -74.656472},
-                {lat: 40.347397, lng: -74.656468},
-                {lat: 40.347408, lng: -74.656462},
-                {lat: 40.347420, lng: -74.656451},
-                {lat: 40.347427, lng: -74.656442},
-                {lat: 40.347433, lng: -74.656433},
-                {lat: 40.347438, lng: -74.656421},
-                {lat: 40.347443, lng: -74.656411},
-                {lat: 40.347445, lng: -74.656401},
-                {lat: 40.347447, lng: -74.656386},
-                {lat: 40.347448, lng: -74.656377},
-                {lat: 40.347447, lng: -74.656364},
-                {lat: 40.347445, lng: -74.656348},
-                {lat: 40.347442, lng: -74.656338},
-                {lat: 40.347439, lng: -74.656329},
-                {lat: 40.347433, lng: -74.656315},
-                {lat: 40.347424, lng: -74.656300},
-                {lat: 40.347562, lng: -74.655686},
-                {lat: 40.347610, lng: -74.655667},
-                {lat: 40.347649, lng: -74.655661},
-                {lat: 40.347676, lng: -74.655660},
-                {lat: 40.347715, lng: -74.655661},
-                {lat: 40.347787, lng: -74.655670},
-                {lat: 40.347868, lng: -74.655905},
-                {lat: 40.348240, lng: -74.656050},
-                {lat: 40.348149, lng: -74.656325},
-                {lat: 40.348134, lng: -74.656380},
-                {lat: 40.347552, lng: -74.658796},
-                {lat: 40.347959, lng: -74.658980},
-                {lat: 40.348078, lng: -74.658564},
-                {lat: 40.348563, lng: -74.658762},
-                {lat: 40.348945, lng: -74.658946},
-                {lat: 40.348921, lng: -74.659046},
-                {lat: 40.348931, lng: -74.659056},
-                {lat: 40.348972, lng: -74.659092},
-                {lat: 40.349037, lng: -74.659169},
-                {lat: 40.349076, lng: -74.659237},
-                {lat: 40.349123, lng: -74.659340},
-                {lat: 40.349203, lng: -74.659539},
-                {lat: 40.349503, lng: -74.659356}
-            ]
-var winterCoords = []
-
-var ptonDirs = [
-    "1. Welcome to the Trees of Princeton tour! This tour begins in front of the Maclean House on Nassau Street. Make your way to pin #1 to begin the tour.",
-    "2. The next tree on our tour is located behind Stanhope Hall. Head west on Nassau Street and turn left onto Elm Drive until you reach the building standing behind the Maclean House.",
-    "3. Our next stop is in front of Buyers Hall, which stands to the left of the iconic Blair Arch.",
-    "4. Walk towards the hall on the other side of Blair Arch, Blair Hall. The next tree on our tour stands near the archway to University Place.",
-    "5. The next stop on our tour is Foulke Hall. Head down the steps of Blair Arch and continue south to pin #5.",
-    "6. Continue south to the courtyard between Henry, Foulke, Laughlin, and 1901 Halls and to the next stop, in front of 1901 Hall.",
-    "7. Head east past Dillon Gym to Cuyler Courtyard, located behind Brown Hall for the next stop on the tour.",
-    "8. To continue the tour, head upcampus past the Class of 1975 Walk in Prospect Garden and towards Prospect House. Though our tour doesn't stop in Prospect Garden, feel free to pop in on your way!",
-    "9. Continue towards Prospect House, where the next tree stands directly in front.",
-    "10. Head through the roundabout onto Streiker Walk and into the courtyard in front of Frist Campus Center for the next stop.",
-    "11. Continue upcampus, where the next tree stands at the intersection of McCosh Walk.",
-    "12. Head east on McCosh Walk to the next tree, which stands behind the architecture building on your right.",
-    "13. Keep walking on McCosh Walk to the Whig and Clio halls, marked by twin tiger statues. Walk up the stairs to see the next tree on our tour.",
-    "14. Continue staight through the Whig and Clio halls and turn left. Turning left again on the perimeter of Cannon Green, the next tree is located to your right in front of a cone-like statue.",
-    "15. Head straight to Nassau Hall, where the next tree stands just to the side of the building.",
-    "16. For the last stop on our tour, head towards FitzRandolph Gate, where the last tree looms on the right before you reach the gate.",
-    "Thank you for taking the Trees of Princeton tour! Select another tour above or navigate back to the home page to keep exploring."
-    ]
-var winterDirs = []
-
-var ptonDirCoords = [
-    {lat: 40.347647, lng: -74.659568},
-    {lat: 40.349704, lng: -74.660716},
-    {lat: 40.348754, lng: -74.660330},
-    {lat: 40.347946, lng: -74.660763},
-    {lat: 40.347785, lng: -74.662077},
-    {lat: 40.346995, lng: -74.660794},
-    {lat: 40.346369, lng: -74.659762},
-    {lat: 40.344866, lng: -74.656752},
-    {lat: 40.346197, lng: -74.656427},
-    {lat: 40.348176, lng: -74.656026},
-    {lat: 40.348369, lng: -74.656349},
-    {lat: 40.348660, lng: -74.656327},
-    {lat: 40.349051, lng: -74.658106},
-    {lat: 40.346379, lng: -74.658511},
-    {lat: 40.346975, lng: -74.658761},
-    {lat: 40.347553, lng: -74.658805},
-    {lat: 40.347647, lng: -74.659568}
-]
-var winterDirCoords = []
-
-// Taken from https://www.w3schools.com/js/js_cookies.asp
-function getCookie(key) {
-  var name = key + "=";
-  var decodedCookie = decodeURIComponent(document.cookie);
-  console.log("key is " + key)
-  console.log("cookie is " + decodedCookie)
-  var ca = decodedCookie.split(';');
-  for(var i = 0; i <ca.length; i++) {
-    var c = ca[i];
-    while (c.charAt(0) == ' ') {
-      c = c.substring(1);
-    }
-    if (c.indexOf(name) == 0) {
-      result = c.substring(name.length, c.length)
-      if (result === '"[]"') {
-          return "[]"
-      }
-      return result;
-    }
-  }
-  if (key === 'lastWindInd' || key === 'lastPinInd') {
-      return 0;
-  }
-  return "";
-}
-
-const deleteMarkers = () => {
-    console.log("in delete markers")
-    // loop through markers, setting them to null on the map
-    for (var i = 0; i < markers.length; i++) {
-        markers[i].setMap(null);
-    }
-    console.log("removed " + markers.length + " markers")
-    // set markers to an empty array
-    markers = [];
-}
-
-function handleResponse(response) {
-    console.log("whatever")
-}
-
-const tour = (tourName, isDir = true, lastWindInd = 0, lastPinInd = 0) => {
-    tour_name = tourName;
-    document.cookie = "tour_name=" + tour_name
-
-    if (infowindows.length > 0) {
-        google.maps.event.clearListeners(map, 'closeclick')
-        for (var i = 0; i < infowindows.length; i++) {
-            infowindows[i].close()
+        if ('geolocation' in navigator === false) {
+            return onError(new Error('Sorry, geolocation is not supported by your browser :('));
         }
-    }
-    // remove tour from map if applicable
-    if (lines.length > 0) {
-        lines[0].setMap(null)
-        deleteMarkers()
-        lines = []
-    }
 
-    let url = '/getTourPlants'
-    var coords;
-    var ids;
-    if (tour_name === 'pton') {
-        ids = ptonTreesIds;
-        coords = ptonTreesCoords;
-    }
-    if (tour_name === 'winter') {
-        ids = winterIds;
-        coords = winterCoords;
-    }
+        // Use watchPosition for live updates
+        return navigator.geolocation.watchPosition(onSuccess, onError);
+    };
 
-    $.when(ajaxTour()).done(function(a1){
-        // the code here will be executed when all four ajax requests resolve.
-        // a1, a2, a3 and a4 are lists of length 3 containing the response text,
-        // status, and jqXHR object for each of the four ajax calls respectively.
-        if (tour_name === 'pton') {
-            console.log("starting pton tour")
-            ptonTreesTour(isDir, lastWindInd, lastPinInd);
-        }
-        if (tour_name === 'winter') {
-            console.log("starting winter tour")
-            winterTour(isDir, lastWindInd, lastPinInd);
-        }
-    });
+    // If user allows us to ask for location
+    function requestLocation() {
+        console.log("requesting location")
+        // Make sure panel and use location button are hidden
+        var useLocationPanel = document.getElementById("useLocationPanel");
+        useLocationPanel.classList.add("hidden");
 
-    function ajaxTour() {
-        // NOTE:  This function must return the value 
-        //        from calling the $.ajax() method.
-        return $.ajax({
-            url: url,
-            type: "GET",
-            contentType: "application/json",
-            data: {ids: JSON.stringify(ids)},
-            success: function(data) {
-                console.log(data)
-                deleteMarkers()
-                addMarkers(data.plants)
-                console.log(markers.length)
-                var tourPath = new google.maps.Polyline({
-                    path: coords,
-                    strokeColor: '#0080FF',
-                    strokeWeight: 3
-                });
-                tourPath.setMap(map);
-                lines.push(tourPath)
-                console.log("pushed tour")
+        // Did the user just open the window or give location for the first time?
+        // var initializing = true
+        // console.log("initializing: ", initializing)
+
+        trackLocation({
+            onSuccess: ({ coords: { latitude: lat, longitude: lng } }) => {
+                console.log("successful")
+                locationMarker.setPosition({ lat, lng });
+                // if (initializing == true) {
+                //     map.panTo({ lat, lng });
+                //     initializing = false;
+                // }
+                document.cookie = "geolocation=yes"
+                var useLocationButton = document.getElementById("useLocationButton");
+                useLocationButton.classList.add("hidden");
+            },
+            onError: err => {
+                if (err.code == err.PERMISSION_DENIED) {
+                    var useLocationButton = document.getElementById("useLocationButton");
+                    useLocationButton.classList.add("hidden");
+                    var locationInstructions = document.getElementById("locationInstructions");
+                    locationInstructions.classList.remove("hidden");
+                    console.log(err.message)
+                } else { alert(err.message) }
+                document.cookie = "geolocation=no"
             }
         });
     }
-    
-}
 
-const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
-    console.log("in tour")
-    
-    //while (lastWindInd < ptonDirs.length) {
+    function noLocationRequest() {
+        // Remove panel
+        var useLocationPanel = document.getElementById("useLocationPanel");
+        useLocationPanel.classList.add("hidden");
 
-        var loadWindow = function(){
+        // Display button for user to allow location request
+        var useLocationButton = document.getElementById("useLocationButton");
+        useLocationButton.classList.remove("hidden");
+
+        document.cookie = "geolocation=maybe"
+    }
+
+    // Show instructions for users to give us location permissions after denying them
+    function showInstructions() {
+        console.log("showing instructions")
+        var instructionPanel = document.getElementById("instructionPanel");
+        instructionPanel.classList.remove("hidden");
+    }
+
+    var markers = []
+    var lines = []
+    var tour_name = "";
+    var isDir;
+    var lastWindInd;
+    var lastPinInd;
+
+    var infowindows = []
+
+    var ptonTreesIds = [572, 152, 3389, 3376, 3331, 656, 181, 3260, 3485, 407, 874, 199, 3906, 820, 3467, 793];
+    var winterIds = [];
+
+    var ptonTreesCoords = [
+        { lat: 40.3494921, lng: -74.6602896 },
+        { lat: 40.3494185, lng: -74.6606088 },
+        { lat: 40.3485230, lng: -74.6602369 },
+        { lat: 40.348139, lng: -74.660083 },
+        { lat: 40.348133, lng: -74.660099 },
+        { lat: 40.348116, lng: -74.660107 },
+        { lat: 40.3477529, lng: -74.6606565 },
+        { lat: 40.347691, lng: -74.660620 },
+        { lat: 40.3477529, lng: -74.6606565 },
+        { lat: 40.347837, lng: -74.661163 },
+        { lat: 40.347643, lng: -74.661843 },
+        { lat: 40.347837, lng: -74.661163 },
+        { lat: 40.347715, lng: -74.660989 },
+        { lat: 40.347665, lng: -74.660869 },
+        { lat: 40.347368, lng: -74.661023 },
+        { lat: 40.347350, lng: -74.661001 },
+        { lat: 40.347327, lng: -74.660981 },
+        { lat: 40.346989, lng: -74.660790 },
+        { lat: 40.346740, lng: -74.660867 },
+        { lat: 40.346718, lng: -74.660780 },
+        { lat: 40.346692, lng: -74.660676 },
+        { lat: 40.345487, lng: -74.660211 },
+        { lat: 40.345530, lng: -74.660025 },
+        { lat: 40.345554, lng: -74.659973 },
+        { lat: 40.345921, lng: -74.659383 },
+        { lat: 40.345963, lng: -74.659328 },
+        { lat: 40.346004, lng: -74.659304 },
+        { lat: 40.346035, lng: -74.659306 },
+        { lat: 40.346095, lng: -74.659315 },
+        { lat: 40.346112, lng: -74.659321 },
+        { lat: 40.346128, lng: -74.659321 },
+        { lat: 40.346141, lng: -74.659318 },
+        { lat: 40.346376, lng: -74.659252 },
+        { lat: 40.346469, lng: -74.658849 },
+        { lat: 40.346433, lng: -74.658783 },
+        { lat: 40.346390, lng: -74.658768 },
+        { lat: 40.346383, lng: -74.658707 },
+        { lat: 40.346084, lng: -74.658347 },
+        { lat: 40.346059, lng: -74.658293 },
+        { lat: 40.346049, lng: -74.658250 },
+        { lat: 40.346045, lng: -74.658206 },
+        { lat: 40.346045, lng: -74.658153 },
+        { lat: 40.346053, lng: -74.658114 },
+        { lat: 40.346224, lng: -74.657457 },
+        { lat: 40.346347, lng: -74.657510 },
+        { lat: 40.346690, lng: -74.657401 },
+        { lat: 40.346719, lng: -74.657286 },
+        { lat: 40.346882, lng: -74.657320 },
+        { lat: 40.346996, lng: -74.657282 },
+        { lat: 40.347193, lng: -74.657156 },
+        { lat: 40.347240, lng: -74.657078 },
+        { lat: 40.347236, lng: -74.657062 },
+        { lat: 40.347230, lng: -74.657037 },
+        { lat: 40.347230, lng: -74.657014 },
+        { lat: 40.347232, lng: -74.656997 },
+        { lat: 40.347330, lng: -74.656457 },
+        { lat: 40.347337, lng: -74.656462 },
+        { lat: 40.347344, lng: -74.656466 },
+        { lat: 40.347354, lng: -74.656471 },
+        { lat: 40.347366, lng: -74.656474 },
+        { lat: 40.347376, lng: -74.656474 },
+        { lat: 40.347381, lng: -74.656472 },
+        { lat: 40.347397, lng: -74.656468 },
+        { lat: 40.347408, lng: -74.656462 },
+        { lat: 40.347420, lng: -74.656451 },
+        { lat: 40.347427, lng: -74.656442 },
+        { lat: 40.347433, lng: -74.656433 },
+        { lat: 40.347438, lng: -74.656421 },
+        { lat: 40.347443, lng: -74.656411 },
+        { lat: 40.347445, lng: -74.656401 },
+        { lat: 40.347447, lng: -74.656386 },
+        { lat: 40.347448, lng: -74.656377 },
+        { lat: 40.347447, lng: -74.656364 },
+        { lat: 40.347445, lng: -74.656348 },
+        { lat: 40.347442, lng: -74.656338 },
+        { lat: 40.347439, lng: -74.656329 },
+        { lat: 40.347433, lng: -74.656315 },
+        { lat: 40.347424, lng: -74.656300 },
+        { lat: 40.347562, lng: -74.655686 },
+        { lat: 40.347610, lng: -74.655667 },
+        { lat: 40.347649, lng: -74.655661 },
+        { lat: 40.347676, lng: -74.655660 },
+        { lat: 40.347715, lng: -74.655661 },
+        { lat: 40.347787, lng: -74.655670 },
+        { lat: 40.347868, lng: -74.655905 },
+        { lat: 40.348240, lng: -74.656050 },
+        { lat: 40.348149, lng: -74.656325 },
+        { lat: 40.348134, lng: -74.656380 },
+        { lat: 40.347552, lng: -74.658796 },
+        { lat: 40.347959, lng: -74.658980 },
+        { lat: 40.348078, lng: -74.658564 },
+        { lat: 40.348563, lng: -74.658762 },
+        { lat: 40.348945, lng: -74.658946 },
+        { lat: 40.348921, lng: -74.659046 },
+        { lat: 40.348931, lng: -74.659056 },
+        { lat: 40.348972, lng: -74.659092 },
+        { lat: 40.349037, lng: -74.659169 },
+        { lat: 40.349076, lng: -74.659237 },
+        { lat: 40.349123, lng: -74.659340 },
+        { lat: 40.349203, lng: -74.659539 },
+        { lat: 40.349503, lng: -74.659356 }
+    ]
+    var winterCoords = []
+
+    var ptonDirs = [
+        "1. Welcome to the Trees of Princeton tour! This tour begins in front of the Maclean House on Nassau Street. Make your way to pin #1 to begin the tour.",
+        "2. The next tree on our tour is located behind Stanhope Hall. Head west on Nassau Street and turn left onto Elm Drive until you reach the building standing behind the Maclean House.",
+        "3. Our next stop is in front of Buyers Hall, which stands to the left of the iconic Blair Arch.",
+        "4. Walk towards the hall on the other side of Blair Arch, Blair Hall. The next tree on our tour stands near the archway to University Place.",
+        "5. The next stop on our tour is Foulke Hall. Head down the steps of Blair Arch and continue south to pin #5.",
+        "6. Continue south to the courtyard between Henry, Foulke, Laughlin, and 1901 Halls and to the next stop, in front of 1901 Hall.",
+        "7. Head east past Dillon Gym to Cuyler Courtyard, located behind Brown Hall for the next stop on the tour.",
+        "8. To continue the tour, head upcampus past the Class of 1975 Walk in Prospect Garden and towards Prospect House. Though our tour doesn't stop in Prospect Garden, feel free to pop in on your way!",
+        "9. Continue towards Prospect House, where the next tree stands directly in front.",
+        "10. Head through the roundabout onto Streiker Walk and into the courtyard in front of Frist Campus Center for the next stop.",
+        "11. Continue upcampus, where the next tree stands at the intersection of McCosh Walk.",
+        "12. Head east on McCosh Walk to the next tree, which stands behind the architecture building on your right.",
+        "13. Keep walking on McCosh Walk to the Whig and Clio halls, marked by twin tiger statues. Walk up the stairs to see the next tree on our tour.",
+        "14. Continue staight through the Whig and Clio halls and turn left. Turning left again on the perimeter of Cannon Green, the next tree is located to your right in front of a cone-like statue.",
+        "15. Head straight to Nassau Hall, where the next tree stands just to the side of the building.",
+        "16. For the last stop on our tour, head towards FitzRandolph Gate, where the last tree looms on the right before you reach the gate.",
+        "Thank you for taking the Trees of Princeton tour! Select another tour above or navigate back to the home page to keep exploring."
+    ]
+    var winterDirs = []
+
+    var ptonDirCoords = [
+        { lat: 40.347647, lng: -74.659568 },
+        { lat: 40.349704, lng: -74.660716 },
+        { lat: 40.348754, lng: -74.660330 },
+        { lat: 40.347946, lng: -74.660763 },
+        { lat: 40.347785, lng: -74.662077 },
+        { lat: 40.346995, lng: -74.660794 },
+        { lat: 40.346369, lng: -74.659762 },
+        { lat: 40.344866, lng: -74.656752 },
+        { lat: 40.346197, lng: -74.656427 },
+        { lat: 40.348176, lng: -74.656026 },
+        { lat: 40.348369, lng: -74.656349 },
+        { lat: 40.348660, lng: -74.656327 },
+        { lat: 40.349051, lng: -74.658106 },
+        { lat: 40.346379, lng: -74.658511 },
+        { lat: 40.346975, lng: -74.658761 },
+        { lat: 40.347553, lng: -74.658805 },
+        { lat: 40.347647, lng: -74.659568 }
+    ]
+    var winterDirCoords = []
+
+    // Taken from https://www.w3schools.com/js/js_cookies.asp
+    function getCookie(key) {
+        var name = key + "=";
+        var decodedCookie = decodeURIComponent(document.cookie);
+        console.log("key is " + key)
+        console.log("cookie is " + decodedCookie)
+        var ca = decodedCookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                result = c.substring(name.length, c.length)
+                if (result === '"[]"') {
+                    return "[]"
+                }
+                return result;
+            }
+        }
+        if (key === 'lastWindInd' || key === 'lastPinInd') {
+            return 0;
+        }
+        return "";
+    }
+
+    const deleteMarkers = () => {
+        console.log("in delete markers")
+        // loop through markers, setting them to null on the map
+        for (var i = 0; i < markers.length; i++) {
+            markers[i].setMap(null);
+        }
+        console.log("removed " + markers.length + " markers")
+        // set markers to an empty array
+        markers = [];
+    }
+
+    function handleResponse(response) {
+        console.log("whatever")
+    }
+
+    const tour = (tourName, isDir = true, lastWindInd = 0, lastPinInd = 0) => {
+        tour_name = tourName;
+        document.cookie = "tour_name=" + tour_name
+
+        if (infowindows.length > 0) {
+            google.maps.event.clearListeners(map, 'closeclick')
+            for (var i = 0; i < infowindows.length; i++) {
+                infowindows[i].close()
+            }
+        }
+        // remove tour from map if applicable
+        if (lines.length > 0) {
+            lines[0].setMap(null)
+            deleteMarkers()
+            lines = []
+        }
+
+        let url = '/getTourPlants'
+        var coords;
+        var ids;
+        if (tour_name === 'pton') {
+            ids = ptonTreesIds;
+            coords = ptonTreesCoords;
+        }
+        if (tour_name === 'winter') {
+            ids = winterIds;
+            coords = winterCoords;
+        }
+
+        $.when(ajaxTour()).done(function (a1) {
+            // the code here will be executed when all four ajax requests resolve.
+            // a1, a2, a3 and a4 are lists of length 3 containing the response text,
+            // status, and jqXHR object for each of the four ajax calls respectively.
+            if (tour_name === 'pton') {
+                console.log("starting pton tour")
+                ptonTreesTour(isDir, lastWindInd, lastPinInd);
+            }
+            if (tour_name === 'winter') {
+                console.log("starting winter tour")
+                winterTour(isDir, lastWindInd, lastPinInd);
+            }
+        });
+
+        function ajaxTour() {
+            // NOTE:  This function must return the value 
+            //        from calling the $.ajax() method.
+            return $.ajax({
+                url: url,
+                type: "GET",
+                contentType: "application/json",
+                data: { ids: JSON.stringify(ids) },
+                success: function (data) {
+                    console.log(data)
+                    deleteMarkers()
+                    addMarkers(data.plants)
+                    console.log(markers.length)
+                    var tourPath = new google.maps.Polyline({
+                        path: coords,
+                        strokeColor: '#0080FF',
+                        strokeWeight: 3
+                    });
+                    tourPath.setMap(map);
+                    lines.push(tourPath)
+                    console.log("pushed tour")
+                }
+            });
+        }
+
+    }
+
+    const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
+        console.log("in tour")
+
+        //while (lastWindInd < ptonDirs.length) {
+
+        var loadWindow = function () {
             if (isDir) {
 
                 console.log("direction")
 
-                var contentString = '<div id="content">'+
-                    '<div id="siteNotice">'+
-                    '</div>'+
+                var contentString = '<div id="content">' +
+                    '<div id="siteNotice">' +
+                    '</div>' +
                     '<h4>' +
                     ptonDirs[lastWindInd] +
-                    '</h4>' + 
+                    '</h4>' +
                     '<div id="bodyContent">' +
                     '<p>Close out of this window to continue the tour!</p>' +
                     '</div>' +
@@ -313,30 +379,30 @@ const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
                 console.log("pin")
                 var marker = markers[lastPinInd - 1]
 
-                var contentString = '<div id="content">'+
-                    '<div id="siteNotice">'+
-                    '</div>'+
-                    '<h1 id="firstHeading" class="firstHeading">'+
-                    marker.getTitle()+
-                    '</h1>'+
-                    '<div id="bodyContent">'+
-                    '<p><h5><a href=tourdetails?common_name='+
-                    encodeURIComponent(marker.getTitle().trim())+
-                    '&tour_name='+
-                    encodeURIComponent(tour_name.trim())+
-                    '>'+
-                    'Click here to learn about this tree</a></h5></p>'+
+                var contentString = '<div id="content">' +
+                    '<div id="siteNotice">' +
+                    '</div>' +
+                    '<h1 id="firstHeading" class="firstHeading">' +
+                    marker.getTitle() +
+                    '</h1>' +
+                    '<div id="bodyContent">' +
+                    '<p><h5><a href=tourdetails?common_name=' +
+                    encodeURIComponent(marker.getTitle().trim()) +
+                    '&tour_name=' +
+                    encodeURIComponent(tour_name.trim()) +
+                    '>' +
+                    'Click here to learn about this tree</a></h5></p>' +
                     '<p>Close out of this window to continue the tour!</p>'
-                    '</div>'+
+                '</div>' +
                     '</div>';
             }
             var infowindow = new google.maps.InfoWindow({
                 content: contentString
             });
 
-            google.maps.event.addListener(infowindow, 'closeclick', function() {  
-               finishUp()
-            }); 
+            google.maps.event.addListener(infowindow, 'closeclick', function () {
+                finishUp()
+            });
 
             if (isDir) {
                 infowindow.setPosition(ptonDirCoords[lastWindInd])
@@ -361,7 +427,7 @@ const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
 
         }
 
-        var finishUp = function(){
+        var finishUp = function () {
             if (isDir) {
                 lastWindInd++
                 document.cookie = "lastWindInd=" + lastWindInd;
@@ -377,118 +443,131 @@ const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
         }
 
         loadWindow()
-    
-}
 
-const addMarkers = (plants) => {
-    console.log("received " + plants.length + " plants")
-    // place plants 
-    var infowindow = new google.maps.InfoWindow();
-    var contentString;
-    for (var i = 0; i < plants.length; i++) {
-        // console.log(plants[i])
-        var lat = parseFloat(plants[i].lat);
-        // console.log("lat: ", lat)
-        // console.log("lng: ", lng)
-        var lng = parseFloat(plants[i].lng);
-        var title = plants[i].title;
-        var titleURL = encodeURIComponent(title.trim());
-        // console.log("title: " + title)
-        // console.log(i, lat, lng);
-        // console.log(titleURL)
-        // console.log(plants[i].title)
+    }
 
-        var marker = new google.maps.Marker({
+    const addMarkers = (plants) => {
+        console.log("received " + plants.length + " plants")
+        // place plants 
+        var infowindow = new google.maps.InfoWindow();
+        var contentString;
+        for (var i = 0; i < plants.length; i++) {
+            // console.log(plants[i])
+            var lat = parseFloat(plants[i].lat);
+            // console.log("lat: ", lat)
+            // console.log("lng: ", lng)
+            var lng = parseFloat(plants[i].lng);
+            var title = plants[i].title;
+            var titleURL = encodeURIComponent(title.trim());
+            // console.log("title: " + title)
+            // console.log(i, lat, lng);
+            // console.log(titleURL)
+            // console.log(plants[i].title)
+
+            var marker = new google.maps.Marker({
+                map: map,
+                position: {
+                    lat: lat,
+                    lng: lng
+                },
+                title: title,
+                label: (i + 1).toString(),
+                clickable: true
+            });
+
+            // add marker to array
+            markers.push(marker)
+
+            google.maps.event.addListener(marker, 'click', (function (marker, i) {
+                return function () {
+
+                    contentString = '<div id="content">' +
+                        '<div id="siteNotice">' +
+                        '</div>' +
+                        '<h1 id="firstHeading" class="firstHeading">' +
+                        plants[i].title +
+                        '</h1>' +
+                        '<div id="bodyContent">' +
+                        '<p><h5><a href=tourdetails?common_name=' +
+                        encodeURIComponent(plants[i].title.trim()) +
+                        '&tour_name=' +
+                        encodeURIComponent(tour_name.trim()) +
+                        '>' +
+                        'Learn about this tree</a></h5></p>' +
+                        '<p>Close out of this window when you\'re ready to move on!</p>'
+                    '</div>' +
+                        '</div>';
+
+                    infowindow.setContent(contentString);
+                    infowindow.open(map, marker);
+
+                }
+            })(marker, i));
+        }
+        console.log("added " + markers.length + " markers")
+    }
+
+    function initMap() {
+        console.log("initializing map")
+        // console.log('{{plants | safe}}')
+        // plants = '{{plants | safe}}'
+        // console.log("plants in init: ", plants)
+        // plants = JSON.parse(plants)
+
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: { lat: 40.3471, lng: -74.6566 },
+            zoom: 17
+        });
+        locationMarker = new google.maps.Marker({
             map: map,
-            position: {
-                lat: lat,
-                lng: lng
-            },
-            title: title,
-            label: (i + 1).toString(),
-            clickable: true
+            icon: {
+                //   url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
+                url: "/static/my_location.svg"
+            }
         });
 
-        // add marker to array
-        markers.push(marker)
+        // Call trackLocation
+        // From https://medium.com/risan/track-users-location-and-display-it-on-google-maps-41d1f850786e
+        // trackLocation({
+        //     onSuccess: ({ coords: { latitude: lat, longitude: lng } }) => {
+        //         locationMarker.setPosition({ lat, lng });
+        //         map.panTo({ lat, lng });
+        //     },
+        //     onError: err =>
+        //         alert(`Error: Failed to obtain location`)
+        // });
 
-        google.maps.event.addListener(marker, 'click', (function(marker, i) {
-            return function() {
+        var geoCookie = getCookie("geolocation");
 
-                contentString = '<div id="content">'+
-                '<div id="siteNotice">'+
-                '</div>'+
-                '<h1 id="firstHeading" class="firstHeading">'+
-                plants[i].title+
-                '</h1>'+
-                '<div id="bodyContent">'+
-                '<p><h5><a href=tourdetails?common_name='+
-                encodeURIComponent(plants[i].title.trim())+
-                '&tour_name='+
-                encodeURIComponent(tour_name.trim())+
-                '>'+
-                'Learn about this tree</a></h5></p>'+
-                '<p>Close out of this window when you\'re ready to move on!</p>'
-                '</div>'+
-                '</div>';
-            
-                infowindow.setContent(contentString);
-                infowindow.open(map, marker);
-
-            }
-        })(marker, i));
-    }
-    console.log("added " + markers.length + " markers")
-}
-  
-function initMap() {
-    console.log("initializing map")
-    // console.log('{{plants | safe}}')
-    // plants = '{{plants | safe}}'
-    // console.log("plants in init: ", plants)
-    // plants = JSON.parse(plants)
-
-    map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: 40.3471, lng: -74.6566},
-        zoom: 17
-    });
-    locationMarker = new google.maps.Marker({
-        map: map,
-        icon: {
-        //   url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
-        url: "/static/my_location.svg"
+        // Different options based on geolocation status
+        if (geoCookie == "") {  // Show greeting panel if user hasn't made any decisions about geolocation
+            var useLocationPanel = document.getElementById("useLocationPanel");
+            useLocationPanel.classList.remove("hidden");
+        } else if (geoCookie == "maybe") {  // Show button that asks for permissio if user didn't let us ask before
+            var useLocationButton = document.getElementById("useLocationButton");
+            useLocationButton.classList.remove("hidden");
+        } else {    // Otherwise always request geolocation
+            requestLocation()
         }
-    });
-  
-      // Call trackLocation
-      // From https://medium.com/risan/track-users-location-and-display-it-on-google-maps-41d1f850786e
-    trackLocation({
-        onSuccess: ({ coords: { latitude: lat, longitude: lng } }) => {
-            locationMarker.setPosition({ lat, lng });
-            map.panTo({ lat, lng });
-        },
-        onError: err =>
-            alert(`Error: Failed to obtain location`)
-    });
 
-    tour_name = getCookie("tour_name")
-    isDir = getCookie("isDir")
-    if (isDir === "") {
-        isDir = "true"
+        tour_name = getCookie("tour_name")
+        isDir = getCookie("isDir")
+        if (isDir === "") {
+            isDir = "true"
+        }
+        lastWindInd = parseInt(getCookie("lastWindInd"))
+        lastPinInd = parseInt(getCookie("lastPinInd"))
+        console.log(tour_name)
+        console.log(isDir)
+        console.log(lastWindInd)
+        console.log(lastPinInd)
+
+        if (tour_name !== "") {
+            tour(tour_name, isDir, lastWindInd, lastPinInd)
+        }
+
     }
-    lastWindInd = parseInt(getCookie("lastWindInd"))
-    lastPinInd = parseInt(getCookie("lastPinInd"))
-    console.log(tour_name)
-    console.log(isDir)
-    console.log(lastWindInd)
-    console.log(lastPinInd)
-
-    if (tour_name !== "") {
-        tour(tour_name, isDir, lastWindInd, lastPinInd)
-    }
-
-}
 </script>
 <script async defer
-src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDgPsCmJi55tXonvondJH9BCh7AOvDg3-8&callback=initMap">
-</script>
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDgPsCmJi55tXonvondJH9BCh7AOvDg3-8&callback=initMap">
+    </script>
