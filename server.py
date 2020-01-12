@@ -216,7 +216,9 @@ def catalogSearch():
             html += "<br>"
             html += '<a href="plantdetails?common_name=' + species_info.getEncodedCommonName() + '">' + species_info.getCommonName() + '</a>'
             html += '<br>'
+            html += '<a href="plantdetails?common_name=' + species_info.getEncodedCommonName() + '">'
             html += '<img src="/static/images/' + species_info.getImg() + '" alt="test" width = "150">'
+            html += '</a>'
             html += '<br>'
 
     response = make_response(html)
