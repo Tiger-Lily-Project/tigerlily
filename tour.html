@@ -24,16 +24,18 @@
       .row.content {height: auto;} 
     }
 
-    html, body{
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
     }
-    
-    #map{
-    position: relative; 
-    height: 600px;
+
+    #map {
+      position: relative;
+      height: 100%;
     }
   </style>
 </head>
@@ -62,8 +64,8 @@
   </div>
 </nav>
 
-<div class="container-fluid">
-  <div class="row content">
+<div class="container-fluid" style="height: 90%;">
+  <div class="row content" style="height: 100%">
     <div class="col-sm-3 sidenav hidden-xs">
       <br>
       <a href="/index"> <img src="/static/logo_with_text_actual.png" height="50" class="d-inline-block align-top" alt="Princeton Plants"></a>
@@ -75,8 +77,7 @@
         <li><a href="/about">About Us</a></li>
       </ul><br>
     </div>
-    <div class="col-sm-9">
-      <br>
+    <div class="col-sm-9" style="height: 90%">
         <h4>Select a tour to get started:</h4>
         <button type="button" class="btn btn-primary" onclick="javascript:tour('pton')">Trees of Princeton</button></a>
         <!--<button type="button" class="btn btn-primary" onclick="javascript:tour('winter')">Winter Trees</button></a>-->
