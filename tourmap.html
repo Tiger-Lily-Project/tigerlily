@@ -414,8 +414,8 @@
         });
 
         google.maps.event.addListener(infowindow, 'closeclick', function () {
-                infowindow.open()
-            });
+            infowindow.open(map, infowindow.getPosition())
+        });
 
         infowindows.push(infowindow)
 
