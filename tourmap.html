@@ -375,7 +375,7 @@
         }
         infowindows = []
 
-        if (isDir === "true") {
+        if (isDir) {
 
             console.log("direction")
 
@@ -529,7 +529,7 @@
         tour_name = getCookie("tour_name")
         isDir = getCookie("isDir")
         if (isDir === "") {
-            isDir = "true"
+            isDir = true
         }
         lastWindInd = parseInt(getCookie("lastWindInd"))
         lastPinInd = parseInt(getCookie("lastPinInd"))
