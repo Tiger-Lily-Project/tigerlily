@@ -369,6 +369,12 @@
         console.log(isDir)
         console.log(lastWindInd)
         console.log(lastPinInd)
+
+        for (var i = 0; i < infowindows.length; i++) {
+            infowindows[i].close()
+        }
+        infowindows = []
+
         if (isDir) {
 
             console.log("direction")
@@ -380,7 +386,7 @@
                 ptonDirs[lastWindInd] +
                 '</h4>' +
                 '<div id="bodyContent">' +
-                '<button color="blue" onclick="finishUp()">Close out of this window to continue the tour!</button>' +
+                '<button color="blue" onclick="finishUp()">Next</button>' +
                 '</div>' +
                 '</div>';
         }
@@ -401,7 +407,7 @@
                 encodeURIComponent(tour_name.trim()) +
                 '>' +
                 'Click here to learn about this tree</a></h5></p>' +
-                '<button color="blue" onclick="finishUp()">Close out of this window to continue the tour!</button>'
+                '<button color="blue" onclick="finishUp()">Next</button>'
             '</div>' +
                 '</div>';
         }
