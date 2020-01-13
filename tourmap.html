@@ -410,28 +410,30 @@
         }
 
         if (!sawIntro) {
-            while (introCounter < tourIntro.length) {
-                console.log("intro")
-                var contentString = '<div id="content">' +
-                '<div id="siteNotice">' +
-                '</div>' +
-                '<h4>' +
-                tourIntro[introCounter] +
-                '</h4>' +
-                '<div id="bodyContent">' +
-                '<button color="blue" onclick="finishUp()"><b>Continue</b></button>' +
-                '</div>' +
-                '</div>';
+            console.log("intro")
+            var contentString = '<div id="content">' +
+            '<div id="siteNotice">' +
+            '</div>' +
+            '<h4>' +
+            tourIntro[introCounter] +
+            '</h4>' +
+            '<div id="bodyContent">' +
+            '<button color="blue" onclick="finishUp()"><b>Continue</b></button>' +
+            '</div>' +
+            '</div>';
 
-                var infowindow = new google.maps.InfoWindow({
-                    content: contentString
-                }); 
+            var infowindow = new google.maps.InfoWindow({
+                content: contentString
+            }); 
 
-                infowindows.push(infowindow)
-                console.log("iw length " + infowindows.length)
+            infowindows.push(infowindow)
+            console.log("iw length " + infowindows.length)
 
-                infowindow.setPosition(ptonDirCoords[0])
-                infowindow.open(map)
+            infowindow.setPosition(ptonDirCoords[0])
+            infowindow.open(map)
+
+            if (introCounter == tourIntro.length - 1) {
+                sawIntro = true
             }
         }
 
