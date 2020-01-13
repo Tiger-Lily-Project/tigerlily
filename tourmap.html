@@ -338,16 +338,20 @@
                 data: { ids: JSON.stringify(ids) },
                 success: function (data) {
                     console.log(data)
-                    deleteMarkers()
-                    addMarkers(data.plants)
+                    if (markers.length == 0){
+                        deleteMarkers()
+                        addMarkers(data.plants)
+                    }
                     console.log(markers.length)
                     var tourPath = new google.maps.Polyline({
                         path: coords,
                         strokeColor: '#0080FF',
                         strokeWeight: 3
                     });
-                    tourPath.setMap(map);
-                    lines.push(tourPath)
+                    if (lines.length == 0) {
+                        tourPath.setMap(map);
+                        lines.push(tourPath)
+                    }
                     console.log("pushed tour")
                 }
             });
