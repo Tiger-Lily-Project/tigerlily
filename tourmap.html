@@ -398,7 +398,9 @@
                 lastPinInd++
                 document.cookie = "lastPinInd=" + lastPinInd;
             }
-            infowindows[0].close()
+            for (var i = 0; i < infowindows.length; i++) {
+                infowindows[i].close()
+            }
             infowindows = []
             isDir = !isDir;
             document.cookie = "isDir=" + isDir;
@@ -408,6 +410,9 @@
         }
 
     var loadWindow = function () {
+        console.log(isDir)
+        console.log(lastWindInd)
+        console.log(lastPinInd)
         if (isDir) {
 
             console.log("direction")
