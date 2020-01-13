@@ -93,6 +93,8 @@
     var lastWindInd;
     var lastPinInd;
     var sawIntro;
+    var introCounter = 0;
+    var skipped = 0;
 
     var infowindows = []
 
@@ -203,14 +205,15 @@
     ]
 
     var tourIntro = [
-        "Welcome to the Trees of Princeton tour! To navigate the tour, you will be using the 'continue' button at the bottom of the window. Click continue now to proceed.",
-        "To stop the tour at any time, click the small x in the top right corner of the window. To resume the tour where you left off, press 'Resume Tour' in the top left corner of the page'. Click continue to proceed.",
-        "To restart the tour from the beginning, press 'Restart Tour' in the top right corner of the page. Click continue to proceed.",
-        "Your tour progress will be saved while you are on the guided tour page. Navigating to another page (such as the catalog, main map, or about page) will cause you to lose your progress. Click continue to proceed."
+        "1/5. Welcome to the Trees of Princeton tour! You are seeing these instructions because this is your first time using the tour and we recommend you read them for the best possible experience.<br><br>Click 'continue' for the next instruction or 'skip' to start the tour.",
+        "2/5. To navigate through the tour, you will be using the 'continue' button at the bottom of the window.<br><br>Click 'continue' for the next instruction or 'skip' to start the tour.",
+        "3/5. To stop the tour at any time, click the small x in the top right corner of the window. To resume the tour where you left off, press 'Resume Tour' at the top of the page.<br><br>Click 'continue' for the next instruction or 'skip' to start the tour.",
+        "4/5. To restart the tour from the beginning, press 'Restart Tour' at the top of the page.<br><br>Click 'continue' for the next instruction or 'skip' to start the tour.",
+        "5/5. Your tour progress will be saved while you are on the guided tour page. Navigating to another page (such as the catalog, main map, or about page) will cause you to lose your progress.<br><br>Click continue to start the tour."    
     ]
 
     var ptonDirs = [
-        "1. Welcome to the Trees of Princeton tour! This tour begins in front of the Maclean House on Nassau Street. Make your way to pin #1 to begin the tour.",
+        "1. Welcome to the start of the tour! This tour begins in front of the Maclean House on Nassau Street. Make your way to pin #1 to begin the tour.",
         "2. The next tree on our tour is located behind Stanhope Hall. Head west on Nassau Street and turn left onto Elm Drive until you reach the building standing behind the Maclean House.",
         "3. Our next stop is in front of Buyers Hall, which stands to the left of the iconic Blair Arch.",
         "4. Walk towards the hall on the other side of Blair Arch, Blair Hall. The next tree on our tour stands near the archway to University Place.",
@@ -290,13 +293,14 @@
         console.log("whatever")
     }
 
-    const tour = (tourName, isDirTemp = true, lastWindIndTemp = 0, lastPinIndTemp = 0, sawIntro = true) => {
+    const tour = (tourName, isDirTemp = true, lastWindIndTemp = 0, lastPinIndTemp = 0, sawIntroTemp = true) => {
         console.log(lastWindIndTemp)
         console.log(lastPinIndTemp)
         tour_name = tourName;
         isDir = isDirTemp
         lastWindInd = lastWindIndTemp
         lastPinInd = lastPinIndTemp
+        sawIntro = sawIntroTemp
         document.cookie = "tour_name=" + tour_name
 
         if (infowindows.length > 0) {
@@ -304,12 +308,6 @@
             for (var i = 0; i < infowindows.length; i++) {
                 infowindows[i].close()
             }
-        }
-        // remove tour from map if applicable
-        if (lines.length > 0) {
-            lines[0].setMap(null)
-            deleteMarkers()
-            lines = []
         }
 
         let url = '/getTourPlants'
@@ -340,16 +338,20 @@
                 data: { ids: JSON.stringify(ids) },
                 success: function (data) {
                     console.log(data)
-                    deleteMarkers()
-                    addMarkers(data.plants)
+                    if (markers.length == 0){
+                        deleteMarkers()
+                        addMarkers(data.plants)
+                    }
                     console.log(markers.length)
                     var tourPath = new google.maps.Polyline({
                         path: coords,
                         strokeColor: '#0080FF',
                         strokeWeight: 3
                     });
-                    tourPath.setMap(map);
-                    lines.push(tourPath)
+                    if (lines.length == 0) {
+                        tourPath.setMap(map);
+                        lines.push(tourPath)
+                    }
                     console.log("pushed tour")
                 }
             });
@@ -359,20 +361,29 @@
 
     var finishUp = function () {
         console.log("im finishing up")
-            if (isDir) {
-                lastWindInd++
-                document.cookie = "lastWindInd=" + lastWindInd;
-                lastPinInd++
-                document.cookie = "lastPinInd=" + lastPinInd;
+            if (!sawIntro) {
+                introCounter++;
+                if (introCounter == tourIntro.length || skipped == 1) {
+                    sawIntro = true
+                    document.cookie = "saw_intro=" + sawIntro;
+                }
             }
-            console.log("iw length finishing" + infowindows.length)
-            for (var i = 0; i < infowindows.length; i++) {
-                infowindows[i].close()
+            else {
+                if (isDir) {
+                    lastWindInd++
+                    document.cookie = "lastWindInd=" + lastWindInd;
+                    lastPinInd++
+                    document.cookie = "lastPinInd=" + lastPinInd;
+                }
+                console.log("iw length finishing" + infowindows.length)
+                for (var i = 0; i < infowindows.length; i++) {
+                    infowindows[i].close()
+                }
+                infowindows = []
+                console.log("iw length cleared" + infowindows.length)
+                isDir = !isDir;
+                document.cookie = "isDir=" + isDir;
             }
-            infowindows = []
-            console.log("iw length cleared" + infowindows.length)
-            isDir = !isDir;
-            document.cookie = "isDir=" + isDir;
             if (tour_name != "") {
                 loadWindow()
             }
@@ -395,7 +406,42 @@
             isDir = true
         }
 
-        if (isDir) {
+        if (sawIntro === "false") {
+            sawIntro = false
+        }
+        if (sawIntro === "true") {
+            sawIntro = true
+        }
+
+        if (!sawIntro) {
+            console.log("intro")
+            var contentString = '<div id="content">' +
+            '<div id="siteNotice">' +
+            '</div>' +
+            '<h4>' +
+            tourIntro[introCounter] +
+            '</h4>' +
+            '<div id="bodyContent">' +
+            '<button color="blue" onclick="finishUp()"><b>Continue</b></button>';
+            
+            if (introCounter != tourIntro.length - 1) {
+                contentString += '<button color="blue" onclick=\'skipped=1; finishUp()\'><b>Skip</b></button>'
+            }
+
+            contentString += '</div>' + '</div>';
+
+            var infowindow = new google.maps.InfoWindow({
+                content: contentString
+            }); 
+
+            infowindows.push(infowindow)
+            console.log("iw length " + infowindows.length)
+
+            infowindow.setPosition(ptonDirCoords[0])
+            infowindow.open(map)
+        }
+        else {
+            if (isDir) {
 
             console.log("direction")
 
@@ -409,53 +455,55 @@
                 '<button color="blue" onclick="finishUp()"><b>Continue</b></button>' +
                 '</div>' +
                 '</div>';
-        }
-        else {
-            console.log("pin")
-            var marker = markers[lastPinInd - 1]
-
-            var contentString = '<div id="content">' +
-                '<div id="siteNotice">' +
-                '</div>' +
-                '<h1 id="firstHeading" class="firstHeading">' +
-                marker.getTitle() +
-                '</h1>' +
-                '<div id="bodyContent">' +
-                '<p><h5><a href=tourdetails?common_name=' +
-                encodeURIComponent(marker.getTitle().trim()) +
-                '&tour_name=' +
-                encodeURIComponent(tour_name.trim()) +
-                '>' +
-                'Click here to learn about this tree</a></h5></p>' +
-                '<button color="blue" onclick="finishUp()"><b>Continue</b></button>'
-            '</div>' +
-                '</div>';
-        }
-        var infowindow = new google.maps.InfoWindow({
-            content: contentString
-        }); 
-
-        infowindows.push(infowindow)
-        console.log("iw length " + infowindows.length)
-
-        if (isDir) {
-            infowindow.setPosition(ptonDirCoords[lastWindInd])
-            infowindow.open(map)
-            if (lastWindInd == markers.length) {
-                tour_name = ""
-                document.cookie = "tour_name=" + tour_name;
-                isDir = true;
-                document.cookie = "isDir=" + isDir;
-                lastWindInd = 0;
-                document.cookie = "lastWindInd=" + lastWindInd;
-                lastPinInd = 0;
-                document.cookie = "lastPinInd=" + lastPinInd;
-                lines[0].setMap(null)
-                deleteMarkers()
-                lines = []
             }
-        } else {
-            infowindow.open(map, marker)
+            else {
+                console.log("pin")
+                var marker = markers[lastPinInd - 1]
+
+                var contentString = '<div id="content">' +
+                    '<div id="siteNotice">' +
+                    '</div>' +
+                    '<h1 id="firstHeading" class="firstHeading">' +
+                    marker.getTitle() +
+                    '</h1>' +
+                    '<div id="bodyContent">' +
+                    '<p><h5><a href=tourdetails?common_name=' +
+                    encodeURIComponent(marker.getTitle().trim()) +
+                    '&tour_name=' +
+                    encodeURIComponent(tour_name.trim()) +
+                    '>' +
+                    'Click here to learn about this tree</a></h5></p>' +
+                    '<button color="blue" onclick="finishUp()"><b>Continue</b></button>'
+                '</div>' + 
+                    '</div>';
+            }
+
+            var infowindow = new google.maps.InfoWindow({
+                content: contentString
+            }); 
+
+            infowindows.push(infowindow)
+            console.log("iw length " + infowindows.length)
+
+            if (isDir) {
+                infowindow.setPosition(ptonDirCoords[lastWindInd])
+                infowindow.open(map)
+                if (lastWindInd == markers.length) {
+                    tour_name = ""
+                    document.cookie = "tour_name=" + tour_name;
+                    isDir = true;
+                    document.cookie = "isDir=" + isDir;
+                    lastWindInd = 0;
+                    document.cookie = "lastWindInd=" + lastWindInd;
+                    lastPinInd = 0;
+                    document.cookie = "lastPinInd=" + lastPinInd;
+                    lines[0].setMap(null)
+                    deleteMarkers()
+                    lines = []
+            }
+            } else {
+                infowindow.open(map, marker)
+            }
         }
 
     }
@@ -465,6 +513,14 @@
 
         loadWindow()
 
+    }
+
+    const restartTour = () => {
+        sawIntro = getCookie("saw_intro")
+        if (sawIntro === "") {
+            sawIntro = false
+        }
+        tour('pton', true, 0, 0, sawIntro)
     }
 
     const addMarkers = (plants) => {
