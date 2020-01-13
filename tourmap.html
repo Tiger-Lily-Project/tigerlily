@@ -413,10 +413,11 @@
             content: contentString
         });
 
+        infowindows.push(infowindow)
+
         if (isDir) {
             infowindow.setPosition(ptonDirCoords[lastWindInd])
             infowindow.open(map)
-            infowindows.push(infowindow)
             if (lastWindInd == markers.length) {
                 tour_name = ""
                 document.cookie = "tour_name=" + tour_name;
