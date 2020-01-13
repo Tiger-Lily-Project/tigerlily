@@ -413,6 +413,10 @@
             content: contentString
         });
 
+        google.maps.event.addListener(infowindow, 'closeclick', function () {
+                infowindow.open()
+            });
+
         infowindows.push(infowindow)
 
         if (isDir) {
