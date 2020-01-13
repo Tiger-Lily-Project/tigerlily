@@ -43,11 +43,15 @@
       height: 100%;
     }
 
-    .gm-style .gm-style-iw + div {
-        display: none; /* <-- this will generally work on the fly. */
-        visibility: hidden; /* this 2 lines below are just for hard hiding. :) */
-        opacity: 0;
-    }
+    .top-left { 
+        top: 0; 
+        left: 0; 
+    } 
+
+    .top-right { 
+        top: 0; 
+        right: 0; 
+    } 
 
   </style>
 </head>
@@ -121,11 +125,15 @@
       </div>
       <div class="col-sm-9" style="height: 90%">
         <br>
-        <div class="position-absolute top-left">
-            <button class="btn btn-primary" onclick="javascript:loadWindow()">Resume Tour</button>
-        </div>
-        <div class="position-absolute top-right">
-            <button class="btn btn-primary" onclick="javascript:tour('pton')">Restart Tour</button>
+        <div class="container h-100"> 
+            <div class="position-relative h-100"> 
+              <div class="position-absolute top-left">
+                  <button class="btn btn-primary" onclick="javascript:loadWindow()">Resume Tour</button>
+              </div>
+              <div class="position-absolute top-right">
+                  <button class="btn btn-primary" onclick="javascript:tour('pton')">Restart Tour</button>
+              </div>
+            </div>
         </div>
         <br>
         <div id="map">
