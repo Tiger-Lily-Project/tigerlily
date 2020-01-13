@@ -204,15 +204,15 @@
     ]
 
     var tourIntro = [
-        "Welcome to the Trees of Princeton tour! You are seeing this message because this is your first time using the tour during this visit.<b>Click continue to proceed.",
-        "To navigate through the tour, you will be using the 'continue' button at the bottom of the window.<b>Click continue to proceed",
-        "To stop the tour at any time, click the small x in the top right corner of the window. To resume the tour where you left off, press 'Resume Tour' at the top of the page.<b>Click continue to proceed.",
-        "To restart the tour from the beginning, press 'Restart Tour' at the top of the page.<b> Click continue to proceed.",
-        "Your tour progress will be saved while you are on the guided tour page. Navigating to another page (such as the catalog, main map, or about page) will cause you to lose your progress.<b> Click continue to proceed."
+        "1/5. Welcome to the Trees of Princeton tour! You are seeing this message because this is your first time using the tour during this visit.<br>Click continue to proceed or skip to start the tour.",
+        "2/5. To navigate through the tour, you will be using the 'continue' button at the bottom of the window.<br>Click continue to proceed or skip to start the tour.",
+        "3/5. To stop the tour at any time, click the small x in the top right corner of the window. To resume the tour where you left off, press 'Resume Tour' at the top of the page.<br>Click continue to proceed or skip to start the tour..",
+        "4/5. To restart the tour from the beginning, press 'Restart Tour' at the top of the page.<br>Click continue to proceed.",
+        "5/5. Your tour progress will be saved while you are on the guided tour page. Navigating to another page (such as the catalog, main map, or about page) will cause you to lose your progress.<br>Click continue to proceed or skip to start the tour."
     ]
 
     var ptonDirs = [
-        "1. Welcome to the Trees of Princeton tour! This tour begins in front of the Maclean House on Nassau Street. Make your way to pin #1 to begin the tour.",
+        "1. Welcome to the start of the tour! This tour begins in front of the Maclean House on Nassau Street. Make your way to pin #1 to begin the tour.",
         "2. The next tree on our tour is located behind Stanhope Hall. Head west on Nassau Street and turn left onto Elm Drive until you reach the building standing behind the Maclean House.",
         "3. Our next stop is in front of Buyers Hall, which stands to the left of the iconic Blair Arch.",
         "4. Walk towards the hall on the other side of Blair Arch, Blair Hall. The next tree on our tour stands near the archway to University Place.",
@@ -470,7 +470,8 @@
                     encodeURIComponent(tour_name.trim()) +
                     '>' +
                     'Click here to learn about this tree</a></h5></p>' +
-                    '<button color="blue" onclick="finishUp()"><b>Continue</b></button>'
+                    '<button color="blue" onclick="finishUp()"><b>Continue</b></button>' +
+                    '<button color="blue" onclick="sawIntro=true; finishUp()"><b>Skip</b></button>' + 
                 '</div>' +
                     '</div>';
             }
@@ -510,6 +511,14 @@
 
         loadWindow()
 
+    }
+
+    const restartTour = () => {
+        sawIntro = getCookie("saw_intro")
+        if (sawIntro === "") {
+            sawIntro = false
+        }
+        tour('pton', true, 0, 0, sawIntro)
     }
 
     const addMarkers = (plants) => {
