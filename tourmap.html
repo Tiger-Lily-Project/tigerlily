@@ -19,6 +19,8 @@
     // };
 
     // Handle location updates
+
+    
     const trackLocation = ({ onSuccess, onError = () => { } }) => {
 
         if ('geolocation' in navigator === false) {
@@ -400,6 +402,41 @@
                 content: contentString
             });
 
+            /*
+            * The google.maps.event.addListener() event waits for
+            * the creation of the infowindow HTML structure 'domready'
+            * and before the opening of the infowindow defined styles
+            * are applied.
+            */
+            google.maps.event.addListener(infowindow, 'domready', function() {
+
+                // Reference to the DIV which receives the contents of the infowindow using jQuery
+                var iwOuter = $('.gm-style-iw');
+
+                // Taking advantage of the already established reference to
+                // div .gm-style-iw with iwOuter variable.
+                // You must set a new variable iwCloseBtn.
+                // Using the .next() method of JQuery you reference the following div to .gm-style-iw.
+                // Is this div that groups the close button elements.
+                var iwCloseBtn = iwOuter.next();
+
+                // Apply the desired effect to the close button
+                iwCloseBtn.css({
+                opacity: '1', // by default the close button has an opacity of 0.7
+                right: '38px', top: '3px', // button repositioning
+                border: '7px solid #48b5e9', // increasing button border and new color
+                'border-radius': '13px', // circular effect
+                'box-shadow': '0 0 5px #3990B9' // 3D effect to highlight the button
+                });
+
+                // The API automatically applies 0.7 opacity to the button after the mouseout event.
+                // This function reverses this event to the desired value.
+                iwCloseBtn.mouseout(function(){
+                $(this).css({opacity: '1'});
+                });
+
+            });
+
             google.maps.event.addListener(infowindow, 'closeclick', function () {
                 finishUp()
             });
@@ -477,32 +514,6 @@
 
             // add marker to array
             markers.push(marker)
-
-            google.maps.event.addListener(marker, 'click', (function (marker, i) {
-                return function () {
-
-                    contentString = '<div id="content">' +
-                        '<div id="siteNotice">' +
-                        '</div>' +
-                        '<h1 id="firstHeading" class="firstHeading">' +
-                        plants[i].title +
-                        '</h1>' +
-                        '<div id="bodyContent">' +
-                        '<p><h5><a href=tourdetails?common_name=' +
-                        encodeURIComponent(plants[i].title.trim()) +
-                        '&tour_name=' +
-                        encodeURIComponent(tour_name.trim()) +
-                        '>' +
-                        'Learn about this tree</a></h5></p>' +
-                        '<p>Close out of this window when you\'re ready to move on!</p>'
-                    '</div>' +
-                        '</div>';
-
-                    infowindow.setContent(contentString);
-                    infowindow.open(map, marker);
-
-                }
-            })(marker, i));
         }
         console.log("added " + markers.length + " markers")
     }
