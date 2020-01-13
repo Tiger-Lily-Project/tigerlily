@@ -205,7 +205,7 @@
     ]
 
     var tourIntro = [
-        "1/5. Welcome to the Trees of Princeton tour! You are seeing these instructions because this is your first time using the tour.<br><br>Click 'continue' for the next instruction or 'skip' to start the tour.",
+        "1/5. Welcome to the Trees of Princeton tour! You are seeing these instructions because this is your first time using the tour and we recommend you read them for the best possible experience.<br><br>Click 'continue' for the next instruction or 'skip' to start the tour.",
         "2/5. To navigate through the tour, you will be using the 'continue' button at the bottom of the window.<br><br>Click 'continue' for the next instruction or 'skip' to start the tour.",
         "3/5. To stop the tour at any time, click the small x in the top right corner of the window. To resume the tour where you left off, press 'Resume Tour' at the top of the page.<br><br>Click 'continue' for the next instruction or 'skip' to start the tour.",
         "4/5. To restart the tour from the beginning, press 'Restart Tour' at the top of the page.<br><br>Click 'continue' for the next instruction or 'skip' to start the tour.",
@@ -308,12 +308,6 @@
             for (var i = 0; i < infowindows.length; i++) {
                 infowindows[i].close()
             }
-        }
-        // remove tour from map if applicable
-        if (lines.length > 0) {
-            lines[0].setMap(null)
-            deleteMarkers()
-            lines = []
         }
 
         let url = '/getTourPlants'
