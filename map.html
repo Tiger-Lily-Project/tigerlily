@@ -94,6 +94,10 @@
         })
     }
 
+    $('#filter').change(function() {
+        this.form.submit();
+    });
+
     // handles filter
     $('#filter').submit(function (event) {
         event.preventDefault();
