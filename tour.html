@@ -43,16 +43,6 @@
       height: 100%;
     }
 
-    .top-left { 
-        top: 0; 
-        left: 0; 
-    } 
-
-    .top-right { 
-        top: 0; 
-        right: 0; 
-    } 
-
   </style>
 </head>
 
@@ -125,14 +115,14 @@
       </div>
       <div class="col-sm-9" style="height: 90%">
         <br>
-        <div class="container h-100"> 
-            <div class="position-relative h-100"> 
-              <div class="position-absolute top-left">
-                  <button class="btn btn-primary" onclick="javascript:loadWindow()">Resume Tour</button>
-              </div>
-              <div class="position-absolute top-right">
-                  <button class="btn btn-primary" onclick="javascript:tour('pton')">Restart Tour</button>
-              </div>
+        <div class="col-sm-6">
+            <div class="text-left">
+                <button class="btn btn-primary" onclick="javascript:loadWindow()">Resume Tour</button>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="text-right">
+                <button class="btn btn-primary" onclick="javascript:tour('pton')">Restart Tour</button>
             </div>
         </div>
         <br>
