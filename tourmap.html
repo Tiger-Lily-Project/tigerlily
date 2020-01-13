@@ -282,8 +282,11 @@
         console.log("whatever")
     }
 
-    const tour = (tourName, isDir = true, lastWindInd = 0, lastPinInd = 0) => {
+    const tour = (tourName, isDirTemp = true, lastWindIndTemp = 0, lastPinIndTemp = 0) => {
         tour_name = tourName;
+        isDir = isDirTemp
+        lastWindInd = lastWindIndTemp
+        lastPinInd = lastPinIndTemp
         document.cookie = "tour_name=" + tour_name
 
         if (infowindows.length > 0) {
