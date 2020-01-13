@@ -201,6 +201,13 @@
         { lat: 40.349503, lng: -74.659356 }
     ]
 
+    var tourIntro = [
+        "Welcome to the Trees of Princeton tour! To navigate the tour, you will be using the 'continue' button at the bottom of the window. Click continue now to proceed.",
+        "To stop the tour at any time, click the small x in the top right corner of the window. To resume the tour where you left off, press 'Resume Tour' in the top left corner of the page'. Click continue to proceed.",
+        "To restart the tour from the beginning, press 'Restart Tour' in the top right corner of the page. Click continue to proceed.",
+        "Your tour progress will be saved while you are on the guided tour page. Navigating to another page (such as the catalog, main map, or about page) will cause you to lose your progress. Click continue to proceed."
+    ]
+
     var ptonDirs = [
         "1. Welcome to the Trees of Princeton tour! This tour begins in front of the Maclean House on Nassau Street. Make your way to pin #1 to begin the tour.",
         "2. The next tree on our tour is located behind Stanhope Hall. Head west on Nassau Street and turn left onto Elm Drive until you reach the building standing behind the Maclean House.",
@@ -543,6 +550,7 @@
         }
         lastWindInd = parseInt(getCookie("lastWindInd"))
         lastPinInd = parseInt(getCookie("lastPinInd"))
+        console.log("init map")
         console.log(tour_name)
         console.log(isDir)
         console.log(lastWindInd)
