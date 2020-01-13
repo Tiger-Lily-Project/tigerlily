@@ -92,6 +92,7 @@
     var isDir;
     var lastWindInd;
     var lastPinInd;
+    var sawIntro;
 
     var infowindows = []
 
@@ -289,7 +290,9 @@
         console.log("whatever")
     }
 
-    const tour = (tourName, isDirTemp = true, lastWindIndTemp = 0, lastPinIndTemp = 0) => {
+    const tour = (tourName, isDirTemp = true, lastWindIndTemp = 0, lastPinIndTemp = 0, sawIntro = true) => {
+        console.log(lastWindIntTemp)
+        console.log(lastPinIndTemp)
         tour_name = tourName;
         isDir = isDirTemp
         lastWindInd = lastWindIndTemp
@@ -550,15 +553,17 @@
         }
         lastWindInd = parseInt(getCookie("lastWindInd"))
         lastPinInd = parseInt(getCookie("lastPinInd"))
+        sawIntro = getCookie("saw_intro")
+        if (sawIntro === "") {
+            sawIntro = false
+        }
         console.log("init map")
         console.log(tour_name)
         console.log(isDir)
         console.log(lastWindInd)
         console.log(lastPinInd)
 
-        if (tour_name !== "") {
-            tour(tour_name, isDir, lastWindInd, lastPinInd)
-        }
+        tour('pton', isDir, lastWindInd, lastPinInd, sawIntro)
 
     }
 </script>
