@@ -375,7 +375,7 @@
         }
         infowindows = []
 
-        if (isDir) {
+        if (isDir === "true") {
 
             console.log("direction")
 
@@ -386,7 +386,7 @@
                 ptonDirs[lastWindInd] +
                 '</h4>' +
                 '<div id="bodyContent">' +
-                '<button color="blue" onclick="finishUp()"><b>Next</b></button>' +
+                '<button color="blue" onclick="finishUp()"><b>Continue</b></button>' +
                 '</div>' +
                 '</div>';
         }
@@ -407,7 +407,7 @@
                 encodeURIComponent(tour_name.trim()) +
                 '>' +
                 'Click here to learn about this tree</a></h5></p>' +
-                '<button color="blue" onclick="finishUp()"><b>Next</b></button>'
+                '<button color="blue" onclick="finishUp()"><b>Continue</b></button>'
             '</div>' +
                 '</div>';
         }
