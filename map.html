@@ -20,8 +20,8 @@
     function requestLocation() {
         console.log("requesting location")
         // Make sure panel and use location button are hidden
-        var useLocationPanel = document.getElementById("useLocationPanel");
-        useLocationPanel.classList.add("hidden");
+        // var useLocationPanel = document.getElementById("useLocationPanel");
+        // useLocationPanel.classList.add("hidden");
 
         // Did the user just open the window or give location for the first time?
         var initializing = true
@@ -66,9 +66,10 @@
 
     // Show instructions for users to give us location permissions after denying them
     function showInstructions() {
-        console.log("showing instructions")
-        var instructionPanel = document.getElementById("instructionPanel");
-        instructionPanel.classList.remove("hidden");
+        // console.log("showing instructions")
+        // var instructionPanel = document.getElementById("instructionPanel");
+        // instructionPanel.classList.remove("hidden");
+        alert("You’re seeing this message because you previously chose not to offer us access to your location. Unfortunately, we cannot ask you again, so you will have to manually reverse this setting in your browser. \nTo allow us to re-request your location, you must go to your browser settings for this site and choose either \"allow\" or \"ask\" for the location permissions option, then refresh the page.")
     }
 
     var markers = []
@@ -253,7 +254,11 @@
         map = new google.maps.Map(document.getElementById('map'), {
             center: { lat: 40.3471, lng: -74.6566 },
             zoom: 19,
-            gestureHandling: "greedy"
+            gestureHandling: "greedy",
+            mapTypeControl: true,
+            mapTypeControlOptions: {
+                position: google.maps.ControlPosition.LEFT_BOTTOM
+            }
         });
         locationMarker = new google.maps.Marker({
             map: map,
@@ -291,11 +296,13 @@
         });
 
         var geoCookie = getCookie("geolocation");
+        var geoChoice;
 
         // Different options based on geolocation status
         if (geoCookie == "") {  // Show greeting panel if user hasn't made any decisions about geolocation
-            var useLocationPanel = document.getElementById("useLocationPanel");
-            useLocationPanel.classList.remove("hidden");
+            geoChoice = confirm("Welcome to Princeton Plants! \nTo get the best possible experience, please allow us to access your location. That way, we can show you some trees in your area and help you get the most out of our guided tour. ")
+            if (geoChoice == true) requestLocation();
+            else noLocationRequest();
         } else if (geoCookie == "maybe") {  // Show button that asks for permissio if user didn't let us ask before
             var useLocationButton = document.getElementById("useLocationButton");
             useLocationButton.classList.remove("hidden");

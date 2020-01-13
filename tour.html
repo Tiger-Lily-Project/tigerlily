@@ -43,6 +43,9 @@
       height: 100%;
     }
 
+    .btn-circle {
+      border-radius: 50%;
+    }
   </style>
 </head>
 
@@ -95,11 +98,6 @@
       </div>
     </div>
 
-    <button class="hidden btn btn-primary" type="button" id="locationInstructions" onclick="showInstructions()">Use
-      my location</button>
-    <button class="hidden btn btn-primary" type="button" id="useLocationButton" onclick="requestLocation()">Use my
-      location</button>
-
     <div class="row content" style="height: 100%">
       <div class="col-sm-3 sidenav hidden-xs">
         <br>
@@ -114,24 +112,26 @@
         </ul><br>
       </div>
       <div class="col-sm-9" style="height: 90%">
-        <br>
+        <br class="hidden-xs">
         <div class="row">
-            <div class="col-sm-6">
-                <div class="text-left">
-                    <button class="btn btn-primary" onclick="javascript:loadWindow()">Resume Tour</button>
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <div class="text-right">
-                    <button class="btn btn-primary" onclick="javascript:restartTour()">Restart Tour</button>
-                </div>
-            </div>
+          <div class="col-xs-12">
+            <!-- Small on mobile -->
+            <button class="hbtn btn-primary btn-sm" onclick="javascript:loadWindow()">Resume Tour</button>
+            <button class="btn btn-primary btn-sm" onclick="javascript:restartTour('pton')">Restart Tour</button>
+            <button class="pull-right hidden btn btn-primary btn-sm" type="button" id="locationInstructions"
+              onclick="showInstructions()">Use
+              my location</button>
+            <button class="pull-right hidden btn btn-primary btn-sm" type="button" id="useLocationButton"
+              onclick="requestLocation()">Use my
+              location</button>
+          </div>
         </div>
         <div id="map">
         </div>
       </div>
-      <br>
     </div>
+    <br>
+  </div>
   </div>
 
   {% include 'tourmap.html' %}
