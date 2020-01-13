@@ -363,6 +363,7 @@
                 lastPinInd++
                 document.cookie = "lastPinInd=" + lastPinInd;
             }
+            infowindows[0].close()
             infowindows = []
             isDir = !isDir;
             document.cookie = "isDir=" + isDir;
@@ -410,11 +411,6 @@
         }
         var infowindow = new google.maps.InfoWindow({
             content: contentString
-        });
-
-
-        google.maps.event.addListener(infowindow, 'closeclick', function () {
-            finishUp()
         });
 
         if (isDir) {
