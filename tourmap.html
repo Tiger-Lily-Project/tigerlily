@@ -93,6 +93,7 @@
     var lastWindInd;
     var lastPinInd;
     var sawIntro;
+    var introCounter = 0;
 
     var infowindows = []
 
@@ -290,13 +291,14 @@
         console.log("whatever")
     }
 
-    const tour = (tourName, isDirTemp = true, lastWindIndTemp = 0, lastPinIndTemp = 0, sawIntro = true) => {
+    const tour = (tourName, isDirTemp = true, lastWindIndTemp = 0, lastPinIndTemp = 0, sawIntroTemp = true) => {
         console.log(lastWindIndTemp)
         console.log(lastPinIndTemp)
         tour_name = tourName;
         isDir = isDirTemp
         lastWindInd = lastWindIndTemp
         lastPinInd = lastPinIndTemp
+        sawIntro = sawIntroTemp
         document.cookie = "tour_name=" + tour_name
 
         if (infowindows.length > 0) {
@@ -359,20 +361,25 @@
 
     var finishUp = function () {
         console.log("im finishing up")
-            if (isDir) {
-                lastWindInd++
-                document.cookie = "lastWindInd=" + lastWindInd;
-                lastPinInd++
-                document.cookie = "lastPinInd=" + lastPinInd;
+            if (!sawIntro) {
+                introCounter++;
             }
-            console.log("iw length finishing" + infowindows.length)
-            for (var i = 0; i < infowindows.length; i++) {
-                infowindows[i].close()
+            else {
+                if (isDir) {
+                    lastWindInd++
+                    document.cookie = "lastWindInd=" + lastWindInd;
+                    lastPinInd++
+                    document.cookie = "lastPinInd=" + lastPinInd;
+                }
+                console.log("iw length finishing" + infowindows.length)
+                for (var i = 0; i < infowindows.length; i++) {
+                    infowindows[i].close()
+                }
+                infowindows = []
+                console.log("iw length cleared" + infowindows.length)
+                isDir = !isDir;
+                document.cookie = "isDir=" + isDir;
             }
-            infowindows = []
-            console.log("iw length cleared" + infowindows.length)
-            isDir = !isDir;
-            document.cookie = "isDir=" + isDir;
             if (tour_name != "") {
                 loadWindow()
             }
@@ -393,6 +400,39 @@
         }
         if (isDir === "true") {
             isDir = true
+        }
+
+        if (sawIntro === "false") {
+            sawIntro = false
+        }
+        if (sawIntro === "true") {
+            sawIntro = true
+        }
+
+        if (!sawIntro) {
+            while (introCounter < tourIntro.length) {
+                console.log("intro")
+                var contentString = '<div id="content">' +
+                '<div id="siteNotice">' +
+                '</div>' +
+                '<h4>' +
+                tourIntro[introCounter] +
+                '</h4>' +
+                '<div id="bodyContent">' +
+                '<button color="blue" onclick="finishUp()"><b>Continue</b></button>' +
+                '</div>' +
+                '</div>';
+
+                var infowindow = new google.maps.InfoWindow({
+                    content: contentString
+                }); 
+
+                infowindows.push(infowindow)
+                console.log("iw length " + infowindows.length)
+
+                infowindow.setPosition(ptonDirCoords[0])
+                infowindow.open(map)
+            }
         }
 
         if (isDir) {
