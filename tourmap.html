@@ -356,6 +356,21 @@
 
     }
 
+    var finishUp = function () {
+            if (isDir) {
+                lastWindInd++
+                document.cookie = "lastWindInd=" + lastWindInd;
+                lastPinInd++
+                document.cookie = "lastPinInd=" + lastPinInd;
+            }
+            infowindows = []
+            isDir = !isDir;
+            document.cookie = "isDir=" + isDir;
+            if (tour_name != "") {
+                loadWindow()
+            }
+        }
+
     const ptonTreesTour = (isDir, lastWindInd, lastPinInd) => {
         console.log("in tour")
 
@@ -373,7 +388,7 @@
                     ptonDirs[lastWindInd] +
                     '</h4>' +
                     '<div id="bodyContent">' +
-                    '<button onclick="finishUp()">Close out of this window to continue the tour!</button>' +
+                    '<button color="blue" onclick="finishUp()">Close out of this window to continue the tour!</button>' +
                     '</div>' +
                     '</div>';
             }
@@ -394,7 +409,7 @@
                     encodeURIComponent(tour_name.trim()) +
                     '>' +
                     'Click here to learn about this tree</a></h5></p>' +
-                    '<button onclick="finishUp()">Close out of this window to continue the tour!</button>'
+                    '<button color="blue" onclick="finishUp()">Close out of this window to continue the tour!</button>'
                 '</div>' +
                     '</div>';
             }
@@ -428,21 +443,6 @@
                 infowindow.open(map, marker)
             }
 
-        }
-
-        var finishUp = function () {
-            if (isDir) {
-                lastWindInd++
-                document.cookie = "lastWindInd=" + lastWindInd;
-                lastPinInd++
-                document.cookie = "lastPinInd=" + lastPinInd;
-            }
-            infowindows = []
-            isDir = !isDir;
-            document.cookie = "isDir=" + isDir;
-            if (tour_name != "") {
-                loadWindow()
-            }
         }
 
         loadWindow()
