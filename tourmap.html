@@ -142,7 +142,6 @@
     var infowindows = []
 
     var ptonTreesIds = [572, 152, 3389, 3376, 3331, 656, 181, 3260, 3485, 407, 874, 199, 3906, 820, 3467, 793];
-    var winterIds = [];
 
     var ptonTreesCoords = [
         { lat: 40.3494921, lng: -74.6602896 },
@@ -247,7 +246,6 @@
         { lat: 40.349203, lng: -74.659539 },
         { lat: 40.349503, lng: -74.659356 }
     ]
-    var winterCoords = []
 
     var ptonDirs = [
         "1. Welcome to the Trees of Princeton tour! This tour begins in front of the Maclean House on Nassau Street. Make your way to pin #1 to begin the tour.",
@@ -268,7 +266,6 @@
         "16. For the last stop on our tour, head towards FitzRandolph Gate, where the last tree looms on the right before you reach the gate.",
         "Thank you for taking the Trees of Princeton tour! Select another tour above or navigate back to the home page to keep exploring."
     ]
-    var winterDirs = []
 
     var ptonDirCoords = [
         { lat: 40.347647, lng: -74.659568 },
@@ -289,7 +286,6 @@
         { lat: 40.347553, lng: -74.658805 },
         { lat: 40.347647, lng: -74.659568 }
     ]
-    var winterDirCoords = []
 
     // Taken from https://www.w3schools.com/js/js_cookies.asp
     function getCookie(key) {
@@ -356,10 +352,6 @@
             ids = ptonTreesIds;
             coords = ptonTreesCoords;
         }
-        if (tour_name === 'winter') {
-            ids = winterIds;
-            coords = winterCoords;
-        }
 
         $.when(ajaxTour()).done(function (a1) {
             // the code here will be executed when all four ajax requests resolve.
@@ -368,10 +360,6 @@
             if (tour_name === 'pton') {
                 console.log("starting pton tour")
                 ptonTreesTour(isDir, lastWindInd, lastPinInd);
-            }
-            if (tour_name === 'winter') {
-                console.log("starting winter tour")
-                winterTour(isDir, lastWindInd, lastPinInd);
             }
         });
 
@@ -464,6 +452,11 @@
             infowindow.setPosition(infowindow.getPosition())
             infowindow.open(map)
         });
+
+        google.maps.event.addListener(infowindow, 'domready', function(){
+            $(".gm-style-iw").next("div").hide();
+        });
+            
 
         infowindows.push(infowindow)
 
