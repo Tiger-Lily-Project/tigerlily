@@ -398,10 +398,12 @@
                 lastPinInd++
                 document.cookie = "lastPinInd=" + lastPinInd;
             }
+            console.log("iw length finishing" + infowindows.length)
             for (var i = 0; i < infowindows.length; i++) {
                 infowindows[i].close()
             }
             infowindows = []
+            console.log("iw length cleared" + infowindows.length)
             isDir = !isDir;
             document.cookie = "isDir=" + isDir;
             if (tour_name != "") {
@@ -454,8 +456,13 @@
         });
 
         google.maps.event.addListener(infowindow, 'closeclick', function () {
-            infowindow.setPosition(infowindow.getPosition())
-            infowindow.open(map)
+            if (isDir) {
+                infowindow.setPosition(infowindow.getPosition())
+                infowindow.open(map)
+            }
+            else {
+                infowindow.open(map, markers[lastPinInd - 1])
+            }
         });
 
         google.maps.event.addListener(infowindow, 'domready', function(){
@@ -464,6 +471,7 @@
             
 
         infowindows.push(infowindow)
+        console.log("iw length " + infowindows.length)
 
         if (isDir) {
             infowindow.setPosition(ptonDirCoords[lastWindInd])
