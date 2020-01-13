@@ -426,7 +426,7 @@
             '<button color="blue" onclick="finishUp()"><b>Continue</b></button>';
             
             if (introCounter != tourIntro.length - 1) {
-                contentString += '<button color="blue" onclick="sawIntro=true; document.cookie = "saw_intro=" + sawIntro; finishUp()"><b>Skip</b></button>'
+                contentString += '<button color="blue" onclick=\'sawIntro=true; document.cookie = "saw_intro=" + sawIntro; finishUp()\'><b>Skip</b></button>'
             }
 
             contentString += '</div>' + '</div>';
