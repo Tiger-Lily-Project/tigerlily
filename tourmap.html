@@ -204,7 +204,7 @@
     ]
 
     var tourIntro = [
-        "1/5. Welcome to the Trees of Princeton tour! You are seeing these instructions because this is your first time using the tour during this visit.<br><br>Click 'continue' for the next instruction or 'skip' to start the tour.",
+        "1/5. Welcome to the Trees of Princeton tour! You are seeing these instructions because this is your first time using the tour.<br><br>Click 'continue' for the next instruction or 'skip' to start the tour.",
         "2/5. To navigate through the tour, you will be using the 'continue' button at the bottom of the window.<br><br>Click 'continue' for the next instruction or 'skip' to start the tour.",
         "3/5. To stop the tour at any time, click the small x in the top right corner of the window. To resume the tour where you left off, press 'Resume Tour' at the top of the page.<br><br>Click 'continue' for the next instruction or 'skip' to start the tour.",
         "4/5. To restart the tour from the beginning, press 'Restart Tour' at the top of the page.<br><br>Click 'continue' for the next instruction or 'skip' to start the tour.",
@@ -364,6 +364,10 @@
         console.log("im finishing up")
             if (!sawIntro) {
                 introCounter++;
+                if (introCounter == tourIntro.length) {
+                    sawIntro = true
+                    document.cookie = "saw_intro=" + sawIntro;
+                }
             }
             else {
                 if (isDir) {
@@ -436,11 +440,6 @@
 
             infowindow.setPosition(ptonDirCoords[0])
             infowindow.open(map)
-
-            if (introCounter == tourIntro.length - 1) {
-                sawIntro = true
-                document.cookie = "saw_intro=" + sawIntro;
-            }
         }
         else {
             if (isDir) {
