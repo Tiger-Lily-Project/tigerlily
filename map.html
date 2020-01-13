@@ -94,17 +94,20 @@
             }
         })
     }
-    $('#sel1').change(function() {
+    $('#sel1').change(function (event) {
+        event.preventDefault();
         this.form.submit()
     });
 
-    $('#sel2').change(function() {
+    $('#sel2').change(function (event) {
+        event.preventDefault();
         this.form.submit()
     });
 
     // handles filter
     $('#filter').submit(function (event) {
         event.preventDefault();
+        console.log("im here")
 
         // clear out previous filter regardless
         species = []
@@ -112,7 +115,6 @@
 
         // uncheck all options if clear was clicked
         if (clicked === "Clear") {
-            console.log("im here")
             $("#sel1 option:selected").prop("selected", false);
             $("#sel2 option:selected").prop("selected", false);
         }
