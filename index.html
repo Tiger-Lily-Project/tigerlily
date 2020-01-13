@@ -107,7 +107,7 @@
               <div class="row">
                 <div class="col-sm-3">
                   <label for="sel1">Species:</label>
-                  <select onchange="this.form.submit()" multiple class="form-control" id="sel1" name="species">
+                  <select multiple class="form-control" id="sel1" name="species">
                     {% for first_char in all_species: %}
                     {% for species_info in all_species[first_char]: %}
                     <option value="{{species_info.getCommonName()}}">{{species_info.getCommonName()}}</option>
