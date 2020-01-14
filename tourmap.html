@@ -35,8 +35,8 @@
     function requestLocation() {
         console.log("requesting location")
         // Make sure panel and use location button are hidden
-        var useLocationPanel = document.getElementById("useLocationPanel");
-        useLocationPanel.classList.add("hidden");
+        // var useLocationPanel = document.getElementById("useLocationPanel");
+        // useLocationPanel.classList.add("hidden");
 
         // Did the user just open the window or give location for the first time?
         // var initializing = true
@@ -81,9 +81,10 @@
 
     // Show instructions for users to give us location permissions after denying them
     function showInstructions() {
-        console.log("showing instructions")
-        var instructionPanel = document.getElementById("instructionPanel");
-        instructionPanel.classList.remove("hidden");
+        // console.log("showing instructions")
+        // var instructionPanel = document.getElementById("instructionPanel");
+        // instructionPanel.classList.remove("hidden");
+        alert("You’re seeing this message because you previously chose not to offer us access to your location. Unfortunately, we cannot ask you again, so you will have to manually reverse this setting in your browser. \nTo allow us to re-request your location, you must go to your browser settings for this site and choose either \"allow\" or \"ask\" for the location permissions option, then refresh the page.")
     }
 
     var markers = []
@@ -593,10 +594,7 @@
         var geoCookie = getCookie("geolocation");
 
         // Different options based on geolocation status
-        if (geoCookie == "") {  // Show greeting panel if user hasn't made any decisions about geolocation
-            var useLocationPanel = document.getElementById("useLocationPanel");
-            useLocationPanel.classList.remove("hidden");
-        } else if (geoCookie == "maybe") {  // Show button that asks for permissio if user didn't let us ask before
+        if (geoCookie == "maybe") {  // Show button that asks for permissio if user didn't let us ask before
             var useLocationButton = document.getElementById("useLocationButton");
             useLocationButton.classList.remove("hidden");
         } else {    // Otherwise always request geolocation
