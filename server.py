@@ -91,11 +91,21 @@ def index():
 def plantdetails():
 
     common_name = request.args.get("common_name")
+
+    if common_name is None or common_name is '':
+        html = render_template('error.html', error = "Missing common name")
+        response = make_response(html)
+        return response
     # Gets a the information on the requested species.
     try:
         database = Database()
         database.connect()
         species_info = database.get_species_info(common_name)
+        if species_info == 0:
+            database.disconnect()
+            html = render_template('error.html', error = "Species not in database")
+            response = make_response(html)
+            return response
         count = database.get_species_count(common_name)
     except Exception as e:
         database.disconnect()
@@ -125,12 +135,33 @@ def tourdetails():
 
     common_name = request.args.get("common_name")
     tour_name = request.args.get("tour_name")
+
+    if common_name is None or common_name is '':
+        html = render_template('error.html', error = "Missing common name")
+        response = make_response(html)
+        return response
+
+    if tour_name is None or tour_name is '':
+        html = render_template('error.html', error = "Missing tour name")
+        response = make_response(html)
+        return response
+
     # Gets a the information on the requested species.
     try:
         database = Database()
         database.connect()
         species_info = database.get_species_info(common_name)
+        if species_info == 0:
+            database.disconnect()
+            html = render_template('error.html', error = "Species not in database")
+            response = make_response(html)
+            return response
         blurb = database.get_tour_blurb(common_name, tour_name)
+        if blurb == 0:
+            database.disconnect()
+            html = render_template('error.html', error = "Species not on this tour")
+            response = make_response(html)
+            return response
         img = database.get_tour_img(common_name, tour_name)
     except Exception as e:
         database.disconnect()

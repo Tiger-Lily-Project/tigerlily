@@ -168,6 +168,8 @@ class Database:
         cursor.execute(stmt, [common_name])
 
         row = cursor.fetchone()
+        if row is None:
+            return 0
         species_info = SpeciesInfo(str(row[0]), str(row[1]), str(row[2]), str(row[3]), str(row[4]))
 
         return species_info
@@ -276,6 +278,8 @@ class Database:
         cursor.execute(stmt, [common_name, tour_name])
 
         row = cursor.fetchone()
+        if row is None:
+            return 0
         blurb = str(row[0])
 
         return blurb
