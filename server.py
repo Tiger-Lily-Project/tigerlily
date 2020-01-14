@@ -57,19 +57,15 @@ def index():
         dec_or_evg_vals = database.get_dec_or_evg_vals()
 
     except Exception as e:
-        print("EXCEPTION")
-        print(e)
-        species = []
-        dec_or_evg = []
-        all_species = []
-        dec_or_evg_vals = []
+        database.disconnect()
+        html = render_template('error.html', error = str(e))
+        response = make_response(html)
+        return response
     except Error as e:
-        print("ERROR")
-        print(e)
-        species = []
-        dec_or_evg = []
-        all_species = []
-        dec_or_evg_vals = []
+        database.disconnect()
+        html = render_template('error.html', error = str(e))
+        response = make_response(html)
+        return response
 
     database.disconnect()
 
@@ -102,12 +98,17 @@ def plantdetails():
         species_info = database.get_species_info(common_name)
         count = database.get_species_count(common_name)
     except Exception as e:
-        species_info = SpeciesInfo('','','','','')
-        count = 0
+        database.disconnect()
+        html = render_template('error.html', error = str(e))
+        response = make_response(html)
+        return response
     except Error as e:
-        species_info = SpeciesInfo('','','','','')
-        count = 0
+        database.disconnect()
+        html = render_template('error.html', error = str(e))
+        response = make_response(html)
+        return response
 
+    database.disconnect()
     # Render the details page, passing in the plant.
     html = render_template('plantdetails.html', 
     common_name = common_name, 
@@ -132,15 +133,15 @@ def tourdetails():
         blurb = database.get_tour_blurb(common_name, tour_name)
         img = database.get_tour_img(common_name, tour_name)
     except Exception as e:
-        print(e)
-        species_info = SpeciesInfo('','','','','')
-        blurb = ""
-        img = ""
+        database.disconnect()
+        html = render_template('error.html', error = str(e))
+        response = make_response(html)
+        return response
     except Error as e:
-        print(e)
-        species_info = SpeciesInfo('','','','','')
-        blurb = ""
-        img = ""
+        database.disconnect()
+        html = render_template('error.html', error = str(e))
+        response = make_response(html)
+        return response
 
     database.disconnect()
 
@@ -176,9 +177,15 @@ def catalog():
         species = database.get_species_by_name(search)
         database.disconnect()
     except Exception as e:
-        species = []
+        database.disconnect()
+        html = render_template('error.html', error = str(e))
+        response = make_response(html)
+        return response
     except Error as e:
-        species = []
+        database.disconnect()
+        html = render_template('error.html', error = str(e))
+        response = make_response(html)
+        return response
 
     # Render the catalog page, passing in the list of species.
     html = render_template('catalog.html', 
@@ -202,9 +209,15 @@ def catalogSearch():
         species = database.get_species_by_name(search)
         database.disconnect()
     except Exception as e:
-        species = []
+        database.disconnect()
+        html = render_template('error.html', error = str(e))
+        response = make_response(html)
+        return response
     except Error as e:
-        species = []
+        database.disconnect()
+        html = render_template('error.html', error = str(e))
+        response = make_response(html)
+        return response
 
     # Render the catalog page, passing in the list of species.
     html = ""
