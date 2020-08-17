@@ -397,14 +397,14 @@ def getPinsNoBounds():
 
 #endregion
 
-#region Test
+#region Tour
 #-----------------------------------------------------------------------
-# Renders the "about us" page.
+# Renders the "tour" page.
 @app.route('/')
 @app.route('/tour')
 def tour():
 
-    # Render the catalog page, passing in the list of species.
+    # Render the tour page.
     html = render_template('tour.html')
     response = make_response(html)
 
